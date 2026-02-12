@@ -4,7 +4,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-  <p id="">Texto</p>
+  <p id="text">Texto</p>
   <button onclick="Pag1()">Click</button>
   <script>
          
@@ -20,11 +20,11 @@
                 if (!nombre) {
                     nombre = "Invitado"
                 }
-                if (nombre == nombre) {
-                    let x = document.getElementById("");
-                    x.innerHTML = `Bienvenido ${nombre}, me alegra tenerte de regreso`;
-                    x.style.color = "blue";
-                }
+                
+                let x = document.getElementById("text");
+                x.innerHTML = `Bienvenido ${nombre}, me alegra tenerte de regreso`;
+                x.style.color = "blue";
+                
             }
          }
          
