@@ -8,25 +8,25 @@
   <button onclick="Pag1()">Click</button>
   <script>
          let nombre = prompt("Ingresa tu nombre: ")
-         let y = confirm("Desea continuar")
          if (!nombre) {
              nombre = "Invitado"
          }
-      
-         else if (y == True) {
-             function Pag1() {
-                 Swil.fire({
-                   title: "Casi listo",
-                   text: "Espere...",
-                   icon: "info"
-                 })
-                 if (nombre == nombre) {
-                     let x = document.getElementById("Texto");
-                     x.innerHTML = `Bienvenido ${nombre}, me alegra tenerte de regreso`;
-                     x.style.color = "blue";
-                 }
-             }
+         function Pag1() {
+            Swal.fire({
+              title: "Casi listo",
+              text: "Espere...",
+              icon: "info"
+            })
+            let y = confirm("Desea continuar")
+            if (y == true) {
+                if (nombre == nombre) {
+                    let x = document.getElementById("Texto");
+                    x.innerHTML = `Bienvenido ${nombre}, me alegra tenerte de regreso`;
+                    x.style.color = "blue";
+                }
+            }
          }
+         
   </script>
 </body>
 </html>
