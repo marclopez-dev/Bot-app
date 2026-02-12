@@ -5,7 +5,11 @@
     <button onclick="inicio()">Inicio</button>
     <script>
            function inicio(){
-               confirm("¿Seguro que quieres continuar?");
+               Swal.fire({
+                   title: "tu bot esta activo",
+                   text: "bienvenido",
+                   icon: "success"
+               })	;
            }
     </script>
 </body>
