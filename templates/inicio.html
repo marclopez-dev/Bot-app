@@ -4,9 +4,13 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
+  <p id="Texto">Texto</p>
   <button onclick="Pag1()">Click</button>
   <script>
          let nombre = prompt("Ingresa tu nombre: ")
+         if (!nombre) {
+             nombre = "Invitado"
+         }
          function Pag1() {
              Swal.fire({
                title: "Todo se está iniciando",
@@ -15,10 +19,9 @@
                confirmButtonText: "continuar"
              });
              if (nombre == nombre) {
-                 document.write(`Bienvenido ${nombre}`);
-             }
-             else if (confirmButtonText == "continuar") {
-                 document.write("Excelente trabajo amigo");
+                 let x = document.getElementById("Texto");
+                 x.innerHTML = `Bienvenido ${nombre}, me alegra tenerte de regreso`;
+                 x.style.color = "blue";
              }
          }
   </script>
