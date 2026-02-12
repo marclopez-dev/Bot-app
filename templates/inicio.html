@@ -4,9 +4,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
+<p id="text">Texto</p>
   <button onclick="Pag1()">Click</button>
   <script>
-         <p id="text">Texto</p>
          function Pag1() {
             let y = confirm("Desea continuar")
             if (y == true) {
@@ -19,8 +19,7 @@
                 x.innerHTML = `Bienvenido ${nombre}, me alegra tenerte de regreso`;
                 x.style.color = "blue";
                 
-            }
-            else (y == false) {
+            } else {
                 Swal.fire({
                     title: "Algo falló",
                     text: "Asegurese de precionar en ACEPTAR",
