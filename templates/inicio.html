@@ -7,10 +7,7 @@
   <p id="">Texto</p>
   <button onclick="Pag1()">Click</button>
   <script>
-         let nombre = prompt("Ingresa tu nombre: ")
-         if (!nombre) {
-             nombre = "Invitado"
-         }
+         
          function Pag1() {
             Swal.fire({
               title: "Casi listo",
@@ -19,6 +16,10 @@
             })
             let y = confirm("Desea continuar")
             if (y == true) {
+                let nombre = prompt("Ingresa tu nombre: ");
+                if (!nombre) {
+                    nombre = "Invitado"
+                }
                 if (nombre == nombre) {
                     let x = document.getElementById("Texto");
                     x.innerHTML = `Bienvenido ${nombre}, me alegra tenerte de regreso`;
