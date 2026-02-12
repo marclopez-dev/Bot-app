@@ -4,7 +4,7 @@ app=Flask(__name__)
 def on():
     return render_template("index.html")
 @app.route("/PAG1")
-def pop()
+def pop():
     return render_template("inicio.html")
 if __name__=="__main__":
     app.run(debug=True)
