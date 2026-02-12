@@ -4,18 +4,27 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
+  <p id="">Texto</p>
   <button onclick="Pag1()">Click</button>
   <script>
          let nombre = prompt("Ingresa tu nombre: ")
+         let y = confirm("Desea continuar")
          if (!nombre) {
              nombre = "Invitado"
          }
-         function Pag1() {
-             <p id="">Texto</p>
-             if (nombre == nombre) {
-                 let x = document.getElementById("Texto");
-                 x.innerHTML = `Bienvenido ${nombre}, me alegra tenerte de regreso`;
-                 x.style.color = "blue";
+      
+         else if (y == True) {
+             function Pag1() {
+                 Swil.fire({
+                   title: "Casi listo",
+                   text: "Espere...",
+                   icon: "info"
+                 })
+                 if (nombre == nombre) {
+                     let x = document.getElementById("Texto");
+                     x.innerHTML = `Bienvenido ${nombre}, me alegra tenerte de regreso`;
+                     x.style.color = "blue";
+                 }
              }
          }
   </script>
