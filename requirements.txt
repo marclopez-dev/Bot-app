@@ -24,3 +24,5 @@ websockets==15.0.1
 Werkzeug==3.1.4
 yt-dlp==2026.1.31
 yt-dlp-ejs @ file:///home/builder/.termux-build/yt-dlp-ejs/src/dist/yt_dlp_ejs-0.3.1-py3-none-any.whl#sha256=f9c3b6d549753eb19711e4823676e291cd1cf3292978b8102081062dac9cf7b2
+Flask
+gunicorn
