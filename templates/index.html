@@ -23,16 +23,11 @@
 
 <body>
     <button onclick="inicio()">Inicio</button>
-<div id="mj"></div>
     <script>
            
            function inicio(){
                let msj=confirm("¿Quiere continuar?")
-               let y = document.getElementById("mj");
-               y.innerHTML = msj
-               if (msj) {
-                   y.style.color="green" }
-               else if (msj==true) {
+               if (msj==true) {
                    window.location.href="/Pag2";
                } else {
                  Swal.fire({
