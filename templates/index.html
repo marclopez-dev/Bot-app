@@ -30,8 +30,9 @@
                let msj=confirm("¿Quiere continuar?")
                let y = document.getElementById("mj");
                y.innerHTML = msj
-               y.style.color="green"
-               if (y==true) {
+               if (msj) {
+                   y.style.color="green" }
+               else if (msj==true) {
                    window.location.href="/Pag2";
                } else {
                  Swal.fire({
