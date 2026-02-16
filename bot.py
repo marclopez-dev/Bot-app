@@ -18,7 +18,7 @@ def mensaje():
     datos_recibidos = request.json
     texto = datos_recibidos["mensaje"]
     mensaje_respuesta = f"Hola, escribiste {texto}, te doy la bienvenida"
-    return  jsonify({"respuesta: ", mensaje_respuesta})
+    return  jsonify({"respuesta": mensaje_respuesta})
     
 if __name__=="__main__":
     app.run(debug=True)
