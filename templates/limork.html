@@ -18,10 +18,15 @@
       <script>
               function comprobar() {
                      Swal.fire({
-                       title: "Comprobando" ,
-                       text: "espere unos minutos..." ,
+                       title: "Comprobando",
+                       text: "💎💀" ,
                        icon: "success",
-                       color: "#121212"})}
+                       color: "#121212",
+                       confirmButtonText: "Continuar" }).then((resultado) => {
+                  if (resultado.isConfirmed) {
+                      windon.location.href="/chat";
+} })
+                      }
       </script>
 </body>
 </html>
