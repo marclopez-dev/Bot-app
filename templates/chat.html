@@ -19,8 +19,8 @@
                 .then(res => res.json())
                 .then(data => {
                     let chat= document.getElementById("chat");
-                           chat.innerHTML+="<p><b>Tú: </b>" + mensaje + "/p";
-                    chat.innerHTMl+= "<p><b>Bot: </b>" + data.respuesta + "</p>";
+                           chat.innerHTML+="<p><b>Tú: </b>" + mensaje + "</p>";
+                    chat.innerHTML+= "<p><b>Bot: </b>" + data.respuesta + "</p>";
                     document.getElementById("mensaje").value = "";
                 });
 }   
