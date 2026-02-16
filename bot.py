@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
 app=Flask(__name__)
 @app.route("/")
 def on():
@@ -12,8 +12,8 @@ def one():
 @app.route("/chat")
 def chat():
     return render_template("chat.html")
-@app.route("/mensaje")
-methods = ["POST"]
+@app.route("/mensaje",
+methods = ["POST"])
 def mensaje():
     datos_recibidos = request.json
     texto = datos_recibidos["mensaje"]
