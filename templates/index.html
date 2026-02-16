@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+      </script>
 <style> 
          body{
               background-color: blue;
@@ -22,9 +24,16 @@
 <body>
     <button onclick="inicio()">Inicio</button>
     <script>
+           let msj=confirm("¿Quiere continuar?")
            function inicio(){
                
-               window.location.href="/Pag2";
+               if (msj==true) {
+                   window.location.href="/Pag2";
+               } else {
+                 Swal.fire({
+                    title: "Algo falló",
+                    text: "espere unos minutos...",
+                    icon: "info"})}
            }
     </script>
     <button onclick="pag1()">Siguiente</button>
