@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+     </script>
+</head>
+<body>
+<div id="chat"></div>
+<input type="text" id="mensaje" placeholder="Escribe algo...">
+<button onclick="enviar()">Enviar</button>
+    <script>
+            function enviar() {
+                let mensaje = document.getElementById("mensaje").value;
+                fetch("/mensaje", {
+                     method: "POST",
+                     headers: {"Content-Type":"application/json" },
+                     body: JSON.stringify({mensaje:mensaje})
+                })
+                .then(res => res.json())
+                .then(data => {
+                    let chat= document.getElementById("chat");
+                           chat.innerHTML+="<p><b>Tú: </b>" + mensaje + "/p";
+                    chat.innerHTMl+= "<p><b>Bot: </b>" + data.respuesta + "</p>";
+                    document.getElementById("mensaje").value = "";
+                });
+}   
+     </script>
+</body>
+</html>
+
