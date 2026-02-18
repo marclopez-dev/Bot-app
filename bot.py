@@ -20,7 +20,9 @@ def mensaje():
     if "hola" in texto.strip().lower():
         mensaje_respuesta = "Hola, ¿cómo estás?"
     elif "¿que haces?" in texto.strip().lower():
-        mensaje_respuesta = "Hago lo que tú necesites" 
+        mensaje_respuesta = "Hago lo que tú necesites"
+    else:
+         mensaje_respuesta = "No tengo respuesta para ese mensaje" 
     return  jsonify({"respuesta": mensaje_respuesta})
     
 if __name__=="__main__":
