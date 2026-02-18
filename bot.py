@@ -17,7 +17,10 @@ methods = ["POST"])
 def mensaje():
     datos_recibidos = request.json
     texto = datos_recibidos["mensaje"]
-    mensaje_respuesta = f"Hola, escribiste {texto}, te doy la bienvenida"
+    if "hola" in texto.strip().lower():
+        mensaje_respuesta = "Hola, ¿cómo estás?"
+    elif "¿que haces?" in texto.strip().lower():
+        mensaje_respuesta = "Hago lo que tú necesites" 
     return  jsonify({"respuesta": mensaje_respuesta})
     
 if __name__=="__main__":
