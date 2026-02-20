@@ -31,10 +31,10 @@ def registro():
     if request.method=="POST":
         username=request.form["username"]
         password=request.form["password"]
-        datos.append[{
+        datos.append({
             "usuario":username,
             "contraseña":password
-        }]
+        })
 
 if __name__=="__main__":
     app.run(debug=True)
