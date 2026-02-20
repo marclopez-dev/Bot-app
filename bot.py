@@ -35,7 +35,7 @@ def registro():
             "usuario":username,
             "contraseña":password
         })
-    return render_template(registro.html)
+    return render_template("registro.html")
 
 if __name__=="__main__":
     app.run(debug=True)
