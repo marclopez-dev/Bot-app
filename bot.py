@@ -6,7 +6,6 @@ def on():
 @app.route("/PAG1")
 def pop():
     return render_template("inicio.html")
-    return render_template("registro.html")
 @app.route("/Pag2")
 def one():
     return render_template("limork.html")
