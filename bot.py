@@ -28,7 +28,6 @@ datos = []
 @app.route("/registro",
 methods=["POST", "GET"] )
 def registro():
-    return render_template(registro.html)
     if request.method=="POST":
         username=request.form["username"]
         password=request.form["password"]
