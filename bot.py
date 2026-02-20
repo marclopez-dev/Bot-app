@@ -25,7 +25,7 @@ def mensaje():
          mensaje_respuesta = "No tengo respuesta para ese mensaje" 
     return  jsonify({"respuesta": mensaje_respuesta})
 datos = []
-@app.route("/registro"
+@app.route("/registro",
 method=["POST", "GET"] )
 def registro():
     if request.method=="POST":
