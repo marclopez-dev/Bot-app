@@ -26,7 +26,7 @@ def mensaje():
     return  jsonify({"respuesta": mensaje_respuesta})
 datos = []
 @app.route("/registro",
-method=["POST", "GET"] )
+methods=["POST", "GET"] )
 def registro():
     if request.method=="POST":
         username=request.form["username"]
