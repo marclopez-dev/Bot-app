@@ -22,20 +22,11 @@
 <p>Espero que disfrutes este sitio web:::...:::</p>
 </head>
 <body>
-<p id="text">Texto</p>
   <button onclick="Pag1()">Click</button>
   <script>
          function Pag1() {
             let y = confirm("Desea continuar")
             if (y == true) {
-                let nombre = prompt("Ingresa tu nombre: ");
-                if (!nombre) {
-                    nombre = "Invitado"
-                }
-                
-                let x = document.getElementById("text");
-                x.innerHTML = `Bienvenido ${nombre}, me alegra tenerte de regreso`;
-                x.style.color = "yellow";
                 window.location.href="/registros";
             } else {
                 Swal.fire({
