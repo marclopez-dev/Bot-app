@@ -36,8 +36,7 @@ def registro():
             "contraseña":password
         })
     return render_template("registro.html")
-@app.route("/sesion",
-methods=["POST", "GET"])
+@app.route("/sesion")
 def sesion():
     for data in datos:
         if data["usuario"] == request.form["username"] and data["contraseña"] == request.form["password"]:
