@@ -37,7 +37,7 @@ def registro():
         })
     return render_template("registro.html")
 @app.route("/sesion", 
-methods=[ "GET"])
+methods=[ "GET", "POST" ])
 def sesion():
     if request.method=="GET":
         for data in datos:
