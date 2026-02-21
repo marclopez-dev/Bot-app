@@ -36,6 +36,12 @@ def registro():
             "contraseña":password
         })
     return render_template("registro.html")
+@app.route("/sesion",
+methods=["POST", "GET"])
+def sesion():
+    for data in datos:
+        if data == username and data == password:
+            return render_template("chat.html")
 
 if __name__=="__main__":
     app.run(debug=True)
