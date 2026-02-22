@@ -40,6 +40,8 @@ def registro():
 methods=[ "GET", "POST" ])
 def sesion():
     if request.method=="GET":
+        username1=request.form["usuario"]
+        password1=request.form["password"]
         for data in datos:
             if data["usuario"] == request.form["username"] and data["contraseña"] == request.form["password"]:
                 return render_template("chat.html")
