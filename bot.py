@@ -41,9 +41,9 @@ methods=[ "GET", "POST" ])
 def sesion():
     if request.method=="GET":
         username1=request.form["usuario"]
-        password1=request.form["password"]
+        password1=request.form["seguro"]
         for data in datos:
-            if data["usuario"] == request.form["username"] and data["contraseña"] == request.form["password"]:
+            if data["usuario"] == request.form["usuario"] and data["contraseña"] == request.form["seguro"]:
                 return render_template("chat.html")
 
 if __name__=="__main__":
