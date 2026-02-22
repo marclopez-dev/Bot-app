@@ -45,6 +45,7 @@ def sesion():
         for data in datos:
             if data["usuario"] == request.form["usuario"] and data["contraseña"] == request.form["seguro"]:
                 return render_template("chat.html")
+    return render_template("sesion.html")
 
 if __name__=="__main__":
     app.run(debug=True)
