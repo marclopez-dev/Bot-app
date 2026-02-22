@@ -39,7 +39,7 @@ def registro():
 @app.route("/sesion", 
 methods=[ "GET", "POST" ])
 def sesion():
-    if request.method=="GET":
+    if request.method=="POST":
         username1=request.form["usuario"]
         password1=request.form["seguro"]
         for data in datos:
