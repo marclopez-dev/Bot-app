@@ -47,7 +47,6 @@ def registro():
         )
         db.session.add(usuarios_registrados)
         db.session.commit()
-        return redirect(url_for("sesion"))
     return render_template("registro.html")
 
 @app.route("/sesion", 
@@ -56,10 +55,9 @@ def sesion():
     if request.method=="POST":
         username1=request.form["usuario1"]
         password1=request.form["seguro1"]
-        datos = db.session.query(Usuario.people, Usuario.close).all()
-        for data in datos:
-            if data.people == request.form["usuario1"] and  data.close == request.form["seguro1"]:
-                return render_template("chat.html")
+        datos = Usuario.query.filter_by(people=username1).first()
+        if datos and check_password_hash(datos.close=password1):
+            return render_template("chat.html")
     return render_template("sesion.html")
 
 if __name__=="__main__":
