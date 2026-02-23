@@ -56,7 +56,7 @@ def sesion():
         username1=request.form["usuario1"]
         password1=request.form["seguro1"]
         datos = Usuario.query.filter_by(people=username1).first()
-        if datos and check_password_hash(datos.close=password1):
+        if datos and check_password_hash(datos.close, password1):
             return render_template("chat.html")
     return render_template("sesion.html")
 
