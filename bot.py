@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 app=Flask(__name__)
@@ -35,7 +35,6 @@ def mensaje():
     else:
          mensaje_respuesta = "No tengo respuesta para ese mensaje" 
     return  jsonify({"respuesta": mensaje_respuesta})
-datos = []
 @app.route("/registro",
 methods=["POST", "GET"] )
 def registro():
@@ -48,14 +47,16 @@ def registro():
         )
         db.session.add(usuarios_registrados)
         db.session.commit()
+        return redirect(url_for("/sesion"))
     return render_template("registro.html")
-datos = db.session.query(Usuario.people, Usuario.close).all()
+
 @app.route("/sesion", 
 methods=[ "GET", "POST" ])
 def sesion():
     if request.method=="POST":
         username1=request.form["usuario1"]
         password1=request.form["seguro1"]
+        datos = db.session.query(Usuario.people, Usuario.close).all()
         for data in datos:
             if data.people == request.form["usuario1"] and  data.close == request.form["seguro1"]:
                 return render_template("chat.html")
