@@ -4,10 +4,10 @@ app=Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///usuarios.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
-class Usuarios(db.Model):
+class Usuario(db.Model):
     num_usu = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100), unique=True, nullable=False)
-    password = db.Column(db.String(100), nullable=False)
+    people = db.Column(db.String(100), unique=True, nullable=False)
+    close = db.Column(db.String(100), nullable=False)
 with app.app_context():
     db.create_all()
 @app.route("/")
@@ -41,19 +41,22 @@ def registro():
     if request.method=="POST":
         username=request.form["username"]
         password=request.form["password"]
-        datos.append({
-            "usuario":username,
-            "contraseña":password
-        })
+        usuarios_registrados = (
+            people = username,
+            close = generate_password_hash(password)
+        )
+        db.session.add(usuarios_registrados)
+        db.session.commit()
     return render_template("registro.html")
+datos = db.session.query(Usuario.people, Usuario.close).all()
 @app.route("/sesion", 
 methods=[ "GET", "POST" ])
 def sesion():
     if request.method=="POST":
-        username1=request.form["usuario"]
-        password1=request.form["seguro"]
+        username1=request.form["usuario1"]
+        password1=request.form["seguro1"]
         for data in datos:
-            if data["usuario"] == request.form["usuario"] and data["contraseña"] == request.form["seguro"]:
+            if data.people == request.form["usuario1"] and  data.close == request.form["seguro1"]:
                 return render_template("chat.html")
     return render_template("sesion.html")
 
