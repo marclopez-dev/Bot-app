@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 app=Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///usuarios.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -41,7 +42,7 @@ def registro():
     if request.method=="POST":
         username=request.form["username"]
         password=request.form["password"]
-        usuarios_registrados = (
+        usuarios_registrados = Usuario(
             people = username,
             close = generate_password_hash(password)
         )
