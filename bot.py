@@ -47,7 +47,7 @@ def registro():
         )
         db.session.add(usuarios_registrados)
         db.session.commit()
-        return redirect(url_for("/sesion"))
+        return redirect(url_for("sesion"))
     return render_template("registro.html")
 
 @app.route("/sesion", 
