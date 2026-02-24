@@ -8,7 +8,7 @@ db = SQLAlchemy(app)
 class Usuario(db.Model):
     num_usu = db.Column(db.Integer, primary_key=True)
     people = db.Column(db.String(100), unique=True, nullable=False)
-    close = db.Column(db.String(100), nullable=False)
+    close = db.Column(db.String(200), nullable=False)
 with app.app_context():
     db.create_all()
 @app.route("/")
