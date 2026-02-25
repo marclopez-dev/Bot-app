@@ -3,6 +3,7 @@
 <head>
      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
      </script>
+     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
      <style>
             #chat{
                   width: 100px;
@@ -11,12 +12,24 @@
                   height: 200px;
                   }
             body{
-               background-color: skyblue;
-               font-size: 10px;
-               font-family: Arial;}
+                 margin:0;
+                 height:100vh;
+                 background: linear-gradient(-40deg, #ff4e50, #fc913a, #f9d423, #ede575);
+                 background-size: 400% 400%;
+                 background: fondoAnimado 10s ease infinite;
+                 color: red;
+                 font-size: 30px;
+                 font-family: Portland;
+            }
+            @keyframes fondoAnimado{
+                 0% {background-position: 0% 50%;}
+                 50% {background-position: 100% 50%;}
+                 100% {background-position: 0% 50%;}
+            }
             input{
                  width: 30px;
                  padding: 15px;}
+            
      </style>
 </head>
 <body>
