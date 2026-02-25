@@ -42,12 +42,16 @@ def registro():
     if request.method=="POST":
         username=request.form["username"]
         password=request.form["password"]
+        comprobar_name=Usuario.query.filter_by(people=username).first()
+    elif comprobar_name:
         usuarios_registrados = Usuario(
             people = username,
             close = generate_password_hash(password)
         )
         db.session.add(usuarios_registrados)
         db.session.commit()
+    else:
+        return render_template("aviso.html")
     return render_template("registro.html")
 
 @app.route("/sesion", 
