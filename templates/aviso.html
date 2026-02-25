@@ -4,4 +4,21 @@
   </script>
 <head>
 <body>
-  
+  <button onclick="alerta()">Preciona aquí para comprobar el error</button>
+  <script>
+    function alerta() {
+      Swal.fire({
+        title: "El nombre de usuario ya está en uso",
+        text: "Ingresa otro nombre de usuario",
+        icon: "warning",
+        confirmButtonText: "Acaptar <="
+      }).then((data) => {
+        if (data == true) {
+          document.location.href = "/registro";
+        }
+      })
+    }
+  </script>
+</body>
+</head>
+</html>  
