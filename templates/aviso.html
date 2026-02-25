@@ -13,7 +13,7 @@
         icon: "warning",
         confirmButtonText: "Acaptar <="
       }).then((data) => {
-        if (data == true) {
+        if (data.isConfirmed) {
           window.location.href = "/registro";
         }
       })
