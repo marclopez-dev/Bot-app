@@ -2,6 +2,27 @@ from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
+#
+from openai import OpenAI
+from duckduckgo_search import DDGS
+#
+client = OpenAI(api_key="CLAVE_APIKEY")
+def buscar(query):
+    with DDGS as ddgs:
+        resultado = list(ddgs.text(query, max_results=3))
+        return " ".join([r["body"] for r in resultado])
+def reponder(pregunta):
+    contexto = bucar(pregunta)
+    response = client.chat.completions.create(
+        model = "gpt-4o-mini",
+        messages = [
+            {"role": "system": "content": "readcta respuestas claras y con fluides humana",
+            {"role": "user": "content": f"Usa esta información para responder:\n{contexto}\n\nPregunta:{pregunta}"}
+            
+        ])
+    return response.choices[0].message.content
+    
+
 app=Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL" )
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -24,18 +45,24 @@ def one():
 @app.route("/chat")
 def chat():
     return render_template("chat.html")
+
+############################################################################
+################################################################################
+#/CEREBRO DEL BOT:
+######################################################################################
+##############################################################################################
 @app.route("/mensaje",
 methods = ["POST"])
 def mensaje():
     datos_recibidos = request.json
     texto = datos_recibidos["mensaje"]
-    if "hola" in texto.strip().lower():
-        mensaje_respuesta = "Hola, ¿cómo estás?"
-    elif "¿que haces?" in texto.strip().lower():
-        mensaje_respuesta = "Hago lo que tú necesites"
-    else:
-         mensaje_respuesta = "No tengo respuesta para ese mensaje" 
-    return  jsonify({"respuesta": mensaje_respuesta})
+    respuesta = responder(texto)
+    return  jsonify({"respuesta": respuesta})
+
+#########################################################################
+##################################################################################
+#############################################################################################
+#########################################################################################################
 @app.route("/registro",
 methods=["POST", "GET"] )
 def registro():
