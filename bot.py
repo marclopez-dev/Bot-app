@@ -6,7 +6,9 @@ import os
 from openai import OpenAI
 from duckduckgo_search import DDGS
 #
-client = OpenAI(api_key="CLAVE_APIKEY")
+client = OpenAI(
+    api_key=os.environ.get("CLAVE_APIKEY")
+)
 def buscar(query):
     with DDGS as ddgs:
         resultado = list(ddgs.text(query, max_results=3))
