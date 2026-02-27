@@ -10,7 +10,7 @@ client = OpenAI(
     api_key=os.environ.get("CLAVE_APIKEY")
 )
 def buscar(query):
-    with DDGS as ddgs:
+    with DDGS() as ddgs:
         resultado = list(ddgs.text(query, max_results=3))
         return " ".join([r["body"] for r in resultado])
 def responder(pregunta):
