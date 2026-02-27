@@ -6,20 +6,23 @@
      <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
      <style>
             #chat{
-                  width: 100px;
+                  width: 400px;
                   color: #121212;
+                  overflow-y: auto;
                   padding: 20px;
-                  height: 200px;
+                  height: 300px;
+                  background-color: white;
+                  border-radius: 15px; 
                   }
             body{
                  margin:0;
                  height:100vh;
                  background: linear-gradient(-40deg, green, white, #121212);
                  background-size: 400% 400%;
-                 background: fondoAnimado 10s ease infinite;
+                 animation: fondoAnimado 10s ease infinite;
                  color: red;
-                 font-size: 10px;
-                 font-family: Portland;
+                 font-size: 16px;
+                 font-family: Arial, sans-serif;
             }
             @keyframes fondoAnimado{
                  0% {background-position: 0% 50%;}
@@ -64,7 +67,7 @@
                     document.getElementById("mensaje").value = "";
                 });
 }
-         particlesJS("particles-js", => {
+         particlesJS("particles-js", {
               particles: {
                    number: {value: 100},
                    size: {value: 6},
