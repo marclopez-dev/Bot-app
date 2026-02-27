@@ -66,11 +66,7 @@ def mensaje():
     datos_recibidos = request.json
     texto = datos_recibidos["mensaje"]
     rep = responder(texto)
-    if texto:
-        mensaje_enviar=rep
-    else:
-        mensaje_enviar="no te entendí" 
-    return  jsonify({"respuesta": mensaje_enviar})
+    return  jsonify({"respuesta":rep})
 
 #########################################################################
 ##################################################################################
