@@ -4,4 +4,4 @@ Flask-SQLAlchemy
 psycopg2-binary
 psycopg2-binary
 duckduckgo_search
-openai
+groq
