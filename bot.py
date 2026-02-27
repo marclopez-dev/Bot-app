@@ -30,7 +30,7 @@ def responder(pregunta):
             
             ]
         )
-        return response.choices[0].message.content
+        return completion.choices[0].message.content
     except Exception as e:
         return "Hubo un error generando la respuesta." 
 
