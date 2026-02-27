@@ -13,7 +13,7 @@ def buscar(query):
     with DDGS as ddgs:
         resultado = list(ddgs.text(query, max_results=3))
         return " ".join([r["body"] for r in resultado])
-def reponder(pregunta):
+def responder(pregunta):
     contexto = buscar(pregunta)
     response = client.chat.completions.create(
         model = "gpt-4o-mini",
