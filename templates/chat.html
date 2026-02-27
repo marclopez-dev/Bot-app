@@ -8,8 +8,8 @@
             #chat{
                   width: 100px;
                   color: #121212;
-                  padding: 70px;
-                  height: 200px;
+                  padding: 20px;
+                  height: 400px;
                   }
             body{
                  margin:0;
@@ -27,12 +27,12 @@
                  100% {background-position: 0% 50%;}
             }
             input{
-                 width: 30px;
-                 padding: 70px;
+                 width: 50px;
+                 padding: 30px;
             }
           #particles-js{
+               position: fixed;
                width: 100%;
-               position: fixed; 
                height: 100%;
                background: skyblue;
                z-index: -1;
@@ -61,7 +61,7 @@
                     document.getElementById("mensaje").value = "";
                 });
 }
-         particlesJS(("particles-js") => {
+         particlesJS("particles-js", => {
               particles: {
                    number: {value: 100},
                    size: {value: 6},
