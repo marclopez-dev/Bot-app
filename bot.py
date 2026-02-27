@@ -3,10 +3,10 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 #
-from openai import OpenAI
+from grop import Groq
 from duckduckgo_search import DDGS
 #
-client = OpenAI(
+client = Groq(
     api_key=os.environ.get("CLAVE_APIKEY")
 )
 def buscar(query):
@@ -14,23 +14,25 @@ def buscar(query):
         resultado = list(ddgs.text(query, max_results=3))
         return " ".join([r["body"] for r in resultado])
 def responder(pregunta):
-    contexto = buscar(pregunta)
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages = [
-            {
-                "role": "system",
-                "content": "Redacta respuestas claras y con fluides humana"
-            },
-            {
-                "role": "user",
-                "content": f"Usa esta información para responder:\n{contexto}\n\nPregunta:{pregunta}"
-            }
+    try:
+        contexto = buscar(pregunta)
+        completion = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages = [
+                {
+                    "role": "system",
+                    "content": "Redacta respuestas claras y con fluides humana"
+                },
+                {
+                    "role": "user",
+                    "content": f"Usa esta información para responder:\n{contexto}\n\nPregunta:{pregunta}"
+                }
             
-        ]
-    )
-    return response.choices[0].message.content
-    
+            ]
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        return "Hubo un error generando la respuesta." 
 
 app=Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL" )
