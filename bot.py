@@ -14,14 +14,19 @@ def buscar(query):
         resultado = list(ddgs.text(query, max_results=3))
         return " ".join([r["body"] for r in resultado])
 def reponder(pregunta):
-    contexto = bucar(pregunta)
+    contexto = buscar(pregunta)
     response = client.chat.completions.create(
         model = "gpt-4o-mini",
         messages = [
-            {"role": "system": "content": "readcta respuestas claras y con fluides humana",
-            {"role": "user": "content": f"Usa esta información para responder:\n{contexto}\n\nPregunta:{pregunta}"}
-            
-        ])
+            {
+                "role": "system",
+                "content": "Redacta respuestas claras y con fluides humana"},
+            {
+                "role": "user",
+                "content": f"Usa esta información para responder:\n{contexto}\n\nPregunta:{pregunta}"}
+            }
+        ]
+    )
     return response.choices[0].message.content
     
 
