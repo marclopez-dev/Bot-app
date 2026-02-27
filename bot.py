@@ -66,7 +66,7 @@ def mensaje():
     datos_recibidos = request.json
     texto = datos_recibidos["mensaje"]
     rep = responder(texto)
-    if respuesta:
+    if texto:
         mensaje_enviar=rep
     else:
         mensaje_enviar="no te entendí" 
