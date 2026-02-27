@@ -14,7 +14,7 @@
             body{
                  margin:0;
                  height:100vh;
-                 background: linear-gradient(-40deg, #ff4e50, #fc913a, #f9d423, #ede575);
+                 background: linear-gradient(-40deg, green, white, #121212);
                  background-size: 400% 400%;
                  background: fondoAnimado 10s ease infinite;
                  color: red;
@@ -28,11 +28,19 @@
             }
             input{
                  width: 30px;
-                 padding: 15px;}
+                 padding: 15px;
+            }
+          #particles-js{
+               width: 100%;
+               height: 100%
+               background: skyblue;
+               z-index: -1;
+          }
             
      </style>
 </head>
 <body>
+     <div id="particles-js"></div>
 <div id="chat"></div>
 <input type="text" id="mensaje" placeholder="Escribe algo...">
 <button onclick="enviar()">Enviar</button>
@@ -47,11 +55,18 @@
                 .then(res => res.json())
                 .then(data => {
                     let chat= document.getElementById("chat");
-                           chat.innerHTML+="<p><b>Tú: </b>" + mensaje + "</p>";
+                    chat.innerHTML+="<p><b>Tú: </b>" + mensaje + "</p>";
                     chat.innerHTML+= "<p><b>Bot: </b>" + data.respuesta + "</p>";
                     document.getElementById("mensaje").value = "";
                 });
-}   
+}
+         particlesJS(("particles-js") => {
+              particles: {
+                   number: {value: 100},
+                   size: {value: 6},
+                   move: {speed: 3}
+              }
+         })
      </script>
 </body>
 </html>
