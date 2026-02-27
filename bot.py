@@ -65,8 +65,12 @@ methods = ["POST"])
 def mensaje():
     datos_recibidos = request.json
     texto = datos_recibidos["mensaje"]
-    respuesta = responder(texto)
-    return  jsonify({"respuesta": respuesta})
+    rep = responder(texto)
+    if respuesta:
+        mensaje_enviar=rep
+    else:
+        mensaje_enviar="no te entendí" 
+    return  jsonify({"respuesta": mensaje_enviar})
 
 #########################################################################
 ##################################################################################
