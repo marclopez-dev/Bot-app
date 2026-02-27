@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 #
-from grop import Groq
+from groq import Groq
 from duckduckgo_search import DDGS
 #
 client = Groq(
