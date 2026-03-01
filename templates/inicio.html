@@ -24,14 +24,16 @@
         heigth: 100vh;
         background: linear-gradient(-40deg, red, #121212, blue);
         background-size: 100% 100%;
-        animation: fondoAnimado 10s ease infinite;
+        animation: textoAnimado 10s infinite;
         text-align: center;
         font-size: 30px;
     }
-    @keyframes fondoAnimado{
-        0% {background-position: 0% 50%;}
-        50% {background-position:100% 50%;}
-        100% {background-position: 0% 50%;}
+    @keyframes textoAnimado{
+        0% {color: red;}
+        25% {color: blue;}
+        75% {color: purple;}
+        100% {color: red;}
+        
     }
     h1{
         text-align: center;
