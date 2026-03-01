@@ -47,13 +47,19 @@
         background: #121212;
         z-index: -1;
     }
+    .contenedor{
+               display: flex;
+               justify-content: flex-center;
+               width: 100%;}
 </style>
 <p>La cademia Cerebritos Peruanos</p>
 <h1>Te da la bienvenida</h1>
 </head>
 <body>
 <div id="particles-js"></div>
+<div class="contenedor">
   <button onclick="Pag1()">Continuar</button>
+</div>
   <script>
          function Pag1() {
             let y = confirm("Desea continuar")
