@@ -15,7 +15,6 @@ def buscar(query):
         return " ".join([r["body"] for r in resultado])
 def responder(usuar, pregunta):
     try:
-        guardar_mensajes(usuar, "user", pregunta)
         historial = obtener_historial(usuar)
         contexto = buscar(pregunta)
         completion = client.chat.completions.create(
@@ -36,6 +35,7 @@ def responder(usuar, pregunta):
             ]
         )
         respuesta = completion.choices[0].message.content
+        guardar_mensajes(usuar, "user", pregunta)
         guardar_mensajes(usuar, "assistant", respuesta)
         return respuesta
     except Exception as e:
