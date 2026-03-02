@@ -20,12 +20,14 @@ def responder(usuar, pregunta):
         contexto = buscar(pregunta)
         completion = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
-            messages = historial,
             messages = [
                 {
                     "role": "system",
-                    "content": "Redacta respuestas claras y con fluides humana"
-                },
+                    "content": "Redacta respuestas claras y con fluidez humana"
+                }
+            ]
+            + historial +
+            [   
                 {
                     "role": "user",
                     "content": f"Usa esta información para responder:\n{contexto}\n\nPregunta:{pregunta}"
