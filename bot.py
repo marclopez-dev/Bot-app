@@ -24,14 +24,17 @@ def responder(usuar, pregunta):
             messages = [
                 {
                     "role": "system",
-                    "content": "Redacta respuestas claras y con fluidez humana"
+                    "content": "Eres un asistente conversacional natural. "
+                        "Habla de forma relajada y fluida. "
+                        "Responde como en una conversación normal entre personas. "
+                        "Puedes hacer preguntas cortas para continuar la charla."
                 }
             ]
             + historial +
             [   
                 {
                     "role": "user",
-                    "content": "Usa el contexto es relevante, úsalo. Si no, responde normalmente" 
+                    "content": pregunta
                 }
             
             ]
