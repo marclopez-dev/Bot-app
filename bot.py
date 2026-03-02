@@ -20,7 +20,7 @@ def responder(usuar, pregunta):
         contexto = buscar(pregunta)
         completion = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
-            mensajes = historial,
+            messages = historial,
             messages = [
                 {
                     "role": "system",
