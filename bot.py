@@ -54,7 +54,7 @@ class Usuario(db.Model):
 ##########################################
 #base de datos "el chat pueda recordar las conversaciones de los usuarios"
 ##########################################
-class Mensajes(CHT.Model):
+class Mensajes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     usuar = db.Column(db.String(100))
     role = db.Column(db.String(20))
