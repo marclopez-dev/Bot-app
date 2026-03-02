@@ -34,7 +34,7 @@ def responder(usuar, pregunta):
             ]
         )
         respuesta = completion.choices[0].message.content
-        guardar_mensaje(usuar, "assistant", respuesta)
+        guardar_mensajes(usuar, "assistant", respuesta)
         return respuesta
     except Exception as e:
         return "Hubo un error generando la respuesta." 
