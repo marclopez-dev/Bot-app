@@ -31,7 +31,7 @@ def responder(usuar, pregunta):
             [   
                 {
                     "role": "user",
-                    "content": f"Usa esta información para responder:\n{contexto}\n\nPregunta:{pregunta}"
+                    "content": "Usa el contexto es relevante, úsalo. Si no, responde normalmente" 
                 }
             
             ]
@@ -41,6 +41,7 @@ def responder(usuar, pregunta):
         guardar_mensajes(usuar, "assistant", respuesta)
         return respuesta
     except Exception as e:
+        print(e)
         return "Hubo un error generando la respuesta." 
 ##########################################
 #Base de datos para "almacenar registros"
@@ -73,7 +74,7 @@ def guardar_mensajes(usuar, role, content):
     db.session.add(nuevo)
     db.session.commit()
 def obtener_historial(usuar):
-    mensajes = Mensajes.query.filter_by(usuario=usuar).order_by(Mensajes.id.asc()).all()
+    mensajes = Mensajes.query.filter_by(usuar=usuar).order_by(Mensajes.id.asc()).all()
     return [
         {
          "role": m.role,
