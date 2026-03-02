@@ -5,7 +5,7 @@ import os
 #
 from groq import Groq
 from duckduckgo_search import DDGS
-#
+####################################################################################
 client = Groq(
     api_key=os.environ.get("CLAVE_APIKEY")
 )
@@ -13,11 +13,14 @@ def buscar(query):
     with DDGS() as ddgs:
         resultado = list(ddgs.text(query, max_results=3))
         return " ".join([r["body"] for r in resultado])
-def responder(pregunta):
+def responder(usuar, pregunta):
     try:
+        guardar_mensaje(usuar, "user", pregunta)
+        historial = obtener_historial(usuar)
         contexto = buscar(pregunta)
         completion = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
+            mensajes = historial,
             messages = [
                 {
                     "role": "system",
@@ -30,10 +33,14 @@ def responder(pregunta):
             
             ]
         )
-        return completion.choices[0].message.content
+        respuesta = completion.choices[0].message.content
+        guardar_mensaje(usuar, "assistant", respuesta)
+        return respuesta
     except Exception as e:
         return "Hubo un error generando la respuesta." 
-
+##########################################
+#Base de datos para "almacenar registros"
+######################№###################
 app=Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL" )
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -44,6 +51,38 @@ class Usuario(db.Model):
     close = db.Column(db.String(200), nullable=False)
 with app.app_context():
     db.create_all()
+##########################################
+#base de datos "el chat pueda recordar las conversaciones de los usuarios"
+##########################################
+app.config["SQLALCHEMY_DATABASE_URI"]=os.environ.get("BASE_URL")
+app.config["SQLALCHMY_TRACK_MODIFICATIONS#"]=False
+CHT=SQLAlchemy(app)
+class Mensajes(CHT.Mode):
+    id = CHT.Column(CHT.Integer, primary_key=True)
+    usuar = CHT.Column(CHT.String(100))
+    role = CHT.Column(CHT.String(20))
+    content = CHT.Column(CHT.Text)
+    tiempo = CHT.Column(CHT.DateTime, default=datetime.utcnow)
+with app.app_context():
+    app.create_all()
+def guardar_mensajes(usuar, role, content):
+    nuevo = Mensajes(
+        usuar = usuar,
+        role = role, 
+        content = content
+    )
+    CHT.session.add(nuevo)
+    CHT.session.commit()
+def obtener_historial(usuar):
+    mensajes = Mensajes.query.filter_by(usuario=usuar).order_by(Mensajes.id.asc()).all()
+    return [
+        {
+         "role": m.role,
+         "content":m.content
+        }
+        for m in mensajes
+    ]
+####################################################################################
 @app.route("/")
 def on():
     return render_template("index.html")
