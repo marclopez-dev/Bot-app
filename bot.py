@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
@@ -133,7 +133,7 @@ def registro():
             )
             db.session.add(usuarios_registrados)
             db.session.commit()
-        
+        return redirect(url_for("sesion"))
     return render_template("registro.html")
 
 @app.route("/sesion", 
