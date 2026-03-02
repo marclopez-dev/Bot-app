@@ -51,30 +51,25 @@ class Usuario(db.Model):
     num_usu = db.Column(db.Integer, primary_key=True)
     people = db.Column(db.String(100), unique=True, nullable=False)
     close = db.Column(db.String(200), nullable=False)
-with app.app_context():
-    db.create_all()
 ##########################################
 #base de datos "el chat pueda recordar las conversaciones de los usuarios"
 ##########################################
-app.config["SQLALCHEMY_DATABASE_URI"]=os.environ.get("BASE_URL")
-app.config["SQLALCHMY_TRACK_MODIFICATIONS#"]=False
-CHT=SQLAlchemy(app)
-class Mensajes(CHT.Mode):
-    id = CHT.Column(CHT.Integer, primary_key=True)
-    usuar = CHT.Column(CHT.String(100))
-    role = CHT.Column(CHT.String(20))
-    content = CHT.Column(CHT.Text)
-    tiempo = CHT.Column(CHT.DateTime, default=datetime.utcnow)
+class Mensajes(CHT.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    usuar = db.Column(db.String(100))
+    role = db.Column(db.String(20))
+    content = db.Column(db.Text)
+    tiempo = db.Column(db.DateTime, default=datetime.utcnow)
 with app.app_context():
-    app.create_all()
+    db.create_all()
 def guardar_mensajes(usuar, role, content):
     nuevo = Mensajes(
         usuar = usuar,
         role = role, 
         content = content
     )
-    CHT.session.add(nuevo)
-    CHT.session.commit()
+    db.session.add(nuevo)
+    db.session.commit()
 def obtener_historial(usuar):
     mensajes = Mensajes.query.filter_by(usuario=usuar).order_by(Mensajes.id.asc()).all()
     return [
