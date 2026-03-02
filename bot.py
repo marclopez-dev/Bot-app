@@ -105,7 +105,8 @@ methods = ["POST"])
 def mensaje():
     datos_recibidos = request.json
     texto = datos_recibidos["mensaje"]
-    rep = responder(texto)
+    usuar = request.remote_addr
+    rep = responder(usuar, texto)
     return  jsonify({"respuesta":rep})
 
 #########################################################################
