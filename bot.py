@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for, send_file
+from flask import Flask, render_template, request, jsonify, redirect, url_for, send_file, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
@@ -147,7 +147,7 @@ def mensaje():
         )
 @app.route("/descargar/<nombre>")
 def descargar(nombre):
-    return send_file(f"descargas/{nombre}", as_attachment=True)
+    return send_from_directory("descargas", nombre, as_attachment=True)
 
 #########################################################################
 ##################################################################################
