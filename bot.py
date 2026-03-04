@@ -125,6 +125,7 @@ methods = ["POST"])
 def mensaje():
     datos_recibidos = request.json
     texto = datos_recibidos["mensaje"]
+    usuar = request.remote_addr
     if detectar_url(texto):
         archivo = enviar_descarga(texto)
         if not archivo:
@@ -137,15 +138,13 @@ def mensaje():
                 "url": f"/descargar/{archivo}"
             }
         )
-    else:
-        usuar = request.remote_addr
-        rep = responder(usuar, texto)
-        return  jsonify(
-            {
-                "tipo": "texto",
-                "respuesta": rep
-            }
-        )
+    rep = responder(usuar, texto)
+    return  jsonify(
+        {
+            "tipo": "texto",
+            "respuesta": rep
+        }
+    )
 @app.route("/descargar/<nombre>")
 def descargar(nombre):
     return send_from_directory("descargas", nombre, as_attachment=True)
