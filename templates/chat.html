@@ -62,10 +62,13 @@
                 })
                 .then(res => res.json())
                 .then(data => {
-                    if (data.tipo === "archivo") {
-                        window.location.href = data.url}
                     let chat= document.getElementById("chat");
                     chat.innerHTML+="<p><b>Tú: </b>" + mensaje + "</p>";
+                    if (data.tipo === "archivo") {
+                        chat.innerHTML+="<p><b>Bot: </b>" + data.respuesta + </p>;
+                    window.location.href=data.url;
+                    return;
+                    }
                     chat.innerHTML+= "<p><b>Bot: </b>" + data.respuesta + "</p>";
                     document.getElementById("mensaje").value = "";
                 });
@@ -80,4 +83,3 @@
      </script>
 </body>
 </html>
-
