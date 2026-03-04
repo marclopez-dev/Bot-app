@@ -141,7 +141,7 @@ def mensaje():
         rep = responder(usuar, texto)
         return  jsonify(
             {
-                "tipo": "texto"
+                "tipo": "texto",
                 "respuesta": rep
             }
         )
