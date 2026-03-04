@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect, url_for, send_file
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
@@ -55,11 +55,18 @@ def detectar_url(url):
     enlace = urlparce(url)
     return all([enlace.scheme, enlace.netloc])
 def enviar_descarga(video):
-    text = {}
-    if vdo:
-        marc = {}
-        with yt_dlp.YoutubeDL(marc) as ydl:
-            ydl.download([video])
+    try:
+        vdo = detectar_url(video)
+        if vdo:
+            text = {
+            "outtmpl": "descargas/%(title)s.%(ext)s"
+            }
+            with yt_dlp.YoutubeDL(marc) as ydl:
+                titulo = ydl.extract_info(video, download=True)
+                nombre_archivo = ydl.prepare_filename(titulo)
+                return nombre_archivo
+    except Exception as e:
+        return "Ocurrió un error al procesar el url"
 ##########################################
 #Base de datos para "almacenar registros"
 ######################№###################
@@ -125,8 +132,8 @@ def mensaje():
     texto = datos_recibidos["mensaje"]
     usuar = request.remote_addr
     if detectar_url(texto):
-        y = enviar_descarga(texto)
-        return jsonify({"respuesta":y})
+        archivo = enviar_descarga(texto)
+        return send_file(archivo, as_attachment=True)
     else:
         rep = responder(usuar, texto)
         return  jsonify({"respuesta":rep})
