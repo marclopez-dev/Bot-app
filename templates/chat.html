@@ -62,6 +62,8 @@
                 })
                 .then(res => res.json())
                 .then(data => {
+                    if (data.tipo === "archivo") {
+                        window.location.href = data.url}
                     let chat= document.getElementById("chat");
                     chat.innerHTML+="<p><b>Tú: </b>" + mensaje + "</p>";
                     chat.innerHTML+= "<p><b>Bot: </b>" + data.respuesta + "</p>";
