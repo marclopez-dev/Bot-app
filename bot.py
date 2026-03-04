@@ -56,15 +56,13 @@ def detectar_url(url):
     return all([enlace.scheme, enlace.netloc])
 def enviar_descarga(video):
     try:
-        vdo = detectar_url(video)
-        if vdo:
-            text = {
-            "outtmpl": "descargas/%(title)s.%(ext)s"
-            }
-            with yt_dlp.YoutubeDL(marc) as ydl:
-                titulo = ydl.extract_info(video, download=True)
-                nombre_archivo = ydl.prepare_filename(titulo)
-                return nombre_archivo
+        text = {
+        "outtmpl": "descargas/%(title)s.%(ext)s"
+        }
+        with yt_dlp.YoutubeDL(marc) as ydl:
+            titulo = ydl.extract_info(video, download=True)
+            nombre_archivo = ydl.prepare_filename(titulo)
+            return nombre_archivo
     except Exception as e:
         return "Ocurrió un error al procesar el url"
 ##########################################
@@ -133,10 +131,23 @@ def mensaje():
     usuar = request.remote_addr
     if detectar_url(texto):
         archivo = enviar_descarga(texto)
-        return send_file(archivo, as_attachment=True)
+        return jsonify(
+            {
+                "tipo": "archivo",
+                "url": f"/descargar/{archivo}"
+            }
+        )
     else:
         rep = responder(usuar, texto)
-        return  jsonify({"respuesta":rep})
+        return  jsonify(
+            {
+                "tipo": "texto"
+                "respuesta": rep
+            }
+        )
+@app.route("/descargar/<nombre>")
+def descargar(nombre):
+    return send_file(f"descargas/{nombre}", as_attachment=True)
 
 #########################################################################
 ##################################################################################
