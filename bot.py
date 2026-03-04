@@ -123,28 +123,34 @@ def chat():
 @app.route("/mensaje",
 methods = ["POST"])
 def mensaje():
-    datos_recibidos = request.json
-    texto = datos_recibidos["mensaje"]
-    usuar = request.remote_addr
-    if detectar_url(texto):
-        archivo = enviar_descarga(texto)
-        if not archivo:
-            return jsonify({
-                "tipo": "texto",
-                "respuesta": "error al encontrar el archivo"})
-        return jsonify(
+    try:
+        datos_recibidos = request.json
+        texto = datos_recibidos["mensaje"]
+        usuar = request.remote_addr
+        if detectar_url(texto):
+            archivo = enviar_descarga(texto)
+            if not archivo:
+                return jsonify({
+                    "tipo": "texto",
+                    "respuesta": "error al encontrar el archivo"})
+            return jsonify(
+                {
+                    "tipo": "archivo",
+                    "url": f"/descargar/{archivo}"
+                }
+            )
+        rep = responder(usuar, texto)
+        return  jsonify(
             {
-                "tipo": "archivo",
-                "url": f"/descargar/{archivo}"
+                "tipo": "texto",
+                "respuesta": rep
             }
         )
-    rep = responder(usuar, texto)
-    return  jsonify(
-        {
+    except Exception as e:
+        return jsonify({
             "tipo": "texto",
-            "respuesta": rep
-        }
-    )
+            "respuesta": str(e)  
+        })
 @app.route("/descargar/<nombre>")
 def descargar(nombre):
     return send_from_directory("descargas", nombre, as_attachment=True)
