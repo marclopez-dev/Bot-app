@@ -143,12 +143,7 @@ def mensaje():
                 }
             )
         rep = responder(usuar, texto)
-        return  jsonify(
-            {
-                "tipo": "texto",
-                "respuesta": rep
-            }
-        )
+        return  jsonify({"respuesta": rep})
     except Exception as e:
         return jsonify({
             "tipo": "texto",
