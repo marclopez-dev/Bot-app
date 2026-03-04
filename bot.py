@@ -52,7 +52,7 @@ def responder(usuar, pregunta):
 ##########################################
 ##########################################
 def detectar_url(url):
-    enlace = urlparce(url)
+    enlace = urlpasce(url)
     return all([enlace.scheme, enlace.netloc])
 def enviar_descarga(video):
     try:
@@ -62,7 +62,7 @@ def enviar_descarga(video):
         with yt_dlp.YoutubeDL(text) as ydl:
             titulo = ydl.extract_info(video, download=True)
             nombre_archivo = ydl.prepare_filename(titulo)
-            return nombre_archivo
+            return os.path.basename(nombre_archivo) 
     except Exception as e:
         return "Ocurrió un error al procesar el url"
 ##########################################
