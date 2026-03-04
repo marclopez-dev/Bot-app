@@ -52,19 +52,16 @@ def responder(usuar, pregunta):
 ##########################################
 ##########################################
 def detectar_url(url):
-    enlace = urlpasce(url)
+    enlace = urlparse(url)
     return all([enlace.scheme, enlace.netloc])
 def enviar_descarga(video):
-    try:
-        text = {
+    text = {
         "outtmpl": "descargas/%(title)s.%(ext)s"
-        }
-        with yt_dlp.YoutubeDL(text) as ydl:
-            titulo = ydl.extract_info(video, download=True)
-            nombre_archivo = ydl.prepare_filename(titulo)
-            return os.path.basename(nombre_archivo) 
-    except Exception as e:
-        return "Ocurrió un error al procesar el url"
+    }
+    with yt_dlp.YoutubeDL(text) as ydl:
+        titulo = ydl.extract_info(video, download=True)
+        nombre_archivo = ydl.prepare_filename(titulo)
+        return os.path.basename(nombre_archivo)
 ##########################################
 #Base de datos para "almacenar registros"
 ######################№###################
@@ -130,6 +127,10 @@ def mensaje():
     texto = datos_recibidos["mensaje"]
     if detectar_url(texto):
         archivo = enviar_descarga(texto)
+        if not archivo:
+            return jsonify({
+                "tipo": "texto",
+                "respuesta": "error al encontrar el archivo"})
         return jsonify(
             {
                 "tipo": "archivo",
