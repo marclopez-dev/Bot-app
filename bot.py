@@ -59,7 +59,7 @@ def enviar_descarga(video):
         text = {
         "outtmpl": "descargas/%(title)s.%(ext)s"
         }
-        with yt_dlp.YoutubeDL(marc) as ydl:
+        with yt_dlp.YoutubeDL(text) as ydl:
             titulo = ydl.extract_info(video, download=True)
             nombre_archivo = ydl.prepare_filename(titulo)
             return nombre_archivo
