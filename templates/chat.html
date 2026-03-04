@@ -65,9 +65,11 @@
                     let chat= document.getElementById("chat");
                     chat.innerHTML+="<p><b>Tú: </b>" + mensaje + "</p>";
                     if (data.tipo === "archivo") {
-                        chat.innerHTML+="<p><b>Bot: </b>"Descargando video... </p>;
+                       chat.innerHTML+="<p><b>Bot: </b>Descargando video...</p>";
+                        
                     window.location.href=data.url;
-                    return;
+                        document.getElementById("mensaje").value = "";
+                        return;
                     }
                     chat.innerHTML+= "<p><b>Bot: </b>" + data.respuesta + "</p>";
                     document.getElementById("mensaje").value = "";
