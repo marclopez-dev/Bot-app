@@ -3,6 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 #
+from urllib.parse import urlparse
+from pytube import YouTube
+#
 from datetime import datetime 
 #
 from groq import Groq
@@ -46,6 +49,16 @@ def responder(usuar, pregunta):
     except Exception as e:
         print(e)
         return "Hubo un error generando la respuesta." 
+##########################################
+##########################################
+def detectar_url(url):
+    enlace = urlparce(url)
+    return all([enlace.scheme, enlace.netloc])
+def enviar_descarga(video):
+    vdo = detectar_url(video)
+    yt = YouTube(video)
+    k = yt.streams.get_highest_resolution()
+    k.download()
 ##########################################
 #Base de datos para "almacenar registros"
 ######################№###################
@@ -110,8 +123,12 @@ def mensaje():
     datos_recibidos = request.json
     texto = datos_recibidos["mensaje"]
     usuar = request.remote_addr
-    rep = responder(usuar, texto)
-    return  jsonify({"respuesta":rep})
+    if detectar_url(texto):
+        y = enviar_descarga(video)
+        return jsonify({"respuesta":y})
+    else:
+        rep = responder(usuar, texto)
+        return  jsonify({"respuesta":rep})
 
 #########################################################################
 ##################################################################################
