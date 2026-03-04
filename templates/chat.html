@@ -70,10 +70,11 @@
                     window.location.href=data.url;
                         document.getElementById("mensaje").value = "";
                         return;
-                    } else {
-                            chat.innerHTML+="<p><b>Bot: </b>" + data.respuesta + "</p>";
-                    document.getElementById("mensaje").value = "";
                     }
+
+                    chat.innerHTML+="<p><b>Bot: </b>" + data.respuesta + "</p>";
+                         document.getElementById("mensaje").value = "";
+                    
             
                 });
 }
