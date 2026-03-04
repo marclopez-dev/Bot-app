@@ -128,7 +128,6 @@ methods = ["POST"])
 def mensaje():
     datos_recibidos = request.json
     texto = datos_recibidos["mensaje"]
-    usuar = request.remote_addr
     if detectar_url(texto):
         archivo = enviar_descarga(texto)
         return jsonify(
@@ -138,6 +137,7 @@ def mensaje():
             }
         )
     else:
+        usuar = request.remote_addr
         rep = responder(usuar, texto)
         return  jsonify(
             {
