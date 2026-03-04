@@ -71,8 +71,11 @@
                         document.getElementById("mensaje").value = "";
                         return;
                     }
-                    chat.innerHTML+= "<p><b>Bot: </b>" + data.respuesta + "</p>";
+                    else (data.tipo === "texto") {
+                        "<p><b>Bot: </b>" + data.respuesta + "</p>";
                     document.getElementById("mensaje").value = "";
+                    }
+            
                 });
 }
          particlesJS("particles-js", {
