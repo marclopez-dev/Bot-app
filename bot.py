@@ -48,10 +48,7 @@ def responder(usuar, pregunta):
         return respuesta
     except Exception as e:
         print(e)
-        return jsonify({
-            "tipo": "texto",
-            "respuesta": str(e)
-        })
+        return str(e)
 ##########################################
 ##########################################
 def detectar_url(url):
