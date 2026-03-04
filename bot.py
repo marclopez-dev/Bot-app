@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 import os
 #
 from urllib.parse import urlparse
-from pytube import YouTube
+import yt_dlp
 #
 from datetime import datetime 
 #
@@ -55,10 +55,11 @@ def detectar_url(url):
     enlace = urlparce(url)
     return all([enlace.scheme, enlace.netloc])
 def enviar_descarga(video):
-    vdo = detectar_url(video)
-    yt = YouTube(video)
-    k = yt.streams.get_highest_resolution()
-    k.download()
+    text = {}
+    if vdo:
+        marc = {}
+        with yt_dlp.YoutubeDL(marc) as ydl:
+            ydl.download([video])
 ##########################################
 #Base de datos para "almacenar registros"
 ######################№###################
@@ -124,7 +125,7 @@ def mensaje():
     texto = datos_recibidos["mensaje"]
     usuar = request.remote_addr
     if detectar_url(texto):
-        y = enviar_descarga(video)
+        y = enviar_descarga(texto)
         return jsonify({"respuesta":y})
     else:
         rep = responder(usuar, texto)
