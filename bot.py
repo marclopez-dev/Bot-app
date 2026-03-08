@@ -119,11 +119,25 @@ def chat():
     return render_template("chat.html")
 
 ############################################################################
+qr_acoplado = None
+@app.route("/qr_generate",
+methods= ["POST"])
+def qr_guardado():
+    global qr_acoplado
+    dt = request.json
+    qr_acoplado = dt["qr"]
+    return {"status": "QR guardado" }
+@app.route("/qr")
+def mostrar_qr():
+    if qr_acoplado:
+        return f'<img src="{qr_acoplado}" width="300">'
+    else:
+        return "QR no generado"
 ################################################################################
 #/CEREBRO DEL BOT:
 ######################################################################################
 ##############################################################################################
-qr_acoplado = None
+
 @app.route("/mensaje",
 methods = ["POST"])
 def mensaje():
@@ -149,6 +163,7 @@ def mensaje():
                 return jsonify({"respuesta": f'<img src="{qr_acoplado}" width="300">'})
             else:
                 return jsonify ({"respuesta": "QR no generado"})
+            return jsonify({"mensaje":qr_acoplado})
         rep = responder(usuar, texto)
         return  jsonify({"respuesta": rep})
     except Exception as e:
@@ -162,20 +177,6 @@ def descargar(nombre):
 
 #########################################################################
 ##################################################################################
-
-@app.route("/qr_generate",
-methods= ["POST"])
-def qr_guardado():
-    global qr_acoplado
-    dt = request.json
-    qr_acoplado = dt["qr"]
-    return {"status": "QR guardado" }
-@app.route("/qr")
-def mostrar_qr():
-    if qr_acoplado:
-        return f'<img src="{qr_acoplado}" width="300">'
-    else:
-        return "QR no generado"
 #############################################################################################
 #########################################################################################################
 @app.route("/registro",
