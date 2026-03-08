@@ -5,7 +5,7 @@ const client = Client({
      authStrategy: new LocalAuth()
 });
 client.on("qr", async qr => {
-    const qrImage = await QRCode.toDataUrl(qr);
+    const qrImage = await QRCode.toDataURL(qr);
     await fetch("/qr_generate", {
         method:"POST",
         headers: {
