@@ -169,7 +169,7 @@ def mensaje():
             else:
                 return jsonify ({"respuesta": "QR no generado"})
         if "qr_status"== texto.strip().lower():
-            return jsonify({"mensaje":qr_acoplado})
+            return jsonify({"respuesta":qr_acoplado})
         rep = responder(usuar, texto)
         return  jsonify({"respuesta": rep})
     except Exception as e:
