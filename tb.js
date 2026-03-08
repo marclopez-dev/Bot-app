@@ -1,4 +1,5 @@
 // tb.js
+const axios = require("axios");
 const { makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, Browsers, DisconnectReason } = require("@whiskeysockets/baileys");
 const qrcode = require("qrcode-terminal");
 const fs = require("fs");
@@ -46,6 +47,25 @@ async function startBot() {
       setTimeout(startBot, 900);
     }
   });
+ 
+
+sock.ev.on("messages.upsert", async ({ messages }) => {
+    const msg = messages[0];
+    if (!msg.message) return;
+
+    const texto = msg.message.conversation || msg.message.extendedTextMessage?.text;
+
+    // Llamada al bot de Flask
+    try {
+        const res = await axios.post("https://tu-app.onrender.com/responder", { mensaje: texto });
+        const respuesta = res.data.respuesta;
+
+        // Enviar respuesta por WhatsApp
+        await sock.sendMessage(msg.key.remoteJid, { text: respuesta });
+    } catch (error) {
+        console.log("Error al llamar Flask:", error.message);
+    }
+});
 } // <- cerrar la función startBot correctamente
 
 // Llamada inicial
