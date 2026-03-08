@@ -53,6 +53,9 @@
 <input type="text" id="mensaje" placeholder="Escribe algo...">
 <button onclick="enviar()">Enviar</button>
     <script>
+            const {Cliente, localAuth} = require('whatsapp-web.js');
+            
+            
             function enviar() {
                 let mensaje = document.getElementById("mensaje").value;
                 fetch("/mensaje", {
