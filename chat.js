@@ -6,7 +6,7 @@ const client = Client({
 });
 client.on("qr", async qr => {
     const qrImage = await QRCode.toDataURL(qr);
-    await fetch("/qr_generate", {
+    await fetch("https://bot-app-t2bk.onrender.com/qr_generate", {
         method:"POST",
         headers: {
             "Content-Type": "application/json"},
