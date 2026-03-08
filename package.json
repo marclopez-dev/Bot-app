@@ -1,8 +1,8 @@
 {
-  "dependencies": {
-    "whatsapp-web.js": "^1.23.0",
-    "qrcode": "^1.5.4",
-    "node-fetch": "^2.6.7",
-    "puppeteer": "^21.0.0"
-  }
+ "dependencies": {
+   "whatsapp-web.js": "^1.23.0",
+   "puppeteer-core": "^21.0.0",
+   "qrcode": "^1.5.4",
+   "node-fetch": "^2.6.7"
+ }
 }
