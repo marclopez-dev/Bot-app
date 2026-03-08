@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 #
+import subprocess
+#
 from urllib.parse import urlparse
 import yt_dlp
 #
@@ -11,6 +13,7 @@ from datetime import datetime
 from groq import Groq
 from duckduckgo_search import DDGS
 ####################################################################################
+subprocess.Popen(["node", "chat.js"])
 client = Groq(
     api_key=os.environ.get("CLAVE_APIKEY")
 )
