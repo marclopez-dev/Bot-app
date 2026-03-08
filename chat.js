@@ -2,7 +2,7 @@ const {Client, LocalAuth} = require('whatsapp-web.js');
 const QRCode = require('qrcode');
 function qr() {
 const client = Client({
-     authStrategy: new LocalAuth();
+     authStrategy: new LocalAuth()
 });
 client.on("qr", async qr => {
     const qrImage = await QRCode.toDataUrl(qr);
