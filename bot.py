@@ -123,6 +123,7 @@ def chat():
 #/CEREBRO DEL BOT:
 ######################################################################################
 ##############################################################################################
+qr_acoplado = None
 @app.route("/mensaje",
 methods = ["POST"])
 def mensaje():
@@ -142,6 +143,12 @@ def mensaje():
                     "url": f"/descargar/{archivo}"
                 }
             )
+        elif "qr" == texto.strip().lower():
+            
+            if qr_acoplado:
+                return f'<img src="{qr_acoplado}" width="300">'
+            else:
+                return "QR no generado"
         rep = responder(usuar, texto)
         return  jsonify({"respuesta": rep})
     except Exception as e:
@@ -155,7 +162,7 @@ def descargar(nombre):
 
 #########################################################################
 ##################################################################################
-qr_acoplado = None
+
 @app.route("/qr_generate",
 methods= ["POST"])
 def qr_guardado():
