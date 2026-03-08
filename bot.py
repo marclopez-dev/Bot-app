@@ -162,7 +162,7 @@ def qr_guardado():
     global qr_acoplado
     dt = request.json
     qr_acoplado = dt["qr"]
-    return redirect(url_for("mostrar_qr"))
+    return ({"status": "QR guardado" })
 @app.route("/qr")
 def mostrar_qr():
     if qr_acoplado:
