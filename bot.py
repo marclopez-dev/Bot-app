@@ -155,6 +155,7 @@ def descargar(nombre):
 
 #########################################################################
 ##################################################################################
+qr_acoplado = None
 @app.route("/qr_generate",
 methods= ["POST"])
 def qr_guardado():
@@ -165,9 +166,9 @@ def qr_guardado():
 @app.route("/qr")
 def mostrar_qr():
     if qr_acoplado:
-        return jsonify(f'<img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data={qr_acoplado}">')
+        return f'<img src="{qr_acoplado}" width="300">'
     else:
-        return jsonify("QR no generado")
+        return "QR no generado"
 #############################################################################################
 #########################################################################################################
 @app.route("/registro",
