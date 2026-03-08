@@ -3,15 +3,14 @@ const QRCode = require('qrcode');
 const fetch = require('node-fetch');
 
 const client = new Client({
-    authStrategy: new LocalAuth(),
     puppeteer: {
-        executablePath: "/usr/bin/chromium",
         headless: true,
         args: [
             "--no-sandbox",
             "--disable-setuid-sandbox"
         ]
     }
+    authStrategy: new LocalAuth()
 });
 
 client.on("qr", async (qr) => {
