@@ -55,13 +55,16 @@
 <img id="qr" width="300">
     <script>
            function mostrarQR() {
-               const res = fetch("/qr");
-               const data = res.json();
-               if (data.qr) {
-                    document.getElementById("qr").src=data.qr;
+               fetch(/qr)
+                   .then(res => res.json())
+                   .then(data => {
+                        if (data.qr) {
+             document.getElementById("qr").src=data.qr;
                }else{
                    alert("código no generado")}
+                   
                   }
+                   })
            function inicio(){
                let msj=confirm("¿Quiere continuar?")
                if (msj==true) {
