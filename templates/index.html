@@ -50,8 +50,12 @@
 
 <div id="particles-js"></div>
     <button onclick="inicio()">INGRESAR AL CHATBOT</button>
-    <button onclick= <img src="/">></button>
+    <button onclick="mostrarQR()">Generar QR</button>
+
+<img id="qr" src="" width="300">
     <script>
+           function mostrarQR() {
+               document.getElementById("qr").src="/qr"}
            
            function inicio(){
                let msj=confirm("¿Quiere continuar?")
