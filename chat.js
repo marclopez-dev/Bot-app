@@ -1,17 +1,31 @@
-const {Client, LocalAuth} = require('whatsapp-web.js');
+const { Client, LocalAuth } = require('whatsapp-web.js');
 const QRCode = require('qrcode');
-function qr() {
-const client = Client({
-     authStrategy: new LocalAuth()
+const fetch = require('node-fetch');
+
+const client = new Client({
+    authStrategy: new LocalAuth(),
+    puppeteer: {
+        args: ["--no-sandbox", "--disable-setuid-sandbox"]
+    }
 });
-client.on("qr", async qr => {
+
+client.on("qr", async (qr) => {
+
     const qrImage = await QRCode.toDataURL(qr);
+
     await fetch("https://bot-app-t2bk.onrender.com/qr_generate", {
-        method:"POST",
+        method: "POST",
         headers: {
-            "Content-Type": "application/json"},
-        body: JSON.stringify({qr: qrImage})
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ qr: qrImage })
+    });
+
+    console.log("QR enviado a Flask");
 });
+
+client.on("ready", () => {
+    console.log("Bot conectado a WhatsApp");
 });
+
 client.initialize();
-}
