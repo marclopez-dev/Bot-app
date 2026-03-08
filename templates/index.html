@@ -55,7 +55,7 @@
 <img id="qr" width="300">
     <script>
            function mostrarQR() {
-               fetch(/qr)
+               fetch("/qr")
                    .then(res => res.json())
                    .then(data => {
                         if (data.qr) {
