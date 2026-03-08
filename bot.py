@@ -162,7 +162,7 @@ def qr_guardado():
     dt = request.json
     qr_acoplado = dt["qr"]
     return redirect(url_for("mostrar_qr"))
-@app.route(/qr)
+@app.route("/qr")
 def mostrar_qr():
     if qr_acoplado:
         return jsonify(f'<img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data={qr_acoplado}">')
