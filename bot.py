@@ -160,9 +160,12 @@ def mensaje():
         if "qr" == texto.strip().lower():
             
             if qr_acoplado:
-                return jsonify({"respuesta":
+                return jsonify(
+                   {
                    "tipo": "imagen",
-                   "url": qr_acoplado})
+                   "url": qr_acoplado
+                   }
+                )
             else:
                 return jsonify ({"respuesta": "QR no generado"})
         if "qr_status"== texto.strip().lower():
