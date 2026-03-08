@@ -153,7 +153,7 @@ def descargar(nombre):
 #########################################################################
 ##################################################################################
 @app.route("/qr_generate",
-methods: ["POST")
+methods: ["POST"])
 def qr_guardado():
     global qr_acoplado
     dt = request.json
