@@ -1,5 +1,6 @@
 const {Client, localAuth} = require('whatsapp-web.js');
 const QRCode = require('qrcode');
+function qr() {
 const Client = Client({
      authStrategy: new LocalAuth();
 });
@@ -13,3 +14,4 @@ client.on("qr", async qr => {
 });
 });
 client.initialize();
+}
