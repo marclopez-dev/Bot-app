@@ -146,7 +146,7 @@ def mensaje():
         elif "qr" == texto.strip().lower():
             
             if qr_acoplado:
-                return f'<img src="{qr_acoplado}" width="300">'
+                return jsonify("respuesta": f'<img src="{qr_acoplado}" width="300">')
             else:
                 return "QR no generado"
         rep = responder(usuar, texto)
