@@ -143,7 +143,7 @@ def mensaje():
                     "url": f"/descargar/{archivo}"
                 }
             )
-        elif "qr" == texto.strip().lower():
+        if "qr" == texto.strip().lower():
             
             if qr_acoplado:
                 return jsonify("respuesta": f'<img src="{qr_acoplado}" width="300">')
