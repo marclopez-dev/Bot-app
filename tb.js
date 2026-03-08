@@ -50,6 +50,7 @@ async function startBot() {
 
 // Llamada inicial
 startBot();
+<<<<<<< HEAD
 
 
 
@@ -60,3 +61,5 @@ startBot();
 
 
 
+=======
+>>>>>>> 522de84 (Bot listo para Render)
