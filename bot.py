@@ -157,19 +157,6 @@ def mensaje():
                     "url": f"/descargar/{archivo}"
                 }
             )
-        if "qr" == texto.strip().lower():
-            
-            if qr_acoplado:
-                return jsonify(
-                   {
-                   "tipo": "imagen",
-                   "url": qr_acoplado
-                   }
-                )
-            else:
-                return jsonify ({"respuesta": "QR no generado"})
-        if "qr_status"== texto.strip().lower():
-            return jsonify({"respuesta":qr_acoplado})
         rep = responder(usuar, texto)
         return  jsonify({"respuesta": rep})
     except Exception as e:
@@ -189,6 +176,20 @@ methods=["POST"])
 def responde():
     td = request.json
     msj = td["mensaje"]
+    if detectar_url(msj):
+            archivo = enviar_descarga(texto)
+            if not archivo:
+                return jsonify({
+                    "tipo": "texto",
+                    "respuesta": "error al encontrar el archivo"})
+            return jsonify(
+                {
+                    "tipo": "archivo",
+                    "url": f"/descargar/{archivo}"
+                }
+            )
+    rsp = responder(usuar, msj)
+    jsonify({"respuesta": rsp})
 #########################################################################################################
 @app.route("/registro",
 methods=["POST", "GET"] )
