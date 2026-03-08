@@ -10,7 +10,7 @@ client.on("qr", async qr => {
         method:"POST",
         headers: {
             "Content-Type": "application/json"},
-        body: JSON.stringify({qr: qrImage});
+        body: JSON.stringify({qr: qrImage})
 });
 });
 client.initialize();
