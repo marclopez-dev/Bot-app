@@ -130,9 +130,9 @@ def qr_guardado():
 @app.route("/qr")
 def mostrar_qr():
     if qr_acoplado:
-        return f'<img src="{qr_acoplado}" width="300">'
+        return jsonify({"qr": qr_acoplado})
     else:
-        return "QR no generado"
+        return jsonify({"qr": "QR no generado"})
 ################################################################################
 #/CEREBRO DEL BOT:
 ######################################################################################
