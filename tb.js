@@ -4,13 +4,13 @@ const qrcode = require("qrcode-terminal");
 const fs = require("fs");
 
 // Carpeta donde se guardará la sesión
-if (!fs.existsSync("./session")) fs.mkdirSync("./session");
+if (!fs.existsSync("./whatsapp_session")) fs.mkdirSync("./whatsapp_session");
 
 let sock;
 
 async function startBot() {
   // Autenticación de múltiples archivos
-  const { state, saveCreds } = await useMultiFileAuthState("./session");
+  const { state, saveCreds } = await useMultiFileAuthState("./whatsapp_session");
 
   // Última versión de WhatsApp
   const { version } = await fetchLatestBaileysVersion().catch(() => ({ version: undefined }));
