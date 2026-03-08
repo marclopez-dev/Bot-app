@@ -13,7 +13,6 @@ from datetime import datetime
 from groq import Groq
 from duckduckgo_search import DDGS
 ####################################################################################
-subprocess.Popen(["node", "chat.js"])
 client = Groq(
     api_key=os.environ.get("CLAVE_APIKEY")
 )
@@ -69,6 +68,7 @@ def enviar_descarga(video):
 #Base de datos para "almacenar registros"
 ######################№###################
 app=Flask(__name__)
+subprocess.Popen(["node", "chat.js"])
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL" )
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
