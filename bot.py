@@ -173,8 +173,9 @@ def responde():
                 }
             )
     if "/status" == msj.strip().lower():
-        rsp = f"mensaje enviado: {msj}"
-    rsp = responder(usuar, msj)
+        rsp = "🥶🙏ten paciencia"
+    else:
+        rsp = responder(usuar, msj)
     return jsonify({"respuesta": rsp})
 #########################################################################################################
 @app.route("/registro",
