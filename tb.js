@@ -10,9 +10,12 @@ const apk = express();
 const PORT = process.env.PORT || 3000;
 apk.get("/", (req, res) => res.send("bot activado"));
 apk.listen(PORT, () => console.log(`servidor escuchando en ${PORT}`))
-let sock;
+let sock = null;
 
 async function startBot() {
+  if (sock) {
+      console.log("🥶el bot ya está iniciado🔪🧟")
+  }
   const { state, saveCreds } = await useMultiFileAuthState("./wh_session");
 
   const { version } = await fetchLatestBaileysVersion().catch(() => ({ version: undefined }));
@@ -40,14 +43,15 @@ async function startBot() {
         return;
       }
       console.log("♻️ Reintentando conexión en 900ms...");
+      sock = null;
       setTimeout(startBot, 8000);
     }
   });
-  sock.ev.on("messages.upsert", async ( {messages} ) => {  
-      const msg = messages.messages[0];
+  sock.ev.on("messages.upsert", async ( { messages } ) => {  
+      const msg = messages[0];
       if (!msg || msg.key.fromMe) return;
       const from = msg.key.remoteJid;
-      const mens = messages.messages[0].message?.conversation || messages.messages[0].message?.extendedTextMessage?.text;
+      const mens = msg.message?.conversation || msg.message?.extendedTextMessage?.text;
       if (mens) {
           try {
                const res = await axios.post("https://bot-app-t2bk.onrender.com/responder", {
