@@ -47,7 +47,7 @@ async function startBot() {
   });
   sock.ev.on("messages.upsert", async (m) => {  
       const msg = m.messages[0];
-      if (!msg.message)
+      if (!msg.message) return;
       if (msg.key.fromMe) return;
       const mens = m.messages[0].message?.conversation || m.messages[0].message?.extendedTextMessage?.text;
       const from = msg.key.remoteJid;
