@@ -159,7 +159,7 @@ methods=["POST"])
 def responde():
     td = request.json
     usuar = request.remote_addr
-    msj = td.get["mensaje"]
+    msj = td.get("mensaje")
     if detectar_url(msj):
             archivo = enviar_descarga(msj)
             if not archivo:
