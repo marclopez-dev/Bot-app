@@ -55,7 +55,7 @@ async function startBot() {
                });
                await sock.sendMessage(from, {text: res.data.respuesta});
           } catch (err) {
-                sock.sendMessage(from, { text: err.message})
+                console.log(err.message)
           }
       }
 });
