@@ -13,6 +13,7 @@ apk.listen(PORT, () => console.log(`servidor escuchando en ${PORT}`))
 let sock;
 
 async function startBot() {
+  await new Promise(r => setTimeout(r, 5000))
   const { state, saveCreds } = await useMultiFileAuthState("./wh_session");
 
   const { version } = await fetchLatestBaileysVersion().catch(() => ({ version: undefined }));
@@ -31,7 +32,6 @@ async function startBot() {
       console.log("\n📲 Escanea este QR en WhatsApp:");
       qrcode.generate(qr, { small: true });
     }
-    await new Promise(r => setTimeout(r, 5000))
     if (connection === "open") console.log("🚀 BOT CONECTADO");
 
     if (connection === "close") {
