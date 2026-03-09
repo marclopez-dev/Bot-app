@@ -161,7 +161,7 @@ def responde():
     usuar = request.remote_addr
     msj = td.get["mensaje"]
     if detectar_url(msj):
-            archivo = enviar_descarga(texto)
+            archivo = enviar_descarga(msj)
             if not archivo:
                 return jsonify({
                     "tipo": "texto",
@@ -175,7 +175,7 @@ def responde():
     if "/status" == msj.strip().lower():
         rsp = f"mensaje enviado: {msj}"
     rsp = responder(usuar, msj)
-    jsonify({"respuesta": rsp})
+    return jsonify({"respuesta": rsp})
 #########################################################################################################
 @app.route("/registro",
 methods=["POST", "GET"] )
