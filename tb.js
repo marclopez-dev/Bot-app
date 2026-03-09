@@ -41,11 +41,11 @@ async function startBot() {
         return;
       }
       console.log("♻️ Reintentando conexión en 900ms...");
-      setTimeout(startBot, 900);
+      setTimeout(startBot, 5000);
     }
   });
   sock.ev.on("messages.upsert", async (m) => {
-      const mens = m.messages[0].message?.conversation || m.messages[0].message?.extendeTextMassage?.text;
+      const mens = m.messages[0].message?.conversation || m.messages[0].message?.extendedTextMessage?.text;
       const from = m.messages[0].key.remoteJid;
       if (mens) {
           try {
@@ -55,7 +55,7 @@ async function startBot() {
                });
                await sock.sendMessage(from, {text: res.data.respuesta});
           } catch (err) {
-                seck.sendMessage(from, { text: err.message})
+                sock.sendMessage(from, { text: err.message})
           }
       }
 });
