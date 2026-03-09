@@ -1,21 +1,22 @@
-// tb.js
+const express = require("express")
+const axios = require("axios")
 const { makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, Browsers, DisconnectReason } = require("@whiskeysockets/baileys");
 const qrcode = require("qrcode-terminal");
 const fs = require("fs");
 
 // Carpeta donde se guardará la sesión
-if (!fs.existsSync("./session")) fs.mkdirSync("./session");
-
+if (!fs.existsSync("./wh_session")) fs.mkdirSync("./wh_session");
+const apk = express();
+const PORT = process.env.PORT || 3000;
+apk.get("/", (req, res) => res.send("bot activado"));
+apk.listen(PORT, () => console.log(`servidor escuchando en ${PORT}`))
 let sock;
 
 async function startBot() {
-  // Autenticación de múltiples archivos
-  const { state, saveCreds } = await useMultiFileAuthState("./session");
+  const { state, saveCreds } = await useMultiFileAuthState("./wh_session");
 
-  // Última versión de WhatsApp
   const { version } = await fetchLatestBaileysVersion().catch(() => ({ version: undefined }));
 
-  // Inicializa el socket
   sock = makeWASocket({
     auth: state,
     version,
@@ -23,15 +24,12 @@ async function startBot() {
     printQRInTerminal: false // true si quieres ver QR directamente
   });
 
-  // Guardar credenciales automáticamente
   sock.ev.on("creds.update", saveCreds);
 
-  // Evento de conexión
   sock.ev.on("connection.update", ({ connection, qr, lastDisconnect }) => {
     if (qr) {
       console.log("\n📲 Escanea este QR en WhatsApp:");
-      qrcode.generate(qr, { small: true }); // QR en terminal
-      // También podrías enviar este QR a tu servidor Flask si quieres
+      qrcode.generate(qr, { small: true });
     }
 
     if (connection === "open") console.log("🚀 BOT CONECTADO");
@@ -46,6 +44,21 @@ async function startBot() {
       setTimeout(startBot, 900);
     }
   });
+  sock.ev.on("messages.upsert", async (m) => {
+      const mens = m.messages[0].message?.conversation || m.messages[0].message?.extendeTextMassage?.text;
+      const from = m.messages[0].key.remoteJid;
+      if (mens) {
+          try {
+               const res = await axios.post("https://bot-app-t2bk.onrender.com/responder", {
+                   mensaje: mens,
+                   from: from
+               });
+               await sock.sendMessage(from, {text: res.data.respuesta});
+          } catch (err) {
+                seck.sendMessage(from, { text: err.message})
+          }
+      }
+});
 } // <- cerrar la función startBot correctamente
 
 // Llamada inicial

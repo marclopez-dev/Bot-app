@@ -118,21 +118,7 @@ def one():
 def chat():
     return render_template("chat.html")
 
-############################################################################
-qr_acoplado = None
-@app.route("/qr_generate",
-methods= ["POST"])
-def qr_guardado():
-    global qr_acoplado
-    dt = request.json
-    qr_acoplado = dt["qr"]
-    return {"status": "QR guardado" }
-@app.route("/qr")
-def mostrar_qr():
-    if qr_acoplado:
-        return jsonify({"qr": qr_acoplado})
-    else:
-        return jsonify({"qr": "QR no generado"})
+###########################################################################
 ################################################################################
 #/CEREBRO DEL BOT:
 ######################################################################################
@@ -175,7 +161,7 @@ def descargar(nombre):
 methods=["POST"])
 def responde():
     td = request.json
-    msj = td["mensaje"]
+    msj = td.get["mensaje"]
     if detectar_url(msj):
             archivo = enviar_descarga(texto)
             if not archivo:

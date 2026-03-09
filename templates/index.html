@@ -50,21 +50,8 @@
 
 <div id="particles-js"></div>
     <button onclick="inicio()">INGRESAR AL CHATBOT</button>
-    <button onclick="mostrarQR()">Generar QR</button>
-
-<img id="qr" width="300">
     <script>
-           function mostrarQR() {
-               fetch("/qr")
-                   .then(res => res.json())
-                   .then(data => {
-                        if (data.qr) {
-             document.getElementById("qr").src=data.qr;
-               }else{
-                   alert("código no generado");}
-                   
-                  })
-           }
+           
            function inicio(){
                let msj=confirm("¿Quiere continuar?")
                if (msj==true) {
