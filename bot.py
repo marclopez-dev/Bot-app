@@ -3,8 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 #
-import subprocess
-#
 from urllib.parse import urlparse
 import yt_dlp
 #
@@ -68,7 +66,6 @@ def enviar_descarga(video):
 #Base de datos para "almacenar registros"
 ######################№###################
 app=Flask(__name__)
-subprocess.Popen(["node", "chat.js"])
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL" )
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
