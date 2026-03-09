@@ -46,7 +46,7 @@ async function startBot() {
       const from = m.message[0].key.remoteJid;
       if (mens) {
           try {
-               const res = await axios.post("coloca tu enlace", {
+               const res = await axios.post("https://bot-app-t2bk.onrender.com/mensaje", {
                    mensaje: mens,
                    from: from
                });
