@@ -42,15 +42,15 @@ async function startBot() {
     }
   });
   sock.ev.on("messages.upsert", async (m) => {
-      const mens = m.messages[0].mensaje?.conversación;
-      const from = m.message[0].key.remoteJid;
+      const mens = m.messages[0].message?.conversation || m.messages[0].message?.extendeTextMassage?.text;
+      const from = m.messages[0].key.remoteJid;
       if (mens) {
           try {
                const res = await axios.post("https://bot-app-t2bk.onrender.com/responder", {
                    mensaje: mens,
                    from: from
                });
-               await stock.sendMessage(from, {text: res.data.respuesta});
+               await sock.sendMessage(from, {text: res.data.respuesta});
           } catch (err) {
                 console.log(err.message);
           }
