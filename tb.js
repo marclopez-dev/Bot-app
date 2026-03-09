@@ -60,7 +60,7 @@ async function startBot() {
                });
                await sock.sendMessage(from, {text: res.data.respuesta});
                if (res.data.tipo === "archivo") {
-                   await sock.sendMessage(from, { text: "descarga: ", res.data.url});
+                   await sock.sendMessage(from, { text: `descarga: ${res.data.url}`});
                }
           } catch (err) {
                 console.log(err.message)
