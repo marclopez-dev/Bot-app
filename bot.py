@@ -158,7 +158,7 @@ def descargar(nombre):
 methods=["POST"])
 def responde():
     td = request.json
-    usuar = td.get("form")
+    usuar = td.get("from")
     msj = td.get("mensaje")
     if detectar_url(msj):
             archivo = enviar_descarga(msj)
