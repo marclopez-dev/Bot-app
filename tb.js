@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 apk.get("/", (req, res) => res.send("bot activado"));
 apk.listen(PORT, () => console.log(`servidor escuchando en ${PORT}`))
 let sock = null;
-
+let ChatId = false;
 async function startBot() {
   if (sock) {
       console.log("🥶el bot ya está iniciado🔪🧟")
@@ -52,19 +52,27 @@ async function startBot() {
       if (!msg || msg.key.fromMe) return;
       const from = msg.key.remoteJid;
       const mens = msg.message?.conversation || msg.message?.extendedTextMessage?.text;
-      if (mens) {
-          try {
-               const res = await axios.post("https://bot-app-t2bk.onrender.com/responder", {
+      const res = await axios.post("https://bot-app-t2bk.onrender.com/responder", {
                    mensaje: mens,
                    from: from
                });
-               await sock.sendMessage(from, {text: res.data.respuesta});
-               if (res.data.tipo === "archivo") {
-                   await sock.sendMessage(from, { text: res.data.respuesta});
-               }
+      if (res.data.tipo == "Archivo") {
+        await sock.sendMessage( from, { text: res.data.url })
+      }
+      if (mens.trip().toLowerCase()==="/of") {
+        ChatId = false;
+      }
+      if (mens.trip().toLowerCase()==="/go") {
+        ChatId = true;
+      }
+      if (ChatId) {
+          try {
+            await sock.sendMessage(from, {text: res.data.respuesta});
           } catch (err) {
                 console.log(err.message)
-          }
+        }
+      
+      
       }
 });
 } // <- cerrar la función startBot correctamente
