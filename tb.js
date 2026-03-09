@@ -12,6 +12,7 @@ apk.get("/", (req, res) => res.send("bot activado"));
 apk.listen(PORT, () => console.log(`servidor escuchando en ${PORT}`))
 let sock = null;
 let ChatId = false;
+const API_URL = "https://bot-app-t2bk.onrender.com/responder"
 async function startBot() {
   if (sock) {
       console.log("🥶el bot ya está iniciado🔪🧟")
@@ -52,20 +53,29 @@ async function startBot() {
       if (!msg || msg.key.fromMe) return;
       const from = msg.key.remoteJid;
       const mens = msg.message?.conversation || msg.message?.extendedTextMessage?.text;
-      const res = await axios.post("https://bot-app-t2bk.onrender.com/responder", {
+      
+      
+      if (mens.trim().toLowerCase()==="/of") {
+        ChatId = false;
+        await sock.sendMessage(from, {text: "desactivado"});
+      }
+      if (mens.trim().toLowerCase()==="/go") {
+        ChatId = true;
+        await sock.sendMessage(from, {text: "Ya activo"});
+      }
+      let res;
+      try {
+           res = await axios.post(API_URL, {
                    mensaje: mens,
                    from: from
                });
-      if (res.data.tipo == "Archivo") {
+          } catch (error) {
+                await sock.sendMessage(from, {text: "No se pudo conecar con la api"});
+          }
+      if (res.data.tipo === "Archivo") {
         await sock.sendMessage( from, { text: res.data.url })
       }
-      if (mens.trip().toLowerCase()==="/of") {
-        ChatId = false;
-      }
-      if (mens.trip().toLowerCase()==="/go") {
-        ChatId = true;
-      }
-      if (ChatId) {
+      if (ChatId && res.data.respuesta) {
           try {
             await sock.sendMessage(from, {text: res.data.respuesta});
           } catch (err) {
