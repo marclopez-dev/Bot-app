@@ -5,7 +5,7 @@ const qrcode = require("qrcode-terminal");
 const fs = require("fs");
 
 // Carpeta donde se guardará la sesión
-if (!fs.existsSync("./session")) fs.mkdirSync("./session");
+if (!fs.existsSync("./wh_session")) fs.mkdirSync("./wh_session");
 const apk = express();
 const PORT = process.env.PORT || 3000;
 apk.get("/", (req, res) => res.send("bot activado"));
@@ -13,7 +13,7 @@ apk.listen(PORT, () => console.log(`servidor escuchando en ${PORT}`))
 let sock;
 
 async function startBot() {
-  const { state, saveCreds } = await useMultiFileAuthState("./session");
+  const { state, saveCreds } = await useMultiFileAuthState("./wh_session");
 
   const { version } = await fetchLatestBaileysVersion().catch(() => ({ version: undefined }));
 
