@@ -174,6 +174,8 @@ def responde():
                     "url": f"/descargar/{archivo}"
                 }
             )
+    if "/status" == msj.strip().lower():
+        rsp = f"mensaje enviado: {msj}"
     rsp = responder(usuar, msj)
     jsonify({"respuesta": rsp})
 #########################################################################################################
