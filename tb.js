@@ -54,12 +54,12 @@ async function startBot() {
       const from = msg.key.remoteJid;
       const mens = msg.message?.conversation || msg.message?.extendedTextMessage?.text;
       if (!mens) return;
-      
-      if (mens.trim().toLowerCase()==="/of") {
+      const ltr = mens.trim().toLowerCase()
+      if (ltr ==="/of") {
         ChatId = false;
         await sock.sendMessage(from, {text: "desactivado"});
       }
-      if (mens.trim().toLowerCase()==="/go") {
+      if (ltr==="/go") {
         ChatId = true;
         await sock.sendMessage(from, {text: "Ya activo"});
       }
