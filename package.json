@@ -12,4 +12,8 @@
     "start": "node tb.js"
   },
   "type": "commonjs"
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> eefec34 (Subo tb.js y la sesión de WhatsApp)

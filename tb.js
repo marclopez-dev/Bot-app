@@ -1,17 +1,28 @@
 // tb.js
+<<<<<<< HEAD
 const axios = require("axios");
+=======
+>>>>>>> eefec34 (Subo tb.js y la sesión de WhatsApp)
 const { makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, Browsers, DisconnectReason } = require("@whiskeysockets/baileys");
 const qrcode = require("qrcode-terminal");
 const fs = require("fs");
 
 // Carpeta donde se guardará la sesión
+<<<<<<< HEAD
 if (!fs.existsSync("./session")) fs.mkdirSync("./session");
+=======
+if (!fs.existsSync("./wh_session")) fs.mkdirSync("./wh_session");
+>>>>>>> eefec34 (Subo tb.js y la sesión de WhatsApp)
 
 let sock;
 
 async function startBot() {
   // Autenticación de múltiples archivos
+<<<<<<< HEAD
   const { state, saveCreds } = await useMultiFileAuthState("./session");
+=======
+  const { state, saveCreds } = await useMultiFileAuthState("./wh_session");
+>>>>>>> eefec34 (Subo tb.js y la sesión de WhatsApp)
 
   // Última versión de WhatsApp
   const { version } = await fetchLatestBaileysVersion().catch(() => ({ version: undefined }));
@@ -47,6 +58,7 @@ async function startBot() {
       setTimeout(startBot, 900);
     }
   });
+<<<<<<< HEAD
  
 
 sock.ev.on("messages.upsert", async ({ messages }) => {
@@ -66,6 +78,8 @@ sock.ev.on("messages.upsert", async ({ messages }) => {
         console.log("Error al llamar Flask:", error.message);
     }
 });
+=======
+>>>>>>> eefec34 (Subo tb.js y la sesión de WhatsApp)
 } // <- cerrar la función startBot correctamente
 
 // Llamada inicial
@@ -75,8 +89,11 @@ startBot();
 
 
 
+<<<<<<< HEAD
 
 
 
 
 
+=======
+>>>>>>> eefec34 (Subo tb.js y la sesión de WhatsApp)
