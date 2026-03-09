@@ -13,7 +13,6 @@ apk.listen(PORT, () => console.log(`servidor escuchando en ${PORT}`))
 let sock;
 
 async function startBot() {
-  await new Promise(r => setTimeout(r, 5000))
   const { state, saveCreds } = await useMultiFileAuthState("./wh_session");
 
   const { version } = await fetchLatestBaileysVersion().catch(() => ({ version: undefined }));
@@ -36,20 +35,19 @@ async function startBot() {
 
     if (connection === "close") {
       const code = lastDisconnect?.error?.output?.statusCode;
-      setTimeout(startBot, 8000);
       if (code === DisconnectReason.loggedOut) {
         console.log("❌ Sesión cerrada. Borra la carpeta ./session para reiniciar.");
         return;
       }
       console.log("♻️ Reintentando conexión en 900ms...");
-            setTimeout(startBot, 5000);
+      setTimeout(startBot, 8000);
     }
   });
   sock.ev.on("messages.upsert", async ( {messages} ) => {  
-      const msg = m.messages[0];
+      const msg = messages.messages[0];
       if (!msg || msg.key.fromMe) return;
-      cons from = msg.key.remoteJid;
-      const mens = m.messages[0].message?.conversation || m.messages[0].message?.extendedTextMessage?.text;
+      const from = msg.key.remoteJid;
+      const mens = messages.messages[0].message?.conversation || messages.messages[0].message?.extendedTextMessage?.text;
       if (mens) {
           try {
                const res = await axios.post("https://bot-app-t2bk.onrender.com/responder", {
