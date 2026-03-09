@@ -53,7 +53,7 @@ async function startBot() {
       if (!msg || msg.key.fromMe) return;
       const from = msg.key.remoteJid;
       const mens = msg.message?.conversation || msg.message?.extendedTextMessage?.text;
-      
+      if (!mens) return;
       
       if (mens.trim().toLowerCase()==="/of") {
         ChatId = false;
