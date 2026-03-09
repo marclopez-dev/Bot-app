@@ -31,6 +31,7 @@ def responder(usuar, pregunta):
                         "Habla de forma relajada y fluida. "
                         "Responde como en una conversación normal entre personas. "
                         "Puedes hacer preguntas cortas para continuar la charla."
+                        "No uses mucho texto si no es necesario."
                 }
             ]
             + historial +
@@ -176,7 +177,7 @@ def responde():
         else:
             return jsonify({
                 "tipo": "archivo",
-                "respuesta": f"Fué difícil: {archivo}"
+                "url": f"Fué difícil: {archivo}"
             })
     if "/status" == msj.strip().lower():
         rsp = f"🥶🙏ten paciencia: {usuar}"
