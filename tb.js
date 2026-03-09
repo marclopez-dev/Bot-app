@@ -1,4 +1,5 @@
-// tb.js
+
+const axios = require("axios")
 const { makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, Browsers, DisconnectReason } = require("@whiskeysockets/baileys");
 const qrcode = require("qrcode-terminal");
 const fs = require("fs");
@@ -9,13 +10,10 @@ if (!fs.existsSync("./session")) fs.mkdirSync("./session");
 let sock;
 
 async function startBot() {
-  // Autenticación de múltiples archivos
   const { state, saveCreds } = await useMultiFileAuthState("./session");
 
-  // Última versión de WhatsApp
   const { version } = await fetchLatestBaileysVersion().catch(() => ({ version: undefined }));
 
-  // Inicializa el socket
   sock = makeWASocket({
     auth: state,
     version,
@@ -23,15 +21,12 @@ async function startBot() {
     printQRInTerminal: false // true si quieres ver QR directamente
   });
 
-  // Guardar credenciales automáticamente
   sock.ev.on("creds.update", saveCreds);
 
-  // Evento de conexión
   sock.ev.on("connection.update", ({ connection, qr, lastDisconnect }) => {
     if (qr) {
       console.log("\n📲 Escanea este QR en WhatsApp:");
-      qrcode.generate(qr, { small: true }); // QR en terminal
-      // También podrías enviar este QR a tu servidor Flask si quieres
+      qrcode.generate(qr, { small: true });
     }
 
     if (connection === "open") console.log("🚀 BOT CONECTADO");
@@ -46,6 +41,21 @@ async function startBot() {
       setTimeout(startBot, 900);
     }
   });
+  sock.ev.on("messages.upsert", async (m) => {
+      const mens = m.messages[0].mensaje?.conversación;
+      const from = m.message[0].key.remoteJid;
+      if (mens) {
+          try {
+               const res = await adiós.post("coloca tu enlace", {
+                   mensaje: mens,
+                   from: from
+               });
+               await stock.sendMessage(from, {text: res.data.respuesta});
+          } catch (err) {
+                console.log(err.message);
+          }
+      }
+});
 } // <- cerrar la función startBot correctamente
 
 // Llamada inicial
