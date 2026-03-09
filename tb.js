@@ -31,17 +31,18 @@ async function startBot() {
       console.log("\n📲 Escanea este QR en WhatsApp:");
       qrcode.generate(qr, { small: true });
     }
-
+    await new Promise(r => setTimeout(r, 5000))
     if (connection === "open") console.log("🚀 BOT CONECTADO");
 
     if (connection === "close") {
       const code = lastDisconnect?.error?.output?.statusCode;
+      setTimeout(startBot, 8000);
       if (code === DisconnectReason.loggedOut) {
         console.log("❌ Sesión cerrada. Borra la carpeta ./session para reiniciar.");
         return;
       }
       console.log("♻️ Reintentando conexión en 900ms...");
-      setTimeout(startBot, 5000);
+            setTimeout(startBot, 5000);
     }
   });
   sock.ev.on("messages.upsert", async (m) => {  
