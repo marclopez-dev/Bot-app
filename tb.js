@@ -1,4 +1,4 @@
-
+const express = require("express")
 const axios = require("axios")
 const { makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, Browsers, DisconnectReason } = require("@whiskeysockets/baileys");
 const qrcode = require("qrcode-terminal");
@@ -6,7 +6,10 @@ const fs = require("fs");
 
 // Carpeta donde se guardará la sesión
 if (!fs.existsSync("./session")) fs.mkdirSync("./session");
-
+const apk = express();
+const PORT = process.env.PORT || 3000;
+apk.get("/", (req, res) => res.send("bot activado"));
+apk.listen(PORT, () => console.log(`servidor escuchando en ${PORT}`))
 let sock;
 
 async function startBot() {
