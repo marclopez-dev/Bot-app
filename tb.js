@@ -44,9 +44,12 @@ async function startBot() {
       setTimeout(startBot, 5000);
     }
   });
-  sock.ev.on("messages.upsert", async (m) => {
+  sock.ev.on("messages.upsert", async (m) => {  
+      const msg = m.messages[0];
+      if (!msg.message)
+      if (msg.key.fromMe) return;
       const mens = m.messages[0].message?.conversation || m.messages[0].message?.extendedTextMessage?.text;
-      const from = m.messages[0].key.remoteJid;
+      const from = msg.key.remoteJid;
       if (mens) {
           try {
                const res = await axios.post("https://bot-app-t2bk.onrender.com/responder", {
