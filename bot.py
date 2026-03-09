@@ -164,7 +164,6 @@ def responde():
             archivo = enviar_descarga(msj)
             if not archivo:
                 return jsonify({
-                    "tipo": "texto",
                     "respuesta": "error al encontrar el archivo"})
             return jsonify(
                 {
@@ -173,7 +172,7 @@ def responde():
                 }
             )
     if "/status" == msj.strip().lower():
-        rsp = "🥶🙏ten paciencia"
+        rsp = f"🥶🙏ten paciencia: {usuar}"
     else:
         rsp = responder(usuar, msj)
     return jsonify({"respuesta": rsp})
