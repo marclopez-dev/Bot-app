@@ -12,7 +12,6 @@ apk.get("/", (req, res) => res.send("bot activado"));
 apk.listen(PORT, () => console.log(`servidor escuchando en ${PORT}`))
 let sock = null;
 let ChatId = false;
-const API_URL = "https://bot-app-t2bk.onrender.com/responder"
 async function startBot() {
   if (sock) {
       console.log("🥶el bot ya está iniciado🔪🧟")
@@ -63,9 +62,8 @@ async function startBot() {
         ChatId = true;
         await sock.sendMessage(from, {text: "Ya activo"});
       }
-      let res;
       try {
-           res = await axios.post(API_URL, {
+           const res = await axios.post("https://bot-app-t2bk.onrender.com/responder", {
                    mensaje: mens,
                    from: from
                });
