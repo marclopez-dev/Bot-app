@@ -107,7 +107,7 @@ async function startBot() {
            if (res && res.data.tipe === "ra") {
                await sock.sendMessage(from, {
                    text: "🧟⛰️",
-                   audio: {rpm: res.data.rpm},
+                   audio: {url: res.data.rpm},
                    mimetype: "audio/mpeg"
                });
            }
