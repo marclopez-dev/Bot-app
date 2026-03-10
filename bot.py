@@ -217,10 +217,10 @@ def responde():
         rsp = f"el audio está siendo enviado {usuar}"
         slowed = send_mp3(musica)
         if slowed:
-            return jesonify(
+            return jsonify(
                 {
                 "tipe": "ra",
-                "rpm": f"https://bot-app-t2bk.onrender.com/download/{archivo}" 
+                "rpm": f"https://bot-app-t2bk.onrender.com/download/{slowed}" 
                 }
             )
         else:
