@@ -64,8 +64,9 @@ async function startBot() {
         ChatId = true;
         await sock.sendMessage(from, {text: "Ya activo"});
       }
+      let res;
       try {
-           const res = await axios.post("https://bot-app-t2bk.onrender.com/responder", {
+           res = await axios.post("https://bot-app-t2bk.onrender.com/responder", {
                    mensaje: mens,
                    from: from
                });
