@@ -157,19 +157,24 @@ def descargar(nombre):
 # audio MP3🧟
 #########################################
 def send_mp3(p3):
-    arch = {
-        "outtmpl": "descargas/%(id)s.%(ext)s",
-        "format": "bestaudio/best",
-        "postprocessors": [{
-             "key": "FFmpegExtractAudio",
-             "preferredcodec":"mp3",
-             "preferredquality": "192"
-         }]
-    }
-    with yt_dlp.YoutubeDL(arch) as yt:
-        title = yt.extract_info(f"ytsearch1:{p3}", download=True)
-        yoi = title['entries'][0]
-    return f"{yoi['id']}.mp3"
+    try:
+        arch = {
+            "outtmpl": "descargas/%(id)s.%(ext)s",
+            "format": "bestaudio/best",
+            "postprocessors": [{
+                 "key": "FFmpegExtractAudio",
+                 "preferredcodec":"mp3",
+                 "preferredquality": "192"
+             }]
+        }
+        with yt_dlp.YoutubeDL(arch) as yt:
+            title = yt.extract_info(f"ytsearch1:{p3}", download=True)
+            if not title.get("entries"):
+                return none
+            yoi = title['entries'][0]
+        return f"{yoi['id']}.mp3"
+    except Exception as t:
+        return str(t)
 @app.route("/download/<apod>")
 def descragar_audio(apod):
     return send_from_directory("descargas", apod, as_attachment=True)
@@ -215,6 +220,8 @@ def responde():
             rsp = "Archivo no encontrado" 
     elif tipo == "mp3":
         rsp = f"el audio está siendo enviado {usuar}"
+        if not musica:
+            return jsonify({"respuesta":"Por favor indica el nombre de la música"})
         slowed = send_mp3(musica)
         if slowed:
             return jsonify(
@@ -224,7 +231,7 @@ def responde():
                 }
             )
         else:
-            rsp = f"Audio no enviado a: {usuar}"
+            return jsonify({"respuesta": f"Audio no enviado a: {usuar}"})
 
     elif msj.strip().lower() == "/status" :
         rsp = f"🥶🙏ten paciencia: {usuar}"
