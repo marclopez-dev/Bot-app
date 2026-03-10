@@ -67,19 +67,16 @@ async function startBot() {
                    mensaje: mens,
                    from: from
                });
-          } catch (error) {
-                await sock.sendMessage(from, {text: "No se pudo conecar con la api"});
-          }
-      if (res.data.tipo === "Archivo") {
+           if (res.data.tipo === "Archivo") {
         await sock.sendMessage( from, { text: res.data.url })
-      }
-      if (ChatId && res.data.respuesta) {
-          try {
-            await sock.sendMessage(from, {text: res.data.respuesta});
-          } catch (err) {
+           }
+           if (ChatId && res.data.respuesta) {
+             await sock.sendMessage(from, {text: res.data.respuesta});
+           }
+      } catch (err) {
                 console.log(err.message)
-        }
-      
+      }
+        
       
       }
 });
