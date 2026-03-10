@@ -167,7 +167,7 @@ def send_mp3(p3):
          }]
      }
      with yt_dlp.YoutubeDL(arch) as yt:
-         title = yt.extract_info(f"ytsearch1:{p3}" , download=True)
+         title = yt.extract_info(f"ytsearch1:{p3}", download=True)
          yoi = title['entries'][0]
      return f"{yoi['id']}.mp3"
 @app.route("/download/<apod>")
