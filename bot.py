@@ -156,7 +156,7 @@ def descargar(nombre):
 ##################################################################################
 #############################################################################################
 def link_verification(link):
-    elc = ulparse(link)
+    elc = urlparse(link)
     return all([elc.scheme, elc.netloc])
 def send_vidio(dvd):
     date = {}
