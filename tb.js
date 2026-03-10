@@ -74,15 +74,18 @@ async function startBot() {
             await sock.sendMessage(from, {text: `error en la petición: ${err.message}`});
        }
 
-
-       if (res && res.data.tipo === "archivo") {
+       try {
+           if (res && res.data.tipo === "archivo") {
                await sock.sendMessage( from, { text: res.data.url });
            }
+       } catch (e) {
+           await sock.sendMessage(from, {text: `error encontrado en ${e}`});
+       } 
        try {
             if (ChatId) {
              await sock.sendMessage(from, {text: res.data.respuesta});
            }
-      } catch (err) {
+      } catch (error) {
                 await sock.sendMessage(from, {text:"El chat no estaba activado"});
       }
         
