@@ -170,11 +170,11 @@ def send_mp3(p3):
         with yt_dlp.YoutubeDL(arch) as yt:
             title = yt.extract_info(f"ytsearch1:{p3}", download=True)
             if not title.get("entries"):
-                return none
+                return None 
             yoi = title['entries'][0]
         return f"{yoi['id']}.mp3"
     except Exception as t:
-        return str(t)
+        return None
 @app.route("/download/<apod>")
 def descragar_audio(apod):
     return send_from_directory("descargas", apod, as_attachment=True)
