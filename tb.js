@@ -25,8 +25,7 @@ async function startBot() {
     version,
     browser: Browsers.macOS("Desktop"),
     printQRInTerminal: false,
-    syncFullHistory: false,
-    markOnlineOnConnect: true // true si quieres ver QR directamente
+    syncFullHistory: false // true si quieres ver QR directamente
   });
 
   sock.ev.on("creds.update", saveCreds);
