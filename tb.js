@@ -54,7 +54,7 @@ async function startBot() {
       if (!msg || msg.key.fromMe) return;
       const from = msg.key.remoteJid;
       const mens = msg.message?.conversation || msg.message?.extendedTextMessage?.text;
-      if (!mens) continue;
+      if (!mens) return;
       const ltr = mens.trim().toLowerCase()
       if (ltr ==="/of") {
         ChatId = false;
@@ -76,7 +76,7 @@ async function startBot() {
              await sock.sendMessage(from, {text: res.data.respuesta});
            }
       } catch (err) {
-                console.log(err.message)
+                await sock.sendMessage(from, {text: err.message})
       }
         
       
