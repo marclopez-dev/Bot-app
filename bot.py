@@ -159,7 +159,9 @@ def link_verification(link):
     elc = urlparse(link)
     return all([elc.scheme, elc.netloc])
 def send_vidio(dvd):
-    date = {}
+    date = {
+        "outtmpl": "descargas/%(title)s.%(ext)s"
+    }
     with yt_dlp.YoutubeDL(date) as ylt:
         nombre = ylt.extract_info(dvd, download=True)
         name_file = ylt.prepare_filename(nombre)
