@@ -69,14 +69,20 @@ async function startBot() {
                    mensaje: mens,
                    from: from
                });
-           if (res.data.tipo === "archivo") {
-               await sock.sendMessage( from, { text: res.data.url })
+       } catch (err) {
+            await sock.sendMessage(from, {text: err.message});
+       }
+
+
+       if (res.data.tipo === "archivo") {
+               await sock.sendMessage( from, { text: res.data.url });
            }
-           if (ChatId && res.data.respuesta) {
+      try {
+        if (ChatId && res.data.respuesta) {
              await sock.sendMessage(from, {text: res.data.respuesta});
            }
       } catch (err) {
-                await sock.sendMessage(from, {text: err.message})
+                await sock.sendMessage(from, {text: err.message});
       }
         
       
