@@ -159,13 +159,21 @@ def descargar(nombre):
 def send_mp3(p3):
     try:
         arch = {
-            "outtmpl": "descargas/%(id)s.%(ext)s",
             "format": "bestaudio/best",
+            "outtmpl": "descargas/%(id)s.%(ext)s",
+            "http_headers": {
+                "User-Agent": "Mozilla/5.0"
+            },
+            "extractor_args": {
+                "youtube": {
+                    "player_client": ["android"]
+                }
+            },
             "postprocessors": [{
-                 "key": "FFmpegExtractAudio",
-                 "preferredcodec":"mp3",
-                 "preferredquality": "192"
-             }]
+                "key": "FFmpegExtractAudio",
+                "preferredcodec": "mp3",
+                "preferredquality": "192"
+            }]
         }
         with yt_dlp.YoutubeDL(arch) as yt:
             title = yt.extract_info(f"ytsearch1:{p3}", download=True)
