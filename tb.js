@@ -76,7 +76,10 @@ async function startBot() {
 
        try {
            if (res && res.data.tipo === "archivo") {
-               await sock.sendMessage( from, { text: res.data.url });
+               await sock.sendMessage( from, { 
+                   video: { url: res.data.url },
+                   caption: "aquí tienes el video ⛰️"
+               });
            }
        } catch (e) {
            await sock.sendMessage(from, {text: `error encontrado en ${e}`});
