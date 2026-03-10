@@ -57,10 +57,12 @@ async function startBot() {
       const mens = msg.message?.conversation || msg.message?.extendedTextMessage?.text;
       if (!mens) return;
       let music;
+      let ponte;
       const name = mens.trim()
       const ltr = mens.trim().toLowerCase()
       if (name.toLowerCase().startsWith("/mp3")) {
          music = name.slice(5).trim()
+         ponte = "mp3"
       }
 
       if (ltr ==="/of") {
@@ -74,12 +76,11 @@ async function startBot() {
         await sock.sendMessage(from, {text: "Ya activo"});
       }
 
-
       let res;
       try {
            res = await axios.post("https://bot-app-t2bk.onrender.com/responder", {
                    mesaj: music,
-                   tipo: "mp3",
+                   tipo: ponte,
                    mensaje: mens,
                    from: from
                });
@@ -105,6 +106,7 @@ async function startBot() {
 
        try {
            if (res && res.data.tipe === "ra") {
+               await sock.sendMessage(from, {text: res.data.rpt})
                await sock.sendMessage(from, {
                    audio: {url: res.data.rpm},
                    mimetype: "audio/mpeg"
