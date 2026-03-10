@@ -164,6 +164,9 @@ def send_vidio(dvd):
         nombre = ylt.extract_info(dvd, download=True)
         name_file = ylt.prepare_filename(nombre)
         return os.path.basename(name_file)
+@app.route("/down/<nm>")
+def nmv(nm):
+    return send_from_directory("descargas", nm, as_attachment=True)
 @app.route("/responder",
 methods=["POST"])
 def responde():
@@ -176,7 +179,7 @@ def responde():
         if archivo:
             return jsonify({
                 "tipo": "archivo",
-                "url": f"Fué difícil: {archivo}"
+                "url": f"Fué difícil: /down/{archivo}"
             })
         else:
             rsp = "Archivo no encontrado" 
