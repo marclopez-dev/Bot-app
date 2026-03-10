@@ -47,12 +47,14 @@ async function startBot() {
       setTimeout(startBot, 8000);
     }
   });
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   sock.ev.on("messages.upsert", async ( { messages } ) => {  
       const msg = messages[0];
       if (!msg || msg.key.fromMe) return;
       const from = msg.key.remoteJid;
       const mens = msg.message?.conversation || msg.message?.extendedTextMessage?.text;
-      if (!mens) return;
+      if (!mens) continue;
       const ltr = mens.trim().toLowerCase()
       if (ltr ==="/of") {
         ChatId = false;
