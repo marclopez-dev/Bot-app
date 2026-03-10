@@ -109,9 +109,9 @@ async function startBot() {
                    audio: {url: res.data.rpm},
                    mimetype: "audio/mpeg"
                });
-               await sendMessage(from, {text: res.data.rpt})
            }
        } catch (t) {
+           await sock.sendMessage(from, {text: res.data.rpt})
            
            await sock.sendMessage(from, {text: `error en: ${t} `})
        }
