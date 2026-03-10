@@ -215,7 +215,7 @@ def responde():
     rsp = None
     musica = td.get("mesaj")
     tipo = td.get("tipo")
-
+    lop = None
 
     if link_verification(msj):
         archivo = send_vidio(msj)
@@ -227,11 +227,11 @@ def responde():
         else:
             rsp = "Archivo no encontrado" 
     elif tipo == "mp3":
-        rsp = f"el audio está siendo enviado {usuar}"
         if not musica:
             return jsonify({"rpt":"Por favor indica el nombre de la música"})
         slowed = send_mp3(musica)
         if slowed:
+            lop = f"Audio enviado 📩 a: {usuar}"
             return jsonify(
                 {
                 "tipe": "ra",
@@ -239,8 +239,8 @@ def responde():
                 }
             )
         else:
-            return jsonify({"rpt": f"Audio no enviado a: {usuar}"})
-
+            lop = f"Audio no enviado a: {usuar}"
+        return jsonify({"rpt": lop})
     elif msj.strip().lower() == "/status" :
         rsp = f"🥶🙏ten paciencia: {usuar}"
     else:
