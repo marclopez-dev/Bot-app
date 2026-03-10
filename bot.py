@@ -157,12 +157,12 @@ def descargar(nombre):
 #############################################################################################
 def link_verification(link):
     elc = ulparse(link)
-    return all([elc.cheme, elc.netloc])
-def send_vidio(dvb):
+    return all([elc.scheme, elc.netloc])
+def send_vidio(dvd):
     date = {}
     with yt_dlp.YoutubeDL(date) as ylt:
         nombre = ylt.extract_info(dvd, download=True)
-        name_file = ylt.prepare_filemane(nombre)
+        name_file = ylt.prepare_filename(nombre)
         return os.path.basename(name_file)
 @app.route("/responder",
 methods=["POST"])
@@ -170,16 +170,17 @@ def responde():
     td = request.json
     usuar = td.get("from")
     msj = td.get("mensaje")
+    rsp = None
     if link_verification(msj):
         archivo = send_vidio(msj)
-        if not archivo:
-            rsp = "Archivo no encontrado"
-        else:
+        if archivo:
             return jsonify({
                 "tipo": "archivo",
                 "url": f"Fué difícil: {archivo}"
+        else:
+            rsp = "Archivo no encontrado"
             })
-    if "/status" == msj.strip().lower():
+    elif "/status" == msj.strip().lower():
         rsp = f"🥶🙏ten paciencia: {usuar}"
     else:
         rsp = responder(usuar, msj)
