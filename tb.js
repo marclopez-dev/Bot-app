@@ -77,7 +77,7 @@ async function startBot() {
 
       let res;
       try {
-           res = await axios.post(" https://bot-app-t2bk.onrender.com/responder", {
+           res = await axios.post("https://bot-app-t2bk.onrender.com/responder", {
                    mesaj: music,
                    tipo: "mp3",
                    mensaje: mens,
