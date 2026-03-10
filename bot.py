@@ -228,7 +228,7 @@ def responde():
             rsp = "Archivo no encontrado" 
     elif tipo == "mp3":
         if not musica:
-            return jsonify({"rpt":"Por favor indica el nombre de la música"})
+            lop = "Por favor indica el nombre de la música"})
         slowed = send_mp3(musica)
         if slowed:
             lop = f"Audio enviado 📩 a: {usuar}"
