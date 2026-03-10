@@ -153,7 +153,25 @@ def descargar(nombre):
     return send_from_directory("descargas", nombre, as_attachment=True)
 
 #########################################################################
-##################################################################################
+#########################################
+# audio MP3🧟
+#########################################
+def send_mp3(p3):
+    arch = {
+        "outtmpl": "descargas/%(id)s.%(ext)s",
+        "format": "bestaudio/best",
+        "postprocessors": [{
+             "key": "FFmpegExtractAudio",
+             "preferredcodec":"mp3",
+             "preferredquality": "192"
+         }]
+     }
+     with yt_dlp.YoutubeDL(arch) as yt:
+         title = yt.extract_info(f"ytsearch1:{p3}" , download=True)['entries'][0]
+     return f"{title["id"]}.mp3"
+@app.route("/download/<apod>")
+def descragar_audio(apod):
+    return send_from_directory("descargas", apod, as_attachment=True)
 #############################################################################################
 def link_verification(link):
     elc = urlparse(link)
@@ -172,6 +190,8 @@ def send_vidio(dvd):
 @app.route("/down/<nm>")
 def nmv(nm):
     return send_from_directory("descargas", nm, as_attachment=True)
+########################
+########################
 @app.route("/responder",
 methods=["POST"])
 def responde():
