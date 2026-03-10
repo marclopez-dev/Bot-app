@@ -55,24 +55,39 @@ async function startBot() {
       const from = msg.key.remoteJid;
       const mens = msg.message?.conversation || msg.message?.extendedTextMessage?.text;
       if (!mens) return;
+      let music;
+      const name = mens.strim()
       const ltr = mens.trim().toLowerCase()
+      if (name.toLowerCase().startsWith("/mp3")) {
+         music = msj.strim().slice(5)
+      }
+
       if (ltr ==="/of") {
         ChatId = false;
         await sock.sendMessage(from, {text: "desactivado"});
       }
+
+
       if (ltr==="/go") {
         ChatId = true;
         await sock.sendMessage(from, {text: "Ya activo"});
       }
+
+
       let res;
       try {
            res = await axios.post(" https://bot-app-t2bk.onrender.com/responder", {
+                   mesaj: music,
+                   tipo: "mp3",
                    mensaje: mens,
                    from: from
                });
        } catch (err) {
             await sock.sendMessage(from, {text: `error en la petición: ${err.message}`});
        }
+
+
+
 
        try {
            if (res && res.data.tipo === "archivo") {
@@ -84,6 +99,15 @@ async function startBot() {
        } catch (e) {
            await sock.sendMessage(from, {text: `error encontrado en ${e}`});
        } 
+
+
+
+       try {
+           if ()}
+
+
+
+
        try {
             if (ChatId) {
              await sock.sendMessage(from, {text: res.data.respuesta});
