@@ -221,7 +221,7 @@ def responde():
     elif tipo == "mp3":
         rsp = f"el audio está siendo enviado {usuar}"
         if not musica:
-            return jsonify({"respuesta":"Por favor indica el nombre de la música"})
+            return jsonify({"rpt":"Por favor indica el nombre de la música"})
         slowed = send_mp3(musica)
         if slowed:
             return jsonify(
@@ -231,7 +231,7 @@ def responde():
                 }
             )
         else:
-            return jsonify({"respuesta": f"Audio no enviado a: {usuar}"})
+            return jsonify({"rpt": f"Audio no enviado a: {usuar}"})
 
     elif msj.strip().lower() == "/status" :
         rsp = f"🥶🙏ten paciencia: {usuar}"
