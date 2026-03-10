@@ -75,7 +75,7 @@ async function startBot() {
        }
 
 
-       if (res.data.tipo === "archivo") {
+       if (res && res.data.tipo === "archivo") {
                await sock.sendMessage( from, { text: res.data.url });
            }
       try {
