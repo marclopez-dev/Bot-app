@@ -78,7 +78,7 @@ async function startBot() {
       }
         
       
-      }
+      
 });
 } // <- cerrar la función startBot correctamente
 
