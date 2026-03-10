@@ -104,7 +104,7 @@ async function startBot() {
 
        try {
            if (res && res.data.tipe = "ra") {
-               await sock.sendMessage(from, {text: res.data.3pm});
+               await sock.sendMessage(from, {text: res.data.rpm});
            }
 
        } catch (t) {
