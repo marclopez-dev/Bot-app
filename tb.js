@@ -126,7 +126,7 @@ async function startBot() {
              await sock.sendMessage(from, {text: res.data.respuesta});
            }
       } catch (error) {
-                await sock.sendMessage(from, {text:"El chat no estaba activado"});
+                await sock.sendMessage(from, {text:`El chat no estaba activado----->[€¥¥]: ${error}`});
       }
         
       
