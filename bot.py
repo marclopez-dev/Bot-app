@@ -160,7 +160,10 @@ def link_verification(link):
     return all([elc.scheme, elc.netloc])
 def send_vidio(dvd):
     date = {
-        "outtmpl": "descargas/%(title)s.%(ext)s"
+    "format": "bestvideo+bestaudio/best",
+    "outtmpl": "descargas/%(id)s.%(ext)s",
+    "merge_output_format": "mp4",
+    "quiet": True
     }
     with yt_dlp.YoutubeDL(date) as ylt:
         nombre = ylt.extract_info(dvd, download=True)
