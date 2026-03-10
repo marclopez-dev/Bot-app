@@ -177,9 +177,9 @@ def responde():
             return jsonify({
                 "tipo": "archivo",
                 "url": f"Fué difícil: {archivo}"
-        else:
-            rsp = "Archivo no encontrado"
             })
+        else:
+            rsp = "Archivo no encontrado" 
     elif "/status" == msj.strip().lower():
         rsp = f"🥶🙏ten paciencia: {usuar}"
     else:
