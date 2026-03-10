@@ -56,10 +56,10 @@ async function startBot() {
       const mens = msg.message?.conversation || msg.message?.extendedTextMessage?.text;
       if (!mens) return;
       let music;
-      const name = mens.strim()
+      const name = mens.trim()
       const ltr = mens.trim().toLowerCase()
       if (name.toLowerCase().startsWith("/mp3")) {
-         music = msj.trim().slice(5)
+         music = name.trim().slice(5)
       }
 
       if (ltr ==="/of") {
@@ -104,7 +104,11 @@ async function startBot() {
 
        try {
            if (res && res.data.tipe === "ra") {
-               await sock.sendMessage(from, {text: res.data.rpm});
+               await sock.sendMessage(from, {
+                   text: "🧟⛰️",
+                   audio: {rpm: res.data.rpm},
+                   mimetype: "audio/mpeg"
+               });
            }
 
        } catch (t) {
