@@ -70,7 +70,7 @@ async function startBot() {
                    from: from
                });
            if (res.data.tipo === "Archivo") {
-        await sock.sendMessage( from, { text: res.data.url })
+               await sock.sendMessage( from, { text: res.data.url })
            }
            if (ChatId && res.data.respuesta) {
              await sock.sendMessage(from, {text: res.data.respuesta});
