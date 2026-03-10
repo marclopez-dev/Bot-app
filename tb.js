@@ -56,13 +56,16 @@ async function startBot() {
       const from = msg.key.remoteJid;
       const mens = msg.message?.conversation || msg.message?.extendedTextMessage?.text;
       if (!mens) return;
+      const name = mens.trim()
       let music;
       let ponte;
-      const name = mens.trim()
       const ltr = mens.trim().toLowerCase()
       if (name.toLowerCase().startsWith("/mp3")) {
-         music = name.slice(5).trim()
-         ponte = "mp3"
+         let partes = name.split(" ")
+         
+         music = partes.slice(1).join(" ")
+         if (music)
+         ponte = "mp3";
       }
 
       if (ltr ==="/of") {
@@ -79,7 +82,7 @@ async function startBot() {
       let res;
       try {
            res = await axios.post("https://bot-app-t2bk.onrender.com/responder", {
-                   mesaj: music,
+                   olla: music,
                    tipo: ponte,
                    mensaje: mens,
                    from: from
