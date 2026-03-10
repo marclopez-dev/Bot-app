@@ -179,7 +179,7 @@ def responde():
         if archivo:
             return jsonify({
                 "tipo": "archivo",
-                "url": f"Fué difícil: /down/{archivo}"
+                "url": f"https://bot-app-t2bk.onrender.com/down/{archivo}"
             })
         else:
             rsp = "Archivo no encontrado" 
