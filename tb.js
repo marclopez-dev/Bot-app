@@ -59,7 +59,7 @@ async function startBot() {
       const name = mens.strim()
       const ltr = mens.trim().toLowerCase()
       if (name.toLowerCase().startsWith("/mp3")) {
-         music = msj.strim().slice(5)
+         music = msj.trim().slice(5)
       }
 
       if (ltr ==="/of") {
