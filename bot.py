@@ -226,7 +226,7 @@ def responde():
         else:
             rsp = f"Audio no enviado a: {usuar}"
 
-    elif "/status" == msj.strip().lower():
+    elif msj.strip().lower() == "/status" :
         rsp = f"🥶🙏ten paciencia: {usuar}"
     else:
         rsp = responder(usuar, msj)
