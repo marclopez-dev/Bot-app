@@ -199,6 +199,10 @@ def responde():
     usuar = td.get("from")
     msj = td.get("mensaje")
     rsp = None
+    musica = td.get("mesaj")
+    tipo = td.get("tipo")
+
+
     if link_verification(msj):
         archivo = send_vidio(msj)
         if archivo:
@@ -208,6 +212,19 @@ def responde():
             })
         else:
             rsp = "Archivo no encontrado" 
+    elif tipo == "mp3":
+        rsp = f"el audio está siendo enviado {usuar}"
+        slowed = send_mp3(musica)
+        if slowed:
+            return jesonify(
+                {
+                "tipe": "ra",
+                "3pm": f"https://bot-app-t2bk.onrender.com/download/{archivo}" 
+                }
+            )
+        else:
+            rsp = f"Audio no enviado a: {usuar}"
+
     elif "/status" == msj.strip().lower():
         rsp = f"🥶🙏ten paciencia: {usuar}"
     else:
