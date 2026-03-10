@@ -85,14 +85,14 @@ async function startBot() {
                    from: from
                });
        } catch (err) {
-            await sock.sendMessage(from, {text: `error en la petición: ${err.message}`});
+            await sock.sendMessage(from, {text: `error en la petición: ${err}`});
        }
 
 
 
 
        try {
-           if (res && res.data.tipo === "archivo") {
+           if (res?.data?.tipo === "archivo") {
                await sock.sendMessage( from, { 
                    video: { url: res.data.url },
                    caption: "aquí tienes el video ⛰️"
@@ -104,25 +104,28 @@ async function startBot() {
 
 
 
-       try {
-           if (res && res.data.tipe === "ra") {
-               await sock.sendMessage(from, {text: res.data.rpt})
-               await sock.sendMessage(from, {
-                   audio: {url: res.data.rpm},
-                   mimetype: "audio/mpeg"
-               });
-           }
-       } catch (t) {
-           await sock.sendMessage(from, {text: res.data.rpt})
-           
-           await sock.sendMessage(from, {text: `error en: ${t} `})
-       }
+           if (res?.data?.tipe === "ra") {
+               if (res.data.rpm) {
+                   try {
+                       await sock.sendMessage(from, {
+                           audio: {url: res.data.rpm},
+                           mimetype: "audio/mpeg"
+                       });
+                    } catch (k) {
+                       await sock.sendMessage(from, {text: `error ocurrido en 🥶🥶🥶🥶🥶🫂#-#-##-#-#-#-//: ${k}`});
+                    }
+               }
+               if (res.data.rpt) {
+                   await sock.sendMessage(from, {text: res.data.rpt});
+               }
+
+          }
 
 
 
 
        try {
-            if (ChatId) {
+            if (res?.data?.respuesta && ChatId) {
              await sock.sendMessage(from, {text: res.data.respuesta});
            }
       } catch (error) {
