@@ -219,7 +219,7 @@ def responde():
             return jesonify(
                 {
                 "tipe": "ra",
-                "3pm": f"https://bot-app-t2bk.onrender.com/download/{archivo}" 
+                "rpm": f"https://bot-app-t2bk.onrender.com/download/{archivo}" 
                 }
             )
         else:
