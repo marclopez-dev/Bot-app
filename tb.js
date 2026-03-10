@@ -109,7 +109,7 @@ async function startBot() {
                    audio: {url: res.data.rpm},
                    mimetype: "audio/mpeg"
                });
-               await sendMessage(from, {text: res.data.rp})
+               await sendMessage(from, {text: res.data.rpt})
            }
        } catch (t) {
            
