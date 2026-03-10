@@ -213,9 +213,6 @@ def responde():
     usuar = td.get("from")
     msj = td.get("mensaje")
     rsp = None
-    musica = td.get("mesaj")
-    tipo = td.get("tipo")
-    lop = None
 
     if link_verification(msj):
         archivo = send_vidio(msj)
@@ -226,27 +223,30 @@ def responde():
             })
         else:
             rsp = "Archivo no encontrado" 
-    elif tipo == "mp3":
-        if not musica:
-            return jsonify({"rpt":"Por favor indica el nombre de la música"})
-        slowed = send_mp3(musica)
-        if slowed:
-            lop = f"Audio enviado 📩 a: {usuar}"
-            return jsonify(
-                {
-                "tipe": "ra",
-                "rpm": f"https://bot-app-t2bk.onrender.com/download/{slowed}" 
-                }
-            )
-        else:
-            lop = f"Audio no enviado a: {usuar}"
-        return jsonify({"rpt": lop})
     elif msj and msj.strip().lower() == "/status" :
         rsp = f"🥶🙏ten paciencia: {usuar}"
     else:
         rsp = responder(usuar, msj)
     return jsonify({"respuesta": rsp})
-#########################################################################################################
+#########################################
+@app.route("/send",
+methods:["POST"])
+def black_yo():
+    heas = request.json
+    musica = heas.get("olla")
+    tipo = heas.get("tipo")
+    number = heas.get("number")
+    if tipo == "mp3":
+        if not musica:
+            return jsonify(
+                {
+                 "rpt": f"Por favor {number}, escribe el nombre de la música"
+                }
+            )
+        slowed = send_mp3(musica)
+
+
+################################################################
 @app.route("/registro",
 methods=["POST", "GET"] )
 def registro():
