@@ -10,9 +10,12 @@ const apk = express();
 const PORT = process.env.PORT || 3000;
 apk.get("/", (req, res) => res.send("bot activado"));
 apk.listen(PORT, () => console.log(`servidor escuchando en ${PORT}`))
-let sock;
-
+let sock = null;
+let ChatId = false;
 async function startBot() {
+  if (sock) {
+      console.log("🥶el bot ya está iniciado🔪🧟")
+  }
   const { state, saveCreds } = await useMultiFileAuthState("./wh_session");
 
   const { version } = await fetchLatestBaileysVersion().catch(() => ({ version: undefined }));
@@ -21,7 +24,8 @@ async function startBot() {
     auth: state,
     version,
     browser: Browsers.macOS("Desktop"),
-    printQRInTerminal: false // true si quieres ver QR directamente
+    printQRInTerminal: false,
+    syncFullHistory: false // true si quieres ver QR directamente
   });
 
   sock.ev.on("creds.update", saveCreds);
@@ -31,7 +35,6 @@ async function startBot() {
       console.log("\n📲 Escanea este QR en WhatsApp:");
       qrcode.generate(qr, { small: true });
     }
-
     if (connection === "open") console.log("🚀 BOT CONECTADO");
 
     if (connection === "close") {
@@ -41,23 +44,91 @@ async function startBot() {
         return;
       }
       console.log("♻️ Reintentando conexión en 900ms...");
-      setTimeout(startBot, 5000);
+      sock = null;
+      setTimeout(startBot, 8000);
     }
   });
-  sock.ev.on("messages.upsert", async (m) => {
-      const mens = m.messages[0].message?.conversation || m.messages[0].message?.extendedTextMessage?.text;
-      const from = m.messages[0].key.remoteJid;
-      if (mens) {
-          try {
-               const res = await axios.post("https://bot-app-t2bk.onrender.com/responder", {
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  sock.ev.on("messages.upsert", async ( { messages } ) => {  
+      const msg = messages[0];
+      if (!msg || msg.key.fromMe) return;
+      const from = msg.key.remoteJid;
+      const mens = msg.message?.conversation || msg.message?.extendedTextMessage?.text;
+      if (!mens) return;
+      let music;
+      const name = mens.trim()
+      const ltr = mens.trim().toLowerCase()
+      if (name.toLowerCase().startsWith("/mp3")) {
+         music = name.trim().slice(5)
+      }
+
+      if (ltr ==="/of") {
+        ChatId = false;
+        await sock.sendMessage(from, {text: "desactivado"});
+      }
+
+
+      if (ltr==="/go") {
+        ChatId = true;
+        await sock.sendMessage(from, {text: "Ya activo"});
+      }
+
+
+      let res;
+      try {
+           res = await axios.post(" https://bot-app-t2bk.onrender.com/responder", {
+                   mesaj: music,
+                   tipo: "mp3",
                    mensaje: mens,
                    from: from
                });
-               await sock.sendMessage(from, {text: res.data.respuesta});
-          } catch (err) {
-                sock.sendMessage(from, { text: err.message})
-          }
+       } catch (err) {
+            await sock.sendMessage(from, {text: `error en la petición: ${err.message}`});
+       }
+
+
+
+
+       try {
+           if (res && res.data.tipo === "archivo") {
+               await sock.sendMessage( from, { 
+                   video: { url: res.data.url },
+                   caption: "aquí tienes el video ⛰️"
+               });
+           }
+       } catch (e) {
+           await sock.sendMessage(from, {text: `error encontrado en ${e}`});
+       } 
+
+
+
+       try {
+           if (res && res.data.tipe === "ra") {
+               await sock.sendMessage(from, {
+                   text: "🧟⛰️",
+                   audio: {url: res.data.rpm},
+                   mimetype: "audio/mpeg"
+               });
+           }
+
+       } catch (t) {
+           await sock.sendMessage(from, {text: `error en: ${t} `})
+       }
+
+
+
+
+       try {
+            if (ChatId) {
+             await sock.sendMessage(from, {text: res.data.respuesta});
+           }
+      } catch (error) {
+                await sock.sendMessage(from, {text:"El chat no estaba activado"});
       }
+        
+      
+      
 });
 } // <- cerrar la función startBot correctamente
 

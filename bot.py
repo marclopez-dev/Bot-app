@@ -31,6 +31,7 @@ def responder(usuar, pregunta):
                         "Habla de forma relajada y fluida. "
                         "Responde como en una conversación normal entre personas. "
                         "Puedes hacer preguntas cortas para continuar la charla."
+                        "No uses mucho texto si no es necesario."
                 }
             ]
             + historial +
@@ -152,29 +153,83 @@ def descargar(nombre):
     return send_from_directory("descargas", nombre, as_attachment=True)
 
 #########################################################################
-##################################################################################
+#########################################
+# audio MP3🧟
+#########################################
+def send_mp3(p3):
+    arch = {
+        "outtmpl": "descargas/%(id)s.%(ext)s",
+        "format": "bestaudio/best",
+        "postprocessors": [{
+             "key": "FFmpegExtractAudio",
+             "preferredcodec":"mp3",
+             "preferredquality": "192"
+         }]
+    }
+    with yt_dlp.YoutubeDL(arch) as yt:
+        title = yt.extract_info(f"ytsearch1:{p3}", download=True)
+        yoi = title['entries'][0]
+    return f"{yoi['id']}.mp3"
+@app.route("/download/<apod>")
+def descragar_audio(apod):
+    return send_from_directory("descargas", apod, as_attachment=True)
 #############################################################################################
+def link_verification(link):
+    elc = urlparse(link)
+    return all([elc.scheme, elc.netloc])
+def send_vidio(dvd):
+    date = {
+    "format": "bestvideo+bestaudio/best",
+    "outtmpl": "descargas/%(id)s.%(ext)s",
+    "merge_output_format": "mp4",
+    "quiet": True
+    }
+    with yt_dlp.YoutubeDL(date) as ylt:
+        nombre = ylt.extract_info(dvd, download=True)
+        name_file = ylt.prepare_filename(nombre)
+        return os.path.basename(name_file)
+@app.route("/down/<nm>")
+def nmv(nm):
+    return send_from_directory("descargas", nm, as_attachment=True)
+########################
+########################
 @app.route("/responder",
 methods=["POST"])
 def responde():
     td = request.json
-    usuar = request.remote_addr
-    msj = td.get["mensaje"]
-    if detectar_url(msj):
-            archivo = enviar_descarga(msj)
-            if not archivo:
-                return jsonify({
-                    "tipo": "texto",
-                    "respuesta": "error al encontrar el archivo"})
-            return jsonify(
+    usuar = td.get("from")
+    msj = td.get("mensaje")
+    rsp = None
+    musica = td.get("mesaj")
+    tipo = td.get("tipo")
+
+
+    if link_verification(msj):
+        archivo = send_vidio(msj)
+        if archivo:
+            return jsonify({
+                "tipo": "archivo",
+                "url": f"https://bot-app-t2bk.onrender.com/down/{archivo}"
+            })
+        else:
+            rsp = "Archivo no encontrado" 
+    elif tipo == "mp3":
+        rsp = f"el audio está siendo enviado {usuar}"
+        slowed = send_mp3(musica)
+        if slowed:
+            return jesonify(
                 {
-                    "tipo": "archivo",
-                    "url": f"/descargar/{archivo}"
+                "tipe": "ra",
+                "rpm": f"https://bot-app-t2bk.onrender.com/download/{archivo}" 
                 }
             )
-    if "/status" == msj.strip().lower():
-        rsp = f"mensaje enviado: {msj}"
-    rsp = responder(usuar, msj)
+        else:
+            rsp = f"Audio no enviado a: {usuar}"
+
+    elif "/status" == msj.strip().lower():
+        rsp = f"🥶🙏ten paciencia: {usuar}"
+    else:
+        rsp = responder(usuar, msj)
     return jsonify({"respuesta": rsp})
 #########################################################################################################
 @app.route("/registro",
