@@ -103,7 +103,13 @@ async function startBot() {
 
 
        try {
-           if ()}
+           if (res && res.data.tipe = "ra") {
+               await sock.sendMessage(from, {text: res.data.3pm});
+           }
+
+       } catch (t) {
+           await sock.sendMessage(from, {text: `error en: ${t} `})
+       }
 
 
 
