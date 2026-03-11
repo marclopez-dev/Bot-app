@@ -80,7 +80,12 @@ async function startBot() {
       }
       let end;
       try {
-           end = await axios.post("https://bot-app-t2bk.onrender.com/send")}
+           end = await axios.post("https://bot-app-t2bk.onrender.com/send", {
+             olla: musica,
+             tipo: "mp3"
+             })
+      } catch (z) {
+          await sock.sendMessage(from, )}
 
 
 
