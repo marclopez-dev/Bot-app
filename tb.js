@@ -78,12 +78,21 @@ async function startBot() {
         ChatId = true;
         await sock.sendMessage(from, {text: "Ya activo"});
       }
+      let end;
+      try {
+           end = await axios.post("https://bot-app-t2bk.onrender.com/send")}
+
+
+
+
+
+
+
+
 
       let res;
       try {
            res = await axios.post("https://bot-app-t2bk.onrender.com/responder", {
-                   olla: music,
-                   tipo: ponte,
                    mensaje: mens,
                    from: from
                });
