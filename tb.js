@@ -85,8 +85,19 @@ async function startBot() {
              tipo: "mp3"
              })
       } catch (z) {
-          await sock.sendMessage(from, )}
-
+          await sock.sendMessage(from, {text: `este es el error genio: ${z}`})
+      }
+      try {
+      if (end?.date?.r == "musica") {
+          await sock.sendMessage(
+              {
+              audio: {url: end.date.},
+              mimetype: "audio/mpeg"
+              }
+          )
+      }
+      } catch (g) {
+          await sock.sendMessage(from, {text: `mira ${g}`})}
 
 
 
