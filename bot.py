@@ -237,13 +237,25 @@ def black_yo():
     tipo = heas.get("tipo")
     number = heas.get("number")
     if tipo == "mp3":
-        if not musica:
+        if musica:
+            lower = send_mp3(musica)
             return jsonify(
                 {
-                 "rpt": f"Por favor {number}, escribe el nombre de la música"
+                "r": "audio",
+                "x":
+f"https://bot-app-t2bk.onrender.com/down/{lower}"
                 }
             )
-        slowed = send_mp3(musica)
+        else:
+            return jsonify(
+                {
+                 "x": f"Por favor {number}, escribe el nombre de la música"
+                }
+            )
+    else:
+        return jsonify({
+            "x": f"Por favor {number}, se paciente"})
+
 
 
 ################################################################
