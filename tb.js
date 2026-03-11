@@ -91,7 +91,7 @@ async function startBot() {
             await sock.sendMessage(from, {text: `error en la petición: ${err}`});
        }
 
-
+       
 
 
        try {
@@ -104,28 +104,7 @@ async function startBot() {
        } catch (e) {
            await sock.sendMessage(from, {text: `error encontrado en ${e}`});
        } 
-
-
-
-           if (res?.data?.tipe === "ra") {
-               if (res.data.rpm) {
-                   try {
-                       await sock.sendMessage(from, {
-                           audio: {url: res.data.rpm},
-                           mimetype: "audio/mpeg"
-                       });
-                    } catch (k) {
-                       await sock.sendMessage(from, {text: `error ocurrido en 🥶🥶🥶🥶🥶🫂#-#-##-#-#-#-//: ${k}`});
-                    }
-               }
-               if (res.data.rpt) {
-                   await sock.sendMessage(from, {text: res.data.rpt});
-               }
-
-          }
-
-
-
+       
 
        try {
             if (res?.data?.respuesta && ChatId) {
