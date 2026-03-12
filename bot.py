@@ -249,15 +249,18 @@ f"https://bot-app-t2bk.onrender.com/download/{lower}"
                 )
             else:
                 return jsonify({
+                    "r": "texto",
                     "x": "música no encontrada"})
         else:
             return jsonify(
                 {
+                 "r": "texto",
                  "x": f"Por favor {number}, escribe el nombre de la música"
                 }
             )
     else:
         return jsonify({
+            "r": "texto",
             "x": f"Por favor {number}, se paciente"})
 
 
