@@ -230,7 +230,7 @@ def responde():
     return jsonify({"respuesta": rsp})
 #########################################
 @app.route("/send",
-methods:["POST"])
+methods=["POST"])
 def black_yo():
     heas = request.json
     musica = heas.get("olla")
