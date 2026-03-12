@@ -74,7 +74,7 @@ async function startBot() {
 
 
       if (name.toLowerCase().startsWith(".mp3")) {
-        musica = name.replace(/^\.mp3\s*/, " ")
+        musica = name.replace(/^\.mp3\s*/, "")
         ponte = "mp3"
         try {
            end = await axios.post("https://bot-app-t2bk.onrender.com/send", {
@@ -87,8 +87,8 @@ async function startBot() {
       }
 
       try {
-      if (end?.date?.r === "audio") {
-          await sock.sendMessage(
+      if (end?.data?.r === "audio") {
+          await sock.sendMessage(from,
               {
               audio: {url: end.date.m},
               mimetype: "audio/mpeg"
