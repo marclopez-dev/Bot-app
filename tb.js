@@ -90,13 +90,15 @@ async function startBot() {
       if (end?.data?.r === "audio") {
           await sock.sendMessage(from,
               {
-              audio: {url: end.date.m},
+              audio: {url: end.data.m},
               mimetype: "audio/mpeg"
               }
           )
       }
+      else if (end?.data?.x) {
+          await sock.sendMessage(from{}text: `🆘🔔error en ${end.data.x}`)}
       } catch (g) {
-              await sock.sendMessage(from, {text: `mira ñaño ${g}, y tambien esto: ${end.data.x}` });
+          await sock.sendMessage(from, {text: `mira ñaño ${g}` });
           
       }
 
