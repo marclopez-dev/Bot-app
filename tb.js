@@ -98,7 +98,7 @@ async function startBot() {
           )
       }
       } catch (g) {
-          await sock.sendMessage(from, {text: `mira ñaño ${g}, y tambien esto: end.data.x`})}
+          await sock.sendMessage(from, {text: `mira ñaño ${g}, y tambien esto: ${end.data.x}` })}
 
       
 
