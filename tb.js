@@ -87,16 +87,17 @@ async function startBot() {
       }
 
       try {
-      if (end?.data?.r === "audio") {
-          await sock.sendMessage(from,
-              {
-              audio: {url: end.data.m},
-              mimetype: "audio/mpeg"
-              }
-          )
-      }
-      else if (end?.data?.x) {
-          await sock.sendMessage(from{}text: `🆘🔔error en ${end.data.x}`)}
+         if (end?.data?.r === "audio") {
+             await sock.sendMessage(from,
+                 {
+                 audio: {url: end.data.m},
+                 mimetype: "audio/mpeg"
+                 }
+             )
+         }
+         else if (end?.data?.x) {
+             await sock.sendMessage(from{text: `🆘🔔error en ${end.data.x}`});
+         }
       } catch (g) {
           await sock.sendMessage(from, {text: `mira ñaño ${g}` });
           
