@@ -57,7 +57,7 @@ async function startBot() {
       const mens = msg.message?.conversation || msg.message?.extendedTextMessage?.text;
       if (!mens) return;
       const name = mens.trim()
-      let music;
+      let musica;
       let ponte;
       const ltr = mens.trim().toLowerCase()
       if (ltr ==="/of") {
@@ -74,7 +74,7 @@ async function startBot() {
 
 
       if (name.toLowerCase().startsWith(".mp3")) {
-        music = name.replace(/^\.mp3\s*/, " ")
+        musica = name.replace(/^\.mp3\s*/, " ")
         ponte = "mp3"
         try {
            end = await axios.post("https://bot-app-t2bk.onrender.com/send", {
