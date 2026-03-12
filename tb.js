@@ -94,10 +94,10 @@ async function startBot() {
                  mimetype: "audio/mpeg"
                  }
              )
-             if (end?.data?.x) {
-             await sock.sendMessage(from, {text: `🆘🔔error en ${end.data.x}`});
-             }
+          
          }
+         else if (end?.data?.r === "texto") {
+             await sock.sendMessage(from, {text: `eror en Python: ${end.data.x}`})}
       } catch (g) {
           await sock.sendMessage(from, {text: `mira ñaño ${g}` });
           
