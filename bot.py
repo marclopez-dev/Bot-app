@@ -239,13 +239,17 @@ def black_yo():
     if tipo == "mp3":
         if musica:
             lower = send_mp3(musica)
-            return jsonify(
-                {
-                "r": "audio",
-                "m":
+            if lower:
+                return jsonify(
+                    {
+                    "r": "audio",
+                    "m":
 f"https://bot-app-t2bk.onrender.com/download/{lower}"
-                }
-            )
+                    }
+                )
+            else:
+                return jsonify({
+                    "x": "música no encontrada"})
         else:
             return jsonify(
                 {
