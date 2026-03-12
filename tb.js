@@ -60,14 +60,6 @@ async function startBot() {
       let music;
       let ponte;
       const ltr = mens.trim().toLowerCase()
-      if (name.toLowerCase().startsWith("/mp3")) {
-         let partes = name.split(" ")
-         
-         music = partes.slice(1).join(" ")
-         if (music)
-         ponte = "mp3";
-      }
-
       if (ltr ==="/of") {
         ChatId = false;
         await sock.sendMessage(from, {text: "desactivado"});
@@ -79,7 +71,12 @@ async function startBot() {
         await sock.sendMessage(from, {text: "Ya activo"});
       }
       let end;
-      try {
+
+
+      if (name.toLowerCase().startsWith(".mp3")) {
+        music = name.replace(/^\.mp3\s*/, " ")
+        ponte = "mp3"
+        try {
            end = await axios.post("https://bot-app-t2bk.onrender.com/send", {
              olla: musica,
              tipo: ponte,
@@ -99,10 +96,12 @@ async function startBot() {
           )
       }
       } catch (g) {
-          await sock.sendMessage(from, {text: `mira ñaño ${g}, y tambien esto: ${end.data.x}` })}
+              await sock.sendMessage(from, {text: `mira ñaño ${g}, y tambien esto: ${end.data.x}` });
+          
+      }
 
       
-
+      }
 
 
 
