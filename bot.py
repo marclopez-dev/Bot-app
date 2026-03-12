@@ -157,6 +157,7 @@ def descargar(nombre):
 # audio MP3🧟
 #########################################
 def send_mp3(p3):
+    print("🔔BUSCANDO: ", p3)
     try:
         arch = {
             "format": "bestaudio/best",
@@ -182,6 +183,7 @@ def send_mp3(p3):
             yoi = title['entries'][0]
         return f"{yoi['id']}.mp3"
     except Exception as t:
+        print("ERROR:", t)
         return None
 @app.route("/download/<apod>")
 def descragar_audio(apod):
