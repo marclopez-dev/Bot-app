@@ -82,24 +82,25 @@ async function startBot() {
       try {
            end = await axios.post("https://bot-app-t2bk.onrender.com/send", {
              olla: musica,
-             tipo: "mp3"
+             tipo: ponte
              })
       } catch (z) {
           await sock.sendMessage(from, {text: `este es el error genio: ${z}`})
       }
+
       try {
-      if (end?.date?.r == "musica") {
+      if (end?.date?.r === "musica") {
           await sock.sendMessage(
               {
-              audio: {url: end.date.},
+              audio: {url: end.date.m},
               mimetype: "audio/mpeg"
               }
           )
       }
       } catch (g) {
-          await sock.sendMessage(from, {text: `mira ${g}`})}
+          await sock.sendMessage(from, {text: `mira ñaño ${g}, y tambien esto: end.data.x`})}
 
-
+      
 
 
 
