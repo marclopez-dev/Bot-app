@@ -35,7 +35,8 @@ exec("which yt-dlp", (err, stdout, stderr) => {
 /////////////////////
 async function downloadMusica(query) {
     return new Promise((resolve, reject) => {
-    exec(`/opt/render/project/poetry/bin/yt-dlp --default-search "ytsearch" --no-playlist --get-title "${query}"`, (err, stdout, stderr) => {
+    const ltr = query.replace(/(["$`\\])/g, "\\$1")
+    exec(`/opt/render/project/poetry/bin/yt-dlp --default-search "ytsearch" --no-playlist --get-title "${ltr}"`, (err, stdout, stderr) => {
     if (err) {
     console.log("🧟🧟🧟🧟🧟🧟🧟🧟🧟🧟🧟error al ejecutar yt-dlp", err);
     return reject("🔔🔔🔔🔔🔔no se encontró el titulo de la música");
@@ -45,7 +46,7 @@ async function downloadMusica(query) {
        .replace(/\s+/g, "_")
        .substring(0, 80)
     const salida = `./audio/${titulo}.mp3`;
-    const search = `/opt/render/project/poetry/bin/yt-dlp -x --audio-format mp3 --default-search "ytsearch" --no-playlist -o "${salida}" "${query}"`;
+    const search = `/opt/render/project/poetry/bin/yt-dlp -x --audio-format mp3 --default-search "ytsearch" --no-playlist -o "${salida}" "${ltr}"`;
     exec(search, (err1, stdout1, stderr1) => {
     if (err1) {
         console.log("ERROR ENCONTRADO EN: ", stderr1);
