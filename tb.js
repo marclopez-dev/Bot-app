@@ -32,9 +32,9 @@ exec("which yt-dlp", (err, stdout, stderr) => {
 /////////////////////
 async function downloadMusica(query) {
     return new Promise((resolve, reject) => {
-    exec(`/opt/render/project/.venv/bin/yt-dlp --get-title "ytsearch:${query}"`, (err, stdout, stderr) => {
+    exec(`yt-dlp --get-title "ytsearch:${query}"`, (err, stdout, stderr) => {
     if (err) {
-    console.log("🧟🧟🧟🧟🧟🧟🧟🧟🧟🧟🧟audio no enviado", stderr);
+    console.log("🧟🧟🧟🧟🧟🧟🧟🧟🧟🧟🧟error al ejecutar yt-dlp", err);
     return reject("🔔🔔🔔🔔🔔no se encontró el titulo de la música");
     }
     let titulo = stdout.trim()
