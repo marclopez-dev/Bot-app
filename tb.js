@@ -24,7 +24,7 @@ let ChatId = false;
 /////////////////////
 async function downloadMusica(query) {
     await new Promise((resolve, reject) => {
-    exec(`yt-dlp --get-title "ytsearch:${query}"`, (err, stdout, stderr) => {
+    exec(`/opt/render/project/.venv/bin/yt-dlp --get-title "ytsearch:${query}"`, (err, stdout, stderr) => {
     if (err) {
     console.log("🧟🧟🧟🧟🧟🧟🧟🧟🧟🧟🧟audio no enviado", stderr);
     return reject("🔔🔔🔔🔔🔔no se encontró el titulo de la música");
@@ -34,7 +34,7 @@ async function downloadMusica(query) {
        .replace(/\s*/g, "_")
        .substring(0, 80)
     const salida = `./temp/${titulo}.mp3`
-    const search = `yt-dlp -x --audio-format mp3 -o "${salida}" "ytsearch:${query}"`
+    const search = `/opt/render/project/.venv/bin/yt-dlp -x --audio-format mp3 -o "${salida}" "ytsearch:${query}"`
     exec(search, (err1, stdout1, stderr1) => {
     if (err1) {
         console.log("ERROR ENCONTRADO EN: ", stderr1);
