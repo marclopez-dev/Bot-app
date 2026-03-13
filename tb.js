@@ -19,6 +19,14 @@ apk.listen(PORT, () => console.log(`servidor escuchando en ${PORT}`))
 let sock = null;
 let ChatId = false;
 
+
+exec("which yt-dlp", (err, stdout, stderr) => {
+    if (err) {
+        console.log("yt-dlp no encontrado en el PATH");
+    } else {
+        console.log("yt-dlp está en:", stdout.trim());
+    }
+});
 /////////////////////
 ////////DESCARGAR MÚSICA 🎵 🎼 
 /////////////////////
