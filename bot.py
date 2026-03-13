@@ -154,25 +154,7 @@ def descargar(nombre):
 
 #########################################################################
 #########################################
-# audio MP3🧟
-#########################################
-def send_mp3(p3):
-    arch = {
-        "outtmpl": "descargas/%(id)s.%(ext)s",
-        "format": "bestaudio/best",
-        "postprocessors": [{
-             "key": "FFmpegExtractAudio",
-             "preferredcodec":"mp3",
-             "preferredquality": "192"
-         }]
-    }
-    with yt_dlp.YoutubeDL(arch) as yt:
-        title = yt.extract_info(f"ytsearch1:{p3}", download=True)
-        yoi = title['entries'][0]
-    return f"{yoi['id']}.mp3"
-@app.route("/download/<apod>")
-def descragar_audio(apod):
-    return send_from_directory("descargas", apod, as_attachment=True)
+
 #############################################################################################
 def link_verification(link):
     elc = urlparse(link)
@@ -200,9 +182,6 @@ def responde():
     usuar = td.get("from")
     msj = td.get("mensaje")
     rsp = None
-    musica = td.get("mesaj")
-    tipo = td.get("tipo")
-
 
     if link_verification(msj):
         archivo = send_vidio(msj)
@@ -213,25 +192,17 @@ def responde():
             })
         else:
             rsp = "Archivo no encontrado" 
-    elif tipo == "mp3":
-        rsp = f"el audio está siendo enviado {usuar}"
-        slowed = send_mp3(musica)
-        if slowed:
-            return jesonify(
-                {
-                "tipe": "ra",
-                "rpm": f"https://bot-app-t2bk.onrender.com/download/{archivo}" 
-                }
-            )
-        else:
-            rsp = f"Audio no enviado a: {usuar}"
-
-    elif "/status" == msj.strip().lower():
+    elif msj and msj.strip().lower() == "/status" :
         rsp = f"🥶🙏ten paciencia: {usuar}"
     else:
         rsp = responder(usuar, msj)
     return jsonify({"respuesta": rsp})
-#########################################################################################################
+#########################################
+
+
+
+
+################################################################
 @app.route("/registro",
 methods=["POST", "GET"] )
 def registro():

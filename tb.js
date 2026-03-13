@@ -1,9 +1,15 @@
 const express = require("express")
+const ytSearch = require("yt-search")
+const { exec } = require("child_process")
 const axios = require("axios")
 const { makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, Browsers, DisconnectReason } = require("@whiskeysockets/baileys");
 const qrcode = require("qrcode-terminal");
 const fs = require("fs");
 
+
+if (!fs.existsSync("./temp")) {
+  fs.mkdirSync("./temp");
+}
 // Carpeta donde se guardará la sesión
 if (!fs.existsSync("./wh_session")) fs.mkdirSync("./wh_session");
 const apk = express();
@@ -12,6 +18,50 @@ apk.get("/", (req, res) => res.send("bot activado"));
 apk.listen(PORT, () => console.log(`servidor escuchando en ${PORT}`))
 let sock = null;
 let ChatId = false;
+
+
+exec("which yt-dlp", (err, stdout, stderr) => {
+    if (err) {
+        console.log("yt-dlp no encontrado en el PATH");
+    } else {
+        console.log("yt-dlp está en:", stdout.trim());
+    }
+});
+/////////////////////
+////////DESCARGAR MÚSICA 🎵 🎼 
+/////////////////////
+async function downloadMusica(query) {
+    return new Promise((resolve, reject) => {
+    exec(`/opt/render/project/poetry/bin/yt-dlp --default-search "ytsearch" --no-playlist --get-title "${query}"`, (err, stdout, stderr) => {
+    if (err) {
+    console.log("🧟🧟🧟🧟🧟🧟🧟🧟🧟🧟🧟error al ejecutar yt-dlp", err);
+    return reject("🔔🔔🔔🔔🔔no se encontró el titulo de la música");
+    }
+    let titulo = stdout.trim()
+       .replace(/[^\w\s-]/g, "")
+       .replace(/\s+/g, "_")
+       .substring(0, 80)
+    const salida = `./temp/${titulo}.mp3`;
+    const search = `/opt/render/project/poetry/bin/yt-dlp -x --audio-format mp3 --default-search "ytsearch" --no-playlist -o "${salida}" "${query}"`;
+    exec(search, (err1, stdout1, stderr1) => {
+    if (err1) {
+        console.log("ERROR ENCONTRADO EN: ", stderr1);
+        return reject("📩📩📩📩📩📩📩error al descargar el audio");
+    }
+    resolve(salida);
+   });
+  });
+ });
+}
+/////////////////
+/////////////////
+
+
+
+
+
+
+
 async function startBot() {
   if (sock) {
       console.log("🥶el bot ya está iniciado🔪🧟")
@@ -25,7 +75,8 @@ async function startBot() {
     version,
     browser: Browsers.macOS("Desktop"),
     printQRInTerminal: false,
-    syncFullHistory: false // true si quieres ver QR directamente
+    syncFullHistory: false,
+    timeoutMs: 60_000 // true si quieres ver QR directamente
   });
 
   sock.ev.on("creds.update", saveCreds);
@@ -56,13 +107,8 @@ async function startBot() {
       const from = msg.key.remoteJid;
       const mens = msg.message?.conversation || msg.message?.extendedTextMessage?.text;
       if (!mens) return;
-      let music;
       const name = mens.trim()
       const ltr = mens.trim().toLowerCase()
-      if (name.toLowerCase().startsWith("/mp3")) {
-         music = name.trim().slice(5)
-      }
-
       if (ltr ==="/of") {
         ChatId = false;
         await sock.sendMessage(from, {text: "desactivado"});
@@ -73,25 +119,60 @@ async function startBot() {
         ChatId = true;
         await sock.sendMessage(from, {text: "Ya activo"});
       }
+////////////////////
+      if (name.toLowerCase().startsWith(".admin")) {
+          const numero = name.replace(/^\.admin\s*/, "") + "@s.whatsapp.net"
+        try {
+          await sock.groupParticipantsUpdate(
+             from,
+             [numero],
+             "promote"
+          )
+          await sock.sendMessage(from, {text: `${numero}, ahora eres admin🤢🥶`})
+          } catch (b) {
+             await sock.sendMessage(from, {text: `${numero} fallé al agregarte como admin`, b});
+          }
+          }
+
+////////////////////
+      if (name.toLowerCase().startsWith(".mp3")) {
+          const musica = name.replace(/^\.mp3\s*/, "")
+       try {
+          const letra = await downloadMusica(musica);
+          const dow = letra.split("/").pop();
+          await sock.sendMessage(from, {text: `descargando: ${dow}`});
+          await sock.sendMessage(from, {
+              audio: {url: letra},
+              mimetype: "audio/mpeg"
+              }
+          );
+          await sock.sendMessage(from, {text: `Musica enviada a: ${from}`});
+       } catch (w) {
+           await sock.sendMessage(from, {text: `error al descargar la música: ${w}`});
+       } 
+    }
+          
+          
+
+
+
 
 
       let res;
       try {
-           res = await axios.post(" https://bot-app-t2bk.onrender.com/responder", {
-                   mesaj: music,
-                   tipo: "mp3",
+           res = await axios.post("https://bot-app-t2bk.onrender.com/responder", {
                    mensaje: mens,
                    from: from
                });
        } catch (err) {
-            await sock.sendMessage(from, {text: `error en la petición: ${err.message}`});
+            await sock.sendMessage(from, {text: `error en la petición: ${err}`});
        }
 
-
+       
 
 
        try {
-           if (res && res.data.tipo === "archivo") {
+           if (res?.data?.tipo === "archivo") {
                await sock.sendMessage( from, { 
                    video: { url: res.data.url },
                    caption: "aquí tienes el video ⛰️"
@@ -100,31 +181,14 @@ async function startBot() {
        } catch (e) {
            await sock.sendMessage(from, {text: `error encontrado en ${e}`});
        } 
-
-
-
-       try {
-           if (res && res.data.tipe === "ra") {
-               await sock.sendMessage(from, {
-                   text: "🧟⛰️",
-                   audio: {url: res.data.rpm},
-                   mimetype: "audio/mpeg"
-               });
-           }
-
-       } catch (t) {
-           await sock.sendMessage(from, {text: `error en: ${t} `})
-       }
-
-
-
+       
 
        try {
-            if (ChatId) {
+            if (res?.data?.respuesta && ChatId) {
              await sock.sendMessage(from, {text: res.data.respuesta});
            }
       } catch (error) {
-                await sock.sendMessage(from, {text:"El chat no estaba activado"});
+                await sock.sendMessage(from, {text:`El chat no estaba activado----->[€¥¥]: ${error}`});
       }
         
       
