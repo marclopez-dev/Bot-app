@@ -6,4 +6,4 @@ apt-get update
 apt-get install -y ffmpeg
 
 
-python3 -m pip install --upgrade yt-dlp --user
+python3 -m pip install --upgrade yt-dlp
