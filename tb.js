@@ -31,7 +31,7 @@ async function downloadMusica(query) {
     }
     let titulo = stdout.trim()
        .replace(/[^\w\s-]/g, "")
-       .replace(/\s*/g, "_")
+       .replace(/\s+/g, "_")
        .substring(0, 80)
     const salida = `./temp/${titulo}.mp3`
     const search = `/opt/render/project/.venv/bin/yt-dlp -x --audio-format mp3 -o "${salida}" "ytsearch:${query}"`
