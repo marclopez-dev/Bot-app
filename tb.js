@@ -1,4 +1,5 @@
 const express = require("express")
+const ffmpeg =< require("fluent_ffmpeg")
 const ytSearch = require("yt-search")
 const { exec } = require("child_process")
 const axios = require("axios")
@@ -12,6 +13,11 @@ if (!fs.existsSync("./temp")) {
 }
 if (!fs.existsSync("./audio")) {
   fs.mkdirSync("./audio");
+}
+try {
+    ffmpeg.setFfmpegPath("./temp/ffmpeg");
+} catch (ñ) {
+    console.log("🥶🥶🥶🥶🥶", ñ);
 }
 // Carpeta donde se guardará la sesión
 if (!fs.existsSync("./wh_session")) fs.mkdirSync("./wh_session");
