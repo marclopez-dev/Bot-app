@@ -1,5 +1,6 @@
 const express = require("express")
 const ytSearch = require("yt-search")
+const { exec } = require("child_process")
 const axios = require("axios")
 const { makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, Browsers, DisconnectReason } = require("@whiskeysockets/baileys");
 const qrcode = require("qrcode-terminal");
