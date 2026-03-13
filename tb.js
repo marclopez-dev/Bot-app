@@ -1,5 +1,5 @@
 const express = require("express")
-const ffmpeg = require("fluent_ffmpeg")
+const ffmpeg = require("fluent-ffmpeg")
 const ytSearch = require("yt-search")
 const { exec } = require("child_process")
 const axios = require("axios")
