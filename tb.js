@@ -106,8 +106,6 @@ async function startBot() {
         ChatId = true;
         await sock.sendMessage(from, {text: "Ya activo"});
       }
-      let end;
-
 
       if (name.toLowerCase().startsWith(".mp3")) {
           const musica = name.replace(/^\.mp3\s*/, "")
