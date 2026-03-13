@@ -6,6 +6,10 @@ const { makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, Browsers
 const qrcode = require("qrcode-terminal");
 const fs = require("fs");
 
+
+if (!fs.existsSync("./temp")) {
+  fs.mkdirSync("./temp");
+}
 // Carpeta donde se guardará la sesión
 if (!fs.existsSync("./wh_session")) fs.mkdirSync("./wh_session");
 const apk = express();
