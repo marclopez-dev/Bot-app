@@ -5,4 +5,4 @@ psycopg2-binary
 psycopg2-binary
 duckduckgo_search
 groq
-yt-dlp>=2026.3.13
+yt-dlp==2026.3.12
