@@ -52,7 +52,7 @@ async function downloadMusica(query) {
        .replace(/\s+/g, "_")
        .substring(0, 80)
     const salida = `./audio/${titulo}.mp3`;
-    const search = `/opt/render/project/poetry/bin/yt-dlp -x --audio-format mp3 --default-search "ytsearch" --no-playlist -o "${salida}" "${ltr}"`;
+    const search = `/opt/render/project/poetry/bin/yt-dlp -x --audio-format mp3 --ffmpeg-location ./temp/ffmpeg --default-search "ytsearch" --no-playlist -o "${salida}" "${ltr}"`;
     exec(search, (err1, stdout1, stderr1) => {
     if (err1) {
         console.log("ERROR ENCONTRADO EN: ", stderr1);
