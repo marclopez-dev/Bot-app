@@ -23,7 +23,7 @@ let ChatId = false;
 ////////DESCARGAR MÚSICA 🎵 🎼 
 /////////////////////
 async function downloadMusica(query) {
-    await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
     exec(`/opt/render/project/.venv/bin/yt-dlp --get-title "ytsearch:${query}"`, (err, stdout, stderr) => {
     if (err) {
     console.log("🧟🧟🧟🧟🧟🧟🧟🧟🧟🧟🧟audio no enviado", stderr);
