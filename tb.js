@@ -33,7 +33,7 @@ async function downloadMusica(query) {
     const search = `yt-dlp -x --audio-format mp3 -o "${salida}" "ytsearch:${query}"`
     exec(search, (err1, stdout1, stderr1) => {
     if (err1) {
-        console.log(`"ERROR ENCONTRADO EN: ", stderr1);
+        console.log("ERROR ENCONTRADO EN: ", stderr1);
         return reject("📩📩📩📩📩📩📩error al descargar el audio");
     }
     resolve(salida);
