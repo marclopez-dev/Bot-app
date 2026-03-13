@@ -154,40 +154,7 @@ def descargar(nombre):
 
 #########################################################################
 #########################################
-# audio MP3🧟
-#########################################
-def send_mp3(p3):
-    print("🔔BUSCANDO: ", p3)
-    try:
-        arch = {
-            "format": "bestaudio/best",
-            "outtmpl": "descargas/%(id)s.%(ext)s",
-            "http_headers": {
-                "User-Agent": "Mozilla/5.0"
-            },
-            "extractor_args": {
-                "youtube": {
-                    "player_client": ["android"]
-                }
-            },
-            "postprocessors": [{
-                "key": "FFmpegExtractAudio",
-                "preferredcodec": "mp3",
-                "preferredquality": "192"
-            }]
-        }
-        with yt_dlp.YoutubeDL(arch) as yt:
-            title = yt.extract_info(f"ytsearch1:{p3}", download=True)
-            if not title.get("entries"):
-                return None 
-            yoi = title['entries'][0]
-        return f"{yoi['id']}.mp3"
-    except Exception as t:
-        print("ERROR:", t)
-        return None
-@app.route("/download/<apod>")
-def descragar_audio(apod):
-    return send_from_directory("descargas", apod, as_attachment=True)
+
 #############################################################################################
 def link_verification(link):
     elc = urlparse(link)
@@ -231,39 +198,7 @@ def responde():
         rsp = responder(usuar, msj)
     return jsonify({"respuesta": rsp})
 #########################################
-@app.route("/send",
-methods=["POST"])
-def black_yo():
-    heas = request.json
-    musica = heas.get("olla")
-    tipo = heas.get("tipo")
-    number = heas.get("number")
-    if tipo == "mp3":
-        if musica:
-            lower = send_mp3(musica)
-            if lower:
-                return jsonify(
-                    {
-                    "r": "audio",
-                    "m":
-f"https://bot-app-t2bk.onrender.com/download/{lower}"
-                    }
-                )
-            else:
-                return jsonify({
-                    "r": "texto",
-                    "x": "música no encontrada"})
-        else:
-            return jsonify(
-                {
-                 "r": "texto",
-                 "x": f"Por favor {number}, escribe el nombre de la música"
-                }
-            )
-    else:
-        return jsonify({
-            "r": "texto",
-            "x": f"Por favor {number}, se paciente"})
+
 
 
 
