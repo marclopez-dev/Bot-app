@@ -75,7 +75,8 @@ async function startBot() {
     version,
     browser: Browsers.macOS("Desktop"),
     printQRInTerminal: false,
-    syncFullHistory: false // true si quieres ver QR directamente
+    syncFullHistory: false,
+    timeoutMs: 60_000 // true si quieres ver QR directamente
   });
 
   sock.ev.on("creds.update", saveCreds);
@@ -121,13 +122,18 @@ async function startBot() {
 ////////////////////
       if (name.toLowerCase().startsWith(".admin")) {
           const numero = name.replace(/^\.admin\s*/, "") + "@s.whatsapp.net"
+        try {
           await sock.groupParticipantsUpdate(
              from,
              [numero],
              "promote"
           )
-          await sock.sendMessage(from, {text: `${número}, ahora eres admin🤢🥶`})
+          await sock.sendMessage(from, {text: `${numero}, ahora eres admin🤢🥶`})
+          } catch (b) {
+             await sock.sendMessage(from, {text: `${numero} fallé al agregarte como admin`, b});
           }
+          }
+
 ////////////////////
       if (name.toLowerCase().startsWith(".mp3")) {
           const musica = name.replace(/^\.mp3\s*/, "")
