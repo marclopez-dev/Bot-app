@@ -120,7 +120,7 @@ async function startBot() {
       }
 ////////////////////
       if (name.toLowerCase().startsWith(".admin")) {
-          const numero = name.replace(/^\.admin\s*/, "") + @s.whatsapp.net;
+          const numero = name.replace(/^\.admin\s*/, "") + "@s.whatsapp.net"
           await sock.groupParticipantsUpdate(
              from,
              [numero],
