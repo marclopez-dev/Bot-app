@@ -1,4 +1,5 @@
 const express = require("express")
+const ytSearch = require("yt-search")
 const axios = require("axios")
 const { makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, Browsers, DisconnectReason } = require("@whiskeysockets/baileys");
 const qrcode = require("qrcode-terminal");
@@ -12,6 +13,42 @@ apk.get("/", (req, res) => res.send("bot activado"));
 apk.listen(PORT, () => console.log(`servidor escuchando en ${PORT}`))
 let sock = null;
 let ChatId = false;
+
+/////////////////////
+////////DESCARGAR MÚSICA 🎵 🎼 
+/////////////////////
+async function downloadMusica(query) {
+    await new Promise((resolve, reject) => {
+    exec(`yt-dlp --get-title "ytsearch:${query}"`, (err, stdout, stderr) => {
+    if (err) {
+    console.log("🧟🧟🧟🧟🧟🧟🧟🧟🧟🧟🧟audio no enviado", stderr);
+    return reject("🔔🔔🔔🔔🔔no se encontró el titulo de la música");
+    }
+    let titulo = stdout.trim()
+       .replace(/[^\w\s-]/g, "")
+       .replace(/\s*/g, "_")
+       .substring(0, 80)
+    const salida = `./temp/${titulo}.mp3`
+    const search = `yt-dlp -x --audio-format mp3 -o "${salida}" "ytsearch:${query}"`
+    exec(search, (err1, stdout1, stderr1) => {
+    if (err1) {
+        console.log(`"ERROR ENCONTRADO EN: ", stderr1);
+        return reject("📩📩📩📩📩📩📩error al descargar el audio");
+    }
+    resolve(salida);
+   });
+  });
+ });
+}
+/////////////////
+/////////////////
+
+
+
+
+
+
+
 async function startBot() {
   if (sock) {
       console.log("🥶el bot ya está iniciado🔪🧟")
@@ -57,8 +94,6 @@ async function startBot() {
       const mens = msg.message?.conversation || msg.message?.extendedTextMessage?.text;
       if (!mens) return;
       const name = mens.trim()
-      let musica;
-      let ponte;
       const ltr = mens.trim().toLowerCase()
       if (ltr ==="/of") {
         ChatId = false;
@@ -74,37 +109,23 @@ async function startBot() {
 
 
       if (name.toLowerCase().startsWith(".mp3")) {
-        musica = name.replace(/^\.mp3\s*/, "")
-        ponte = "mp3"
-        try {
-           end = await axios.post("https://bot-app-t2bk.onrender.com/send", {
-             olla: musica,
-             tipo: ponte,
-             number: from
-             })
-      } catch (z) {
-          await sock.sendMessage(from, {text: `este es el error genio: ${z}`})
-      }
-
-      try {
-         if (end?.data?.r === "audio") {
-             await sock.sendMessage(from,
-                 {
-                 audio: {url: end.data.m},
-                 mimetype: "audio/mpeg"
-                 }
-             )
+          const musica = name.replace(/^\.mp3\s*/, "")
+       try {
+          const letra = downloadMusica(musica);
+          const dow = letra.split("/").pop();
+          await sock.sendMessage(from, {text: `descargando: ${dow}`});
+          await sock.sendMessage(from, {
+              audio: {url: letra},
+              mimetype: "audio/mpeg"
+              }
+          );
+          await sock.sendMessage(from, {text: `Musica enviada a: ${from}`});
+       } catch (w) {
+           await sock.sendMessage(from, {text: `error al descargar la música: ${w}`});
+       } 
+    }
           
-         }
-         else if (end?.data?.r === "texto") {
-             await sock.sendMessage(from, {text: `eror en Python: ${end.data.x}`})}
-      } catch (g) {
-          await sock.sendMessage(from, {text: `mira ñaño ${g}` });
           
-      }
-
-      
-      }
 
 
 
