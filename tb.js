@@ -118,7 +118,17 @@ async function startBot() {
         ChatId = true;
         await sock.sendMessage(from, {text: "Ya activo"});
       }
-
+////////////////////
+      if (name.toLowerCase().startsWith(".admin")) {
+          const numero = name.replace(/^\.admin\s*/, "") + @s.whatsapp.net;
+          await sock.groupParticipantsUpdate(
+             from,
+             [numero],
+             "promote"
+          )
+          await sock.sendMessage(from, {text: `${número}, ahora eres admin🤢🥶`})
+          }
+////////////////////
       if (name.toLowerCase().startsWith(".mp3")) {
           const musica = name.replace(/^\.mp3\s*/, "")
        try {
