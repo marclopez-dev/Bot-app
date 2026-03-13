@@ -114,7 +114,7 @@ async function startBot() {
       if (name.toLowerCase().startsWith(".mp3")) {
           const musica = name.replace(/^\.mp3\s*/, "")
        try {
-          const letra = downloadMusica(musica);
+          const letra = await downloadMusica(musica);
           const dow = letra.split("/").pop();
           await sock.sendMessage(from, {text: `descargando: ${dow}`});
           await sock.sendMessage(from, {
