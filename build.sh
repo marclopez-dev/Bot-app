@@ -2,8 +2,7 @@
 npm install
 
 
-apt-get update
-apt-get install -y ffmpeg
-
-
+chmod +x ./temp/ffmpeg
+chmod +x ./temp/ffprobe
+npm install fluent-ffmpeg
 python3 -m pip install --upgrade yt-dlp
