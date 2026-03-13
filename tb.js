@@ -10,6 +10,9 @@ const fs = require("fs");
 if (!fs.existsSync("./temp")) {
   fs.mkdirSync("./temp");
 }
+if (!fs.existsSync("./audio")) {
+  fs.mkdirSync("./audio");
+}
 // Carpeta donde se guardará la sesión
 if (!fs.existsSync("./wh_session")) fs.mkdirSync("./wh_session");
 const apk = express();
@@ -41,8 +44,8 @@ async function downloadMusica(query) {
        .replace(/[^\w\s-]/g, "")
        .replace(/\s+/g, "_")
        .substring(0, 80)
-    const salida = `./temp/${titulo}.mp3`;
-    const search = `/opt/render/project/poetry/bin/yt-dlp -x --audio-format mp3 --default-search "ytsearch" --no-playlist -o "${salida}" "${query}"`;
+    const salida = `./audio/${titulo}.mp3`;
+    const search = `/opt/render/project/poetry/bin/yt-dlp -x --audio-format mp3 --ffmpeg-location ./temp/ffmpeg --default-search "ytsearch" --no-playlist -o "${salida}" "${query}"`;
     exec(search, (err1, stdout1, stderr1) => {
     if (err1) {
         console.log("ERROR ENCONTRADO EN: ", stderr1);
