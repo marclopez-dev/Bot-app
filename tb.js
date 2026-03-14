@@ -119,6 +119,7 @@ async function startBot() {
       const mens = msg.message?.conversation || msg.message?.extendedTextMessage?.text;
       if (!mens) return;
       const name = mens.trim()
+      let res;
       const ltr = mens.trim().toLowerCase()
       if (ltr ==="/of") {
         ChatId = false;
@@ -162,28 +163,18 @@ async function startBot() {
            await sock.sendMessage(from, {text: `error al descargar la música: ${w}`});
        } 
     }
-          
-          
-
-
-
-
-
-      let res;
-      try {
-           res = await axios.post("https://bot-app-t2bk.onrender.com/responder", {
-                   mensaje: mens,
-                   from: from
-               });
-       } catch (err) {
-            await sock.sendMessage(from, {text: `error en la petición: ${err}`});
-       }
-
-       
-
-
-       try {
-           if (res?.data?.tipo === "archivo") {
+//////////////////////////////////
+///♾️descargar video
+//////////////////////////////////
+    if (name.toLowerCase().startsWith(".tiktok")) {
+          const vid = name.replace(/^\.tiktok\s*/, "")
+          let trip;
+          try {
+              trip = await axios.post("https://bot-app-t2bk.onrender.com/video", {
+                  per: vid,
+                  num: from
+                  });
+           if (trip?.data?.tipo === "archivo") {
                await sock.sendMessage( from, { 
                    video: { url: res.data.url },
                    caption: "aquí tienes el video ⛰️"
@@ -193,9 +184,16 @@ async function startBot() {
            await sock.sendMessage(from, {text: `error encontrado en ${e}`});
        } 
        
-
+}
        try {
-            if (res?.data?.respuesta && ChatId) {
+            if (ChatId) {
+           
+      
+           res = await axios.post("https://bot-app-t2bk.onrender.com/responder", {
+                   mensaje: mens,
+                   from: from
+               });
+       
              await sock.sendMessage(from, {text: res.data.respuesta});
            }
       } catch (error) {
