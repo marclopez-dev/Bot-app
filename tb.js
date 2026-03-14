@@ -171,15 +171,16 @@ async function startBot() {
           let trip;
           try {
               trip = await axios.post("https://bot-app-t2bk.onrender.com/video", {
-                  per: vid,
-                  num: from
+                  per: vid
                   });
            if (trip?.data?.tipo === "archivo") {
                await sock.sendMessage( from, { 
-                   video: { url: res.data.url },
+                   video: { url: trip.data.url },
                    caption: "aquí tienes el video ⛰️"
                });
            }
+           elif (trip?.data?.tip === "text") {
+           await sock.sendMessage(from, {text: trip.data.texto})}
        } catch (e) {
            await sock.sendMessage(from, {text: `error encontrado en ${e}`});
        } 
