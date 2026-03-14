@@ -74,7 +74,9 @@ def send_mp3(audio):
         title = yt.extract_info(f"ytsearch1:{audio}", download=True)
         mine = title["entries"][0]
         return f"mine['id']"
-
+@app.route("/desca/<neim>")
+def decarga(neim):
+    return send_from_directory("descargas", neim, as_attachment=True)
 
 ##########################################
 #Base de datos para "almacenar registros"
@@ -129,7 +131,15 @@ def one():
 def chat():
     return render_template("chat.html")
 
-###########################################################################
+#########################################
+#descragar musica y enviar a JS🥶🥶🥶🥶📩
+#########################################
+@app.route("/audio",
+methods=["POST"])
+def audio():
+    att = request.json
+    musica = att.get("")
+
 ################################################################################
 #/CEREBRO DEL BOT:
 ######################################################################################
@@ -166,9 +176,7 @@ def descargar(nombre):
     return send_from_directory("descargas", nombre, as_attachment=True)
 
 #########################################################################
-#########################################
-@app.route()
-
+######################################### 
 #############################################################################################
 def link_verification(link):
     elc = urlparse(link)
