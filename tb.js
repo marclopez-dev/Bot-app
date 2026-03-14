@@ -179,7 +179,7 @@ async function startBot() {
                    caption: "aquí tienes el video ⛰️"
                });
            }
-           elif (trip?.data?.tip === "text") {
+           else if (trip?.data?.tip === "text") {
            await sock.sendMessage(from, {text: trip.data.texto})}
        } catch (e) {
            await sock.sendMessage(from, {text: `error encontrado en ${e}`});
