@@ -149,19 +149,20 @@ async function startBot() {
 ////////////////////
       if (name.toLowerCase().startsWith(".mp3")) {
           const musica = name.replace(/^\.mp3\s*/, "")
+       let help;
        try {
-          const letra = await downloadMusica(musica);
-          const dow = letra.split("/").pop();
-          await sock.sendMessage(from, {text: `descargando: ${dow}`});
-          await sock.sendMessage(from, {
-              audio: {url: letra},
-              mimetype: "audio/mpeg"
-              }
-          );
-          await sock.sendMessage(from, {text: `Musica enviada a: ${from}`});
-       } catch (w) {
-           await sock.sendMessage(from, {text: `error al descargar la música: ${w}`});
-       } 
+           help = await axios.post("https://bot-app-t2bk.onrender.com/video", {
+              audi: musica
+           })
+       } catch (b) {
+           await sock.sendMessage(from, {text: "🥶⌛", b})
+       }
+       if (help?.data?.byte) {
+           await sock.sendMessage(from, {text: help.data.url})
+       
+       } else {
+           await sock.sendMessage(from, {text: "audio no recibido de Youtube📩"})
+       }
     }
 //////////////////////////////////
 ///♾️descargar video
