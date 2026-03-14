@@ -182,23 +182,31 @@ def responde():
     usuar = td.get("from")
     msj = td.get("mensaje")
     rsp = None
-
-    if link_verification(msj):
-        archivo = send_vidio(msj)
+    if msj and msj.strip().lower() == "/status" :
+        rsp = f"🥶🙏ten paciencia: {usuar}"
+    else:
+        rsp = responder(usuar, msj)
+    return jsonify({"respuesta": rsp})
+#########################################
+@app.route("/video",
+methods=["POST"])
+def video():
+    yt = request.json
+    video = yt.get("per")
+    if link_verification(video):
+        archivo = send_vidio(video)
         if archivo:
             return jsonify({
                 "tipo": "archivo",
                 "url": f"https://bot-app-t2bk.onrender.com/down/{archivo}"
             })
         else:
-            rsp = "Archivo no encontrado" 
-    elif msj and msj.strip().lower() == "/status" :
-        rsp = f"🥶🙏ten paciencia: {usuar}"
-    else:
-        rsp = responder(usuar, msj)
-    return jsonify({"respuesta": rsp})
-#########################################
-
+            return jsonify({
+                "tip": "text",
+                "texto": "lo siento tu archivo no existe"
+                }
+            )
+    
 
 
 
