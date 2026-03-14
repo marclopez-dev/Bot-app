@@ -138,7 +138,24 @@ def chat():
 methods=["POST"])
 def audio():
     att = request.json
-    musica = att.get("")
+    musica = att.get("audi")
+    if musica:
+        gemin = send_mp3(musica)
+        if gemin:
+            return jsonify(
+                {
+                 "texto": "m4p",
+                 "url": f"https://bot-app-t2bk.onrender.com/desca/{gemin}"
+                }
+            )
+        else:
+            return jsonify({
+                 "tipo": "Archivo no encontrado"})
+    else:
+        return jsonify({
+            "texto": "tex",
+            "mensaje": "Escribe un nombre en la música"})
+             
 
 ################################################################################
 #/CEREBRO DEL BOT:
