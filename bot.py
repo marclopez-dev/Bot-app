@@ -63,6 +63,19 @@ def enviar_descarga(video):
         titulo = ydl.extract_info(video, download=True)
         nombre_archivo = ydl.prepare_filename(titulo)
         return os.path.basename(nombre_archivo)
+
+####################################################################################
+def send_mp3(audio):
+    almacen = {
+        "format": "bestaudio[ext=m4a]",
+        "outtmpl": "descargas/%(id)s.%(ext)s",
+        }
+    with yt_dlp.YoutubeDL(almacen) as yt:
+        title = yt.extract_info(f"ytsearch1:{audio}", download=True)
+        mine = title["entries"][0]
+        return f"mine['id']"
+
+
 ##########################################
 #Base de datos para "almacenar registros"
 ######################№###################
