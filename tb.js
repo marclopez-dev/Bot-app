@@ -198,7 +198,7 @@ async function startBot() {
 //menú de opciones 📩
 ///////////////
 
-       if (name.toLowerCase() === ".menu") {
+       if (mens.trim().toLowerCase() === ".menu") {
            const menu = `MENÚ DE OPCIONES ⌛:
                ---->DESCARGAR VIDEOS (TIKTOK, FACEBOOK, INSTAGRAM):
                 .tiktok
