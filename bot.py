@@ -66,15 +66,18 @@ def enviar_descarga(video):
 
 ####################################################################################
 def send_mp3(audio):
-    almacen = {
-        "format": "bestaudio[ext=m4a]",
-        "outtmpl": "descargas/%(id)s.%(ext)s",
-        }
-    with yt_dlp.YoutubeDL(almacen) as yt:
-        title = yt.extract_info(f"ytsearch1:{audio}", download=True)
-        mine = title["entries"][0]
-        return f"mine['id']"
-
+    try:
+        almacen = {
+            "format": "bestaudio[ext=m4a]",
+            "outtmpl": "descargas/%(id)s.%(ext)s",
+            }
+        with yt_dlp.YoutubeDL(almacen) as yt:
+            title = yt.extract_info(f"ytsearch1:{audio}", download=True)
+            mine = title["entries"][0]
+            return f"mine['id'].m4a"
+    except Excepcion as e:
+        print(ERRER🥶📩📩📩📩""e)
+        return None
 
 ##########################################
 #Base de datos para "almacenar registros"
