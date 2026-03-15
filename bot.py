@@ -68,9 +68,19 @@ def enviar_descarga(video):
 def send_mp3(audio):
     try:
         almacen = {
-            "format": "bestaudio[ext=m4a]",
-            "outtmpl": "descargas/%(id)s.%(ext)s",
+        "format": "bestaudio[ext=m4a]/bestaudio",
+        "outtmpl": "descargas/%(id)s.%(ext)s",
+        "noplaylist": True,
+        "quiet": True,
+        "headers": {
+            "User-Agent": "Mozilla/5.0"
+        },
+        "extractor_args": {
+            "youtube": {
+                "player_client": ["android"]
+                }
             }
+        }
         with yt_dlp.YoutubeDL(almacen) as yt:
             title = yt.extract_info(f"ytsearch1:{audio}", download=True)
             print("EL TÍTULO ES: ", title)
