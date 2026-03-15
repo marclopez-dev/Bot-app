@@ -151,7 +151,7 @@ async function startBot() {
           const musica = name.replace(/^\.mp3\s*/, "")
        let help;
        try {
-           help = await axios.post("https://bot-app-t2bk.onrender.com/video", {
+           help = await axios.post("https://bot-app-t2bk.onrender.com/audio", {
               audi: musica
            })
        } catch (b) {
