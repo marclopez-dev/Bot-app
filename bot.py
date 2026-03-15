@@ -223,9 +223,8 @@ def link_verification(link):
     return all([elc.scheme, elc.netloc])
 def send_vidio(dvd):
     date = {
-    "format": "bestvideo+bestaudio/best",
+    "format": "best[ext=mp4][acodec!=none]/best",
     "outtmpl": "descargas/%(id)s.%(ext)s",
-    "merge_output_format": "mp4",
     "quiet": True
     }
     with yt_dlp.YoutubeDL(date) as ylt:
