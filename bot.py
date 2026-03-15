@@ -68,16 +68,16 @@ def enviar_descarga(video):
 def send_mp3(audio):
     try:
         almacen = {
-        "format": "bestaudio[ext=m4a]/bestaudio",
-        "outtmpl": "descargas/%(id)s.%(ext)s",
-        "noplaylist": True,
-        "quiet": True,
-        "headers": {
-            "User-Agent": "Mozilla/5.0"
-        },
-        "extractor_args": {
-            "youtube": {
-                "player_client": ["android"]
+            "format": "bestaudio",
+            "quiet": True,
+            "noplaylist": True,
+            "nocheckcertificate": True,
+            "headers": {
+                "User-Agent": "Mozilla/5.0"
+            },
+            "extractor_args": {
+                "youtube": {
+                    "player_client:["android","web"]
                 }
             }
         }
