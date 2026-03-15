@@ -192,6 +192,18 @@ async function startBot() {
        } 
        
 }
+
+
+///////////////
+//menú de opciones 📩
+///////////////
+
+       if (name.toLowerCase() === ".menu") {
+           const menu = `MENÚ DE OPCIONES ⌛:
+               ---->DESCARGAR VIDEOS (TIKTOK, FACEBOOK, INSTAGRAM):
+                .tiktok
+               ---->OPCIONES PARA AGREGAR Y QUITAR PARTICIPANTES:
+                .admin`}
        try {
             if (ChatId) {
            
