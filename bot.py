@@ -77,7 +77,7 @@ def send_mp3(audio):
             },
             "extractor_args": {
                 "youtube": {
-                    "player_client:["android","web"]
+                    "player_client":["android","web"]
                 }
             }
         }
