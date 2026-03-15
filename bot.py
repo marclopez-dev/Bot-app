@@ -82,16 +82,17 @@ def send_mp3(audio):
             }
         }
         with yt_dlp.YoutubeDL(almacen) as yt:
-            title = yt.extract_info(f"ytsearch1:{audio}", download=True)
+            title = yt.extract_info(f"ytsearch1:{audio}", download=False)
             print("EL TÍTULO ES: ", title)
             if not title.get("entries"):
                 return None
             
             mine = title["entries"][0]
             print("ENCONTRADO ❓❓: ", mine)
-            archiv = yt.prepare_filename(mine)
-            print("ARCHIVO 📂📂📂: ", archiv)
-            return os.path.basename(archiv)
+            return {
+                "title": mine["title"],
+                "url": mine["url"]
+            }
 
     except Exception as e:
         print("ERRER🥶📩📩📩📩", e)
@@ -151,9 +152,6 @@ def one():
 @app.route("/chat")
 def chat():
     return render_template("chat.html")
-@app.route("/desca/<neim>")
-def decarga(neim):
-    return send_from_directory("descargas", neim, as_attachment=True)
 #########################################
 #descragar musica y enviar a JS🥶🥶🥶🥶📩
 #########################################
@@ -167,8 +165,9 @@ def audio():
         if gemin:
             return jsonify(
                 {
-                 "byte": "m4p",
-                 "url": f"https://bot-app-t2bk.onrender.com/desca/{gemin}"
+                 "byte": "url",
+                 "title":gemin["title"]
+                 "url":gemin["url"]
                 }
             )
         else:
