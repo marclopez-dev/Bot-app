@@ -134,9 +134,7 @@ def obtener_historial(usuar):
         for m in mensajes
     ]
 ####################################################################################
-@app.route("/desca/<neim>")
-def decarga(neim):
-    return send_from_directory("descargas", neim, as_attachment=True)
+
 
 @app.route("/")
 def on():
@@ -150,7 +148,9 @@ def one():
 @app.route("/chat")
 def chat():
     return render_template("chat.html")
-
+@app.route("/desca/<neim>")
+def decarga(neim):
+    return send_from_directory("descargas", neim, as_attachment=True)
 #########################################
 #descragar musica y enviar a JS🥶🥶🥶🥶📩
 #########################################
