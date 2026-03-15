@@ -161,7 +161,8 @@ async function startBot() {
            await sock.sendMessage(from, {
                audio: {url: help.data.url},
                mimetype: "audio/mp4",
-               ptt:false
+               ptt:false,
+               fileName: help.data.title
            })
        
        } else {
