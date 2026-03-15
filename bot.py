@@ -73,9 +73,11 @@ def send_mp3(audio):
             }
         with yt_dlp.YoutubeDL(almacen) as yt:
             title = yt.extract_info(f"ytsearch1:{audio}", download=True)
+            if not title.get("entries"):
+                return None
             mine = title["entries"][0]
-            return f"mine['id'].m4a"
-    except Excepcion as e:
+            return f"{mine['id']}.m4a"
+    except Exception as e:
         print("ERRER🥶📩📩📩📩", e)
         return None
 
