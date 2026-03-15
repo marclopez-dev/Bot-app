@@ -157,11 +157,14 @@ async function startBot() {
        } catch (b) {
            await sock.sendMessage(from, {text: "🥶⌛", b})
        }
-       if (help?.data?.byte) {
-           await sock.sendMessage(from, {text: help.data.url})
+       if (help?.data?.byte === "m4p") {
+           await sock.sendMessage(from, {
+               audio: {url: help.data.url},
+               mimetype: "audio/mp4"
+           })
        
        } else {
-           await sock.sendMessage(from, {text: "audio no recibido de Youtube📩"})
+           await sock.sendMessage(from, {text: help.data.byte})
        }
     }
 //////////////////////////////////
