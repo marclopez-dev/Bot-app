@@ -72,6 +72,7 @@ def send_mp3(audio):
             "quiet": True,
             "noplaylist": True,
             "nocheckcertificate": True,
+            "cookiefile": "cookies.txt",
             "headers": {
                 "User-Agent": "Mozilla/5.0"
             },
@@ -89,6 +90,7 @@ def send_mp3(audio):
             
             mine = title["entries"][0]
             print("ENCONTRADO ❓❓: ", mine)
+            print("MIRA EL ENLACE", mine["url"])
             return {
                 "title": mine["title"],
                 "url": mine["url"]
