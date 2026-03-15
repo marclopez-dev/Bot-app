@@ -166,7 +166,7 @@ def audio():
             return jsonify(
                 {
                  "byte": "url",
-                 "title":gemin["title"]
+                 "title":gemin["title"],
                  "url":gemin["url"]
                 }
             )
