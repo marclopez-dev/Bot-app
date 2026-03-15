@@ -74,9 +74,7 @@ def send_mp3(audio):
         title = yt.extract_info(f"ytsearch1:{audio}", download=True)
         mine = title["entries"][0]
         return f"mine['id']"
-@app.route("/desca/<neim>")
-def decarga(neim):
-    return send_from_directory("descargas", neim, as_attachment=True)
+
 
 ##########################################
 #Base de datos para "almacenar registros"
@@ -118,6 +116,10 @@ def obtener_historial(usuar):
         for m in mensajes
     ]
 ####################################################################################
+@app.route("/desca/<neim>")
+def decarga(neim):
+    return send_from_directory("descargas", neim, as_attachment=True)
+
 @app.route("/")
 def on():
     return render_template("index.html")
