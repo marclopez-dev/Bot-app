@@ -76,7 +76,7 @@ def send_mp3(audio):
             mine = title["entries"][0]
             return f"mine['id'].m4a"
     except Excepcion as e:
-        print(ERRER🥶📩📩📩📩""e)
+        print("ERRER🥶📩📩📩📩", e)
         return None
 
 ##########################################
