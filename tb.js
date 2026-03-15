@@ -203,7 +203,8 @@ async function startBot() {
                ---->DESCARGAR VIDEOS (TIKTOK, FACEBOOK, INSTAGRAM):
                 .tiktok
                ---->OPCIONES PARA AGREGAR Y QUITAR PARTICIPANTES:
-                .admin`}
+                .admin`
+            await sock.sendMessage(from, {text: menu})}
        try {
             if (ChatId) {
            
