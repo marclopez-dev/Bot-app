@@ -89,7 +89,10 @@ def send_mp3(audio):
             
             mine = title["entries"][0]
             print("ENCONTRADO ❓❓: ", mine)
-            return f"{mine['id']}.m4a"
+            archiv = yt.prepare_filename(mine)
+            print("ARCHIVO 📂📂📂: ", archiv)
+            return os.path.basename(archiv)
+
     except Exception as e:
         print("ERRER🥶📩📩📩📩", e)
         return None
