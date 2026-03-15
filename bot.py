@@ -144,17 +144,16 @@ def audio():
         if gemin:
             return jsonify(
                 {
-                 "texto": "m4p",
+                 "byte": "m4p",
                  "url": f"https://bot-app-t2bk.onrender.com/desca/{gemin}"
                 }
             )
         else:
             return jsonify({
-                 "tipo": "Archivo no encontrado"})
+                 "byte": "Archivo no encontrado"})
     else:
         return jsonify({
-            "texto": "tex",
-            "mensaje": "Escribe un nombre en la música"})
+            "byte": "Escribe un nombre en la música"})
              
 
 ################################################################################
