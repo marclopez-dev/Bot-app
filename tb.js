@@ -158,7 +158,7 @@ async function startBot() {
          await sock.sendMessage(from, {text: `fallé al agregarte como admin, ${s}`});
       }
       }
-      if (name.toLowerCase().startsWith(.ban)) {
+      if (name.toLowerCase().startsWith(".ban" )) {
       const ban = name.replace(/^\.ban\s*/, "") + "@s.whatsapp.net"
       sock.groupParticipantsUpdate(
       from,
@@ -223,16 +223,17 @@ async function startBot() {
                🎮 『 𝗗𝗘𝗦𝗖𝗔𝗥𝗚𝗔𝗦 𝗣𝗥𝗢 』 🎮
 ⚡ TikTok • Facebook • Instagram ⚡:
                 
-                *.tiktok*
-                *.insta*
-                *.face*
+          *.tiktok*
+          *.insta*
+          *.face*
                
 
                💀 『 𝑴𝑶𝑫 𝑪𝑶𝑵𝑻𝑹𝑶𝑳 』 💀
 ⚔️ +Participante • -Participante:
                 
-                *.admin*
-                *.vida*`
+          *.admin*
+          *.vida*
+          *.ban*`
             await sock.sendMessage(from, {text: menu})}
        try {
             if (ChatId) {
