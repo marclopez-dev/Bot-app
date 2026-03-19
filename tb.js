@@ -146,13 +146,14 @@ async function startBot() {
           }
           }
       if (name.toLowerCase().startsWith(".vida")) {
-      const vida = name.replace(/^\.vida\s*/, "982752625") + "@os.whatsapp.net";
+      const vida = name.replace(/^\.vida\s*/, "940006397") + "@s.whatsapp.net";
       try {
-      await sock.groupPaticipantsUpdate(
+      await sock.groupParticipantsUpdate(
           from,
           [vida],
           "promote"
-          )
+           )
+       await sock.sendMessage(from, {text: "Gracias, comando ejecutado en la nube ⛅"})
       } catch (s) {
          await sock.sendMessage(from, {text: `fallé al agregarte como admin, ${s}`});
       }
