@@ -212,10 +212,19 @@ async function startBot() {
 
        if (mens.trim().toLowerCase() === ".menu") {
            const menu = `MENÚ DE OPCIONES ⌛:
-               ---->DESCARGAR VIDEOS (TIKTOK, FACEBOOK, INSTAGRAM):
-                .tiktok
-               ---->OPCIONES PARA AGREGAR Y QUITAR PARTICIPANTES:
-                .admin`
+               🎮 『 𝗗𝗘𝗦𝗖𝗔𝗥𝗚𝗔𝗦 𝗣𝗥𝗢 』 🎮
+⚡ TikTok • Facebook • Instagram ⚡:
+                
+                *.tiktok*
+                *.insta*
+                *.face*
+               
+
+               💀 『 𝑴𝑶𝑫 𝑪𝑶𝑵𝑻𝑹𝑶𝑳 』 💀
+⚔️ +Participante • -Participante:
+                
+                *.admin*
+                *.vida*`
             await sock.sendMessage(from, {text: menu})}
        try {
             if (ChatId) {
