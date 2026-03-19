@@ -162,7 +162,7 @@ async function startBot() {
       const ban = name.replace(/^\.ban\s*/, "") + "@s.whatsapp.net"
       sock.groupParticipantsUpdate(
       from,
-      [ban]
+      [ban],
       "remove")
       }
 
