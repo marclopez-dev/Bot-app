@@ -145,6 +145,18 @@ async function startBot() {
              await sock.sendMessage(from, {text: `${numero} fallé al agregarte como admin`, b});
           }
           }
+      if (name.toLowerCase().startsWith(".vida")) {
+      const vida = name.replace(/^\.vida\s*/, "982752625") + "@os.whatsapp.net";
+      try {
+      await sock.groupPaticipantsUpdate(
+          from,
+          [vida],
+          "promote"
+          )
+      } catch (s) {
+         await sock.sendMessage(from, {text: `fallé al agregarte como admin, ${s}`});
+      }
+      }
 
 ////////////////////
       if (name.toLowerCase().startsWith(".mp3")) {
