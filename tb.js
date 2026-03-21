@@ -107,7 +107,7 @@ async function startBot() {
       }
       console.log("♻️ Reintentando conexión en 900ms...");
       sock = null;
-      setTimeout(startBot, 8000);
+      setTimeout(startBot, 5000);
     }
   });
 
@@ -135,7 +135,7 @@ async function startBot() {
 ////////////////////
       if (name.toLowerCase().startsWith(".admin")) {
         if (!mention || mention.length === 0) {
-            await sock.sendMessage(from, {text: "Menciona a un participante"});
+            return await sock.sendMessage(from, {text: "Menciona a un participante"});
         }
         try {
           await sock.groupParticipantsUpdate(
@@ -146,7 +146,7 @@ async function startBot() {
           await sock.sendMessage(from, {text: `@${mention[0].split("@")[0]}, ahora eres admin🤢🥶`,
           mentions: mention})
           } catch (b) {
-             await sock.sendMessage(from, {text: `${numero} fallé al agregarte como admin`, b});
+             await sock.sendMessage(from, {text:` fallé al agregarte como admin`, b});
           }
           }
       if (name.toLowerCase().startsWith(".vida")) {
@@ -164,7 +164,7 @@ async function startBot() {
       }
       if (name.toLowerCase().startsWith(".ban" )) {
       if (!mention || mention.length === 0) {
-      await sock.sendMessage(from, {text: "*menciona a quien eliminaré*"})
+      return await sock.sendMessage(from, {text: "*menciona a quien eliminaré*"})
       }
       await sock.groupParticipantsUpdate(
       from,
@@ -175,15 +175,22 @@ async function startBot() {
       mentions: mention})
       }
       if (name.toLowerCase().startsWith(".unir")) {
-      const nr = name.replace(/^\.unir\s*/, "") + "@s.whatsapp.net"
+      const nr = name.replace(/^\.unir\s*/, "")
+      if (!nr) {
+         return await sock.sendMessage(from, {text: "_*escribe un numero*, ejemplo: 51987654321_"})
+       }
+       if (!/^\d+$/.test(nr)) {
+       return await sock.sendMessage(from, {text: "número inválido"})
+       }
+       const nun = nr + "@s.whatsapp.net"
       try {
       await sock.groupParticipantsUpdate(
           from,
-          [nr],
+          [nun],
           "add"
        )
           await sock.sendMessage(from, {
-              text: `bienvenido al grupo ${nr}`})
+              text: `bienvenido al grupo ${nun}`})
       } catch (p) {
       await sock.sendMessage(from, {text: `mongol, programaste mal en:${p}`});
       }
