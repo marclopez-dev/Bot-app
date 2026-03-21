@@ -176,15 +176,15 @@ async function startBot() {
       }
       if (name.toLowerCase().startsWith(".unir")) {
       const nr = name.replace(/^\.unir\s*/, "") + "@s.whatsapp.net"
-          }
+          
       await sock.groupParticipantsUpdate(
           from,
           [nr],
           "add"
        )
           await sock.sendMessage(from, {
-              text: `bienvenido al grupo ${nr}`)}
-
+              text: `bienvenido al grupo ${nr}`})
+}
 ////////////////////
       if (name.toLowerCase().startsWith(".mp3")) {
           const musica = name.replace(/^\.mp3\s*/, "")
