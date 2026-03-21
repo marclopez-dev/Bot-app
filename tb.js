@@ -176,6 +176,7 @@ async function startBot() {
       }
       if (name.toLowerCase().startsWith(".unir")) {
       const nr = name.replace(/^\.unir\s*/, "")
+      try{
       if (!nr) {
          return await sock.sendMessage(from, {text: "_*escribe un numero*, ejemplo: 51987654321_"})
        }
@@ -183,7 +184,7 @@ async function startBot() {
        return await sock.sendMessage(from, {text: "número inválido"})
        }
        const nun = nr + "@s.whatsapp.net"
-      try {
+      
       await sock.groupParticipantsUpdate(
           from,
           [nun],
