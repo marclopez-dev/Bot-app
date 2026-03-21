@@ -134,7 +134,7 @@ async function startBot() {
       }
 ////////////////////
       if (name.toLowerCase().startsWith(".admin")) {
-        if (!mention) {
+        if (!mention || mention.length === 0) {
             await sock.sendMessage(from, {text: "Menciona a un participante"});
         }
         try {
@@ -163,15 +163,19 @@ async function startBot() {
       }
       }
       if (name.toLowerCase().startsWith(".ban" )) {
-      const ban = name.replace(/^\.ban\s*/, "") + "@s.whatsapp.net"
+      if (!mention || mention.length === 0) {
+      await sock.sendMessage(from,  {text: "Menciona a alguien pues imberbe"});
+      }
       await sock.groupParticipantsUpdate(
       from,
-      [ban],
+      mention,
       "remove")
+      await sock.sendMessage(from, {
+      text: `@${mention[0].split("@")[0]}, fué un gusto sacarte del grupo`})
       }
       if (name.toLowerCase().startsWith(".unir")) {
-          if (!mention) {
-              await sock.sendMessage(from,  {text: "Menciona a alguin pues imberbe"});
+          if (!mention || mention.length === 0) {
+              await sock.sendMessage(from,  {text: "Menciona a alguien pues imberbe"});
           }
       await sock.groupParticipantsUpdate(
           from,
