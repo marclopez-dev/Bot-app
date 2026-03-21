@@ -120,6 +120,7 @@ async function startBot() {
       if (!mens) return;
       const name = mens.trim()
       let res;
+      const mention = msg.message?.extendedTextMessage?.contextInfo?.mentionedJid;
       const ltr = mens.trim().toLowerCase()
       if (ltr ==="/of") {
         ChatId = false;
@@ -133,14 +134,17 @@ async function startBot() {
       }
 ////////////////////
       if (name.toLowerCase().startsWith(".admin")) {
-          const numero = name.replace(/^\.admin\s*/, "") + "@s.whatsapp.net"
+        if (!mention) {
+            await sock.sendMessage(from, {text: "Menciona a un participante"});
+        }
         try {
           await sock.groupParticipantsUpdate(
              from,
-             [numero],
+             mention,
              "promote"
           )
-          await sock.sendMessage(from, {text: `${numero}, ahora eres admin🤢🥶`})
+          await sock.sendMessage(from, {text: `@${mention[0].split("@")[0]}, ahora eres admin🤢🥶`,
+          mentions: mention})
           } catch (b) {
              await sock.sendMessage(from, {text: `${numero} fallé al agregarte como admin`, b});
           }
@@ -160,11 +164,23 @@ async function startBot() {
       }
       if (name.toLowerCase().startsWith(".ban" )) {
       const ban = name.replace(/^\.ban\s*/, "") + "@s.whatsapp.net"
-      sock.groupParticipantsUpdate(
+      await sock.groupParticipantsUpdate(
       from,
       [ban],
       "remove")
       }
+      if (name.toLowerCase().startsWith(".unir")) {
+          if (!mention) {
+              await sock.sendMessage(from,  {text: "Menciona a alguin pues imberbe"});
+          }
+      await sock.groupParticipantsUpdate(
+          from,
+          mention,
+          "add"
+       )
+          await sock.sendMessage(from, {
+              text:`@${mention[0].split("@")[0]}, bienvenido al grupo`,
+           mentions: mention})}
 
 ////////////////////
       if (name.toLowerCase().startsWith(".mp3")) {
@@ -233,7 +249,8 @@ async function startBot() {
                 
           *.admin*
           *.vida*
-          *.ban*`
+          *.ban*
+          *.unir*`
             await sock.sendMessage(from, {text: menu})}
        try {
             if (ChatId) {
