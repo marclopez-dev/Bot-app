@@ -21,7 +21,7 @@ try {
     console.log("🥶🥶🥶🥶🥶", ñ);
 }
 // Carpeta donde se guardará la sesión
-if (!fs.existsSync("./wh_session")) fs.mkdirSync("./wh_session");
+if (!fs.existsSync("./wh")) fs.mkdirSync("./wh");
 const apk = express();
 const PORT = process.env.PORT || 3000;
 apk.get("/", (req, res) => res.send("bot activado"));
@@ -77,7 +77,7 @@ async function startBot() {
   if (sock) {
       console.log("🥶el bot ya está iniciado🔪🧟")
   }
-  const { state, saveCreds } = await useMultiFileAuthState("./wh_session");
+  const { state, saveCreds } = await useMultiFileAuthState("./wh");
 
   const { version } = await fetchLatestBaileysVersion().catch(() => ({ version: undefined }));
 
