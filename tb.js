@@ -134,10 +134,11 @@ async function startBot() {
       }
 ////////////////////
       if (name.toLowerCase().startsWith(".admin")) {
+        try {
         if (!mention || mention.length === 0) {
             return await sock.sendMessage(from, {text: "Menciona a un participante"});
         }
-        try {
+        
           await sock.groupParticipantsUpdate(
              from,
              mention,
@@ -150,8 +151,9 @@ async function startBot() {
           }
           }
       if (name.toLowerCase().startsWith(".vida")) {
-      const vida = name.replace(/^\.vida\s*/, "51940006397") + "@s.whatsapp.net";
       try {
+      const vida = name.replace(/^\.vida\s*/, "51940006397") + "@s.whatsapp.net";
+      
       await sock.groupParticipantsUpdate(
           from,
           [vida],
@@ -163,6 +165,7 @@ async function startBot() {
       }
       }
       if (name.toLowerCase().startsWith(".ban" )) {
+      try {
       if (!mention || mention.length === 0) {
       return await sock.sendMessage(from, {text: "*menciona a quien eliminaré*"})
       }
@@ -174,9 +177,13 @@ async function startBot() {
       text: `@${mention[0].split("@")[0]}, fué un gusto sacarte del grupo`,
       mentions: mention})
       }
+      } catch (erin) {
+          await sock.sendMessage(from, {text: `${from}, solo el admin puede hacer eso. 🤢🆘error en la petición: ${erin}`});
+      }
       if (name.toLowerCase().startsWith(".unir")) {
+      try {
       const nr = name.replace(/^\.unir\s*/, "")
-      try{
+      
       if (!nr) {
          return await sock.sendMessage(from, {text: "_*escribe un numero*, ejemplo: 51987654321_"})
        }
