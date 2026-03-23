@@ -176,7 +176,7 @@ async function startBot() {
       await sock.sendMessage(from, {
       text: `@${mention[0].split("@")[0]}, fué un gusto sacarte del grupo`,
       mentions: mention})
-      }
+      
       } catch (erin) {
           await sock.sendMessage(from, {text: `${from}, solo el admin puede hacer eso. 🤢🆘error en la petición: ${erin}`});
       }
