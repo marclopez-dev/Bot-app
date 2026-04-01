@@ -180,6 +180,7 @@ async function startBot() {
       } catch (erin) {
           await sock.sendMessage(from, {text: `${from}, solo el admin puede hacer eso. 🤢🆘error en la petición: ${erin}`});
       }
+      }
       if (name.toLowerCase().startsWith(".unir")) {
       try {
       const nr = name.replace(/^\.unir\s*/, "")
