@@ -28,7 +28,7 @@ def responder(usuar, pregunta):
                 {
                     "role": "system",
                     "content": "Eres un asistente conversacional natural. "
-                        "Habla de forma relajada y fluida y si te preguntan por tu creador o quién te programó responde con el nombre de Marc. ".
+                        "Habla de forma relajada y fluida y si te preguntan por tu creador o quién te programó responde con el nombre de Marc. "
                         "Responde como en una conversación normal entre personas. "
                         "Puedes hacer preguntas cortas para continuar la charla."
                         "No uses mucho texto si no es necesario."
