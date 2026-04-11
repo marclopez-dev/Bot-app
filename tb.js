@@ -250,17 +250,20 @@ async function startBot() {
        } 
        
 }
-let clave = msg.key.participantAlt || msg.key.remoteJid
+
+
+
+let clave = msg.key.participantAlt || msg.key.remoteJidAlt
 let OWNER = "51940006397@s.whatsapp.net"
 ///////////////////
 if (mens.startsWith("_")) {
  await sock.sendPresenceUpdate("composing", chatId);
       await new Promise(r => setTimeout(r, 1000));
       try{
-//         if (clave !== OWNER) {
-//          await sock.sendMessage(chatId, {text: `acceso no autorizado para ${usuario}`})
-  //        return;
-  //    }
+         if (clave !== OWNER) {
+          await sock.sendMessage(chatId, {text: `acceso no autorizado para ${usuario}`})
+          return;
+      }
          const txt = texto.replace(/^\_\s*/, "");
          const code = await eval(`(async () => {
              ${txt}
