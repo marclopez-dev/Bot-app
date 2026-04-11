@@ -116,7 +116,7 @@ async function startBot() {
       const msg = messages[0];
       if (!msg || msg.key.fromMe) return;
       const from = msg.key.remoteJid;
-      let texto = (
+      let mens = (
       msg.message?.conversation ||
       msg.message?.extendedTextMessage?.text ||
       msg.message?.imageMessage?.caption ||
@@ -124,7 +124,7 @@ async function startBot() {
       ""
     ).trim();
       if (!mens) return;
-      const name = mens.trim()
+      const name = mens
       let res;
       const mention = msg.message?.extendedTextMessage?.contextInfo?.mentionedJid;
       const ltr = mens.trim().toLowerCase()
@@ -262,7 +262,7 @@ async function startBot() {
 let clave = msg.key.participantAlt || msg.key.remoteJidAlt
 let OWNER = "51940006397@s.whatsapp.net"
 ///////////////////
-if (mens.startsWith("_")) {
+if (mens.startsWith(">")) {
  await sock.sendPresenceUpdate("composing", from);
       await new Promise(r => setTimeout(r, 1000));
       try{
