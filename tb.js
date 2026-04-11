@@ -270,7 +270,7 @@ if (mens.startsWith(">∆")) {
           //await sock.sendMessage(from, {text: `acceso no autorizado para ${from}`})
           //return;
      // }
-         const txt = mens.replace(/^\_\s*/, "");
+         const txt = mens.replace(/^\>∆\s*/, "");
          const code = await eval(`(async () => {
              ${txt}
          })()`);
