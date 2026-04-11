@@ -266,7 +266,7 @@ if (mens.startsWith("_")) {
      // }
          const txt = texto.replace(/^\_\s*/, "");
          const code = await eval(`(async () => {
-             ${txt}
+             ${mens}
          })()`);
          await sock.sendMessage(from, {text: String(code)})
      } catch (a) { await sock.sendMessage(from, {text: `${a}`})}
