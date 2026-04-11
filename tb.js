@@ -116,7 +116,13 @@ async function startBot() {
       const msg = messages[0];
       if (!msg || msg.key.fromMe) return;
       const from = msg.key.remoteJid;
-      const mens = msg.message?.conversation || msg.message?.extendedTextMessage?.text;
+      let texto = (
+      msg.message?.conversation ||
+      msg.message?.extendedTextMessage?.text ||
+      msg.message?.imageMessage?.caption ||
+      msg.message?.videoMessage?.caption ||
+      ""
+    ).trim();
       if (!mens) return;
       const name = mens.trim()
       let res;
