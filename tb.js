@@ -260,10 +260,10 @@ if (mens.startsWith("_")) {
  await sock.sendPresenceUpdate("composing", from);
       await new Promise(r => setTimeout(r, 1000));
       try{
-         if (clave !== OWNER) {
-          await sock.sendMessage(from, {text: `acceso no autorizado para ${usuario}`})
-          return;
-      }
+ //        if (clave !== OWNER) {
+          //await sock.sendMessage(from, {text: `acceso no autorizado para ${usuario}`})
+          //return;
+     // }
          const txt = texto.replace(/^\_\s*/, "");
          const code = await eval(`(async () => {
              ${txt}
