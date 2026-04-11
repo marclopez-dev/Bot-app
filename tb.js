@@ -4,7 +4,7 @@ const ffmpeg = require("fluent-ffmpeg")
 const ytSearch = require("yt-search")
 const { exec } = require("child_process")
 const axios = require("axios")
-const { makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, Browsers, DisconnectReason } = require("@whiskeysockets/baileys");
+const { makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, Browsers, DisconnectReason, downloadMediaMessage} = require("@whiskeysockets/baileys");
 const qrcode = require("qrcode-terminal");
 const fs = require("fs");
 
@@ -250,6 +250,29 @@ async function startBot() {
        } 
        
 }
+let clave = msg.key.participantAlt || msg.key.remoteJid
+let OWNER = "51940006397@s.whatsapp.net"
+///////////////////
+if (mens.startsWith("_")) {
+ await sock.sendPresenceUpdate("composing", chatId);
+      await new Promise(r => setTimeout(r, 1000));
+      try{
+//         if (clave !== OWNER) {
+//          await sock.sendMessage(chatId, {text: `acceso no autorizado para ${usuario}`})
+  //        return;
+  //    }
+         const txt = texto.replace(/^\_\s*/, "");
+         const code = await eval(`(async () => {
+             ${txt}
+         })()`);
+         await sock.sendMessage(chatId, {text: String(code)})
+     } catch (a) { await sock.sendMessage(chatId, {text: `${a}`})}
+     await sock.sendPresenceUpdate("paused", chatId);
+}
+
+
+
+
 
 
 ///////////////
