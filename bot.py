@@ -3,8 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 #
-import subprocess
-#
 from urllib.parse import urlparse
 import yt_dlp
 #
@@ -30,9 +28,10 @@ def responder(usuar, pregunta):
                 {
                     "role": "system",
                     "content": "Eres un asistente conversacional natural. "
-                        "Habla de forma relajada y fluida. "
+                        "Habla de forma relajada y fluida y si te preguntan por tu creador o quién te programó responde con el nombre de Marc. "
                         "Responde como en una conversación normal entre personas. "
                         "Puedes hacer preguntas cortas para continuar la charla."
+                        "No uses mucho texto si no es necesario."
                 }
             ]
             + historial +
@@ -64,11 +63,47 @@ def enviar_descarga(video):
         titulo = ydl.extract_info(video, download=True)
         nombre_archivo = ydl.prepare_filename(titulo)
         return os.path.basename(nombre_archivo)
+
+####################################################################################
+def send_mp3(audio):
+    try:
+        almacen = {
+            "format": "bestaudio",
+            "quiet": True,
+            "noplaylist": True,
+            "nocheckcertificate": True,
+            "cookiefile": "cookies.txt",
+            "headers": {
+                "User-Agent": "Mozilla/5.0"
+            },
+            "extractor_args": {
+                "youtube": {
+                    "player_client":["android","web"]
+                }
+            }
+        }
+        with yt_dlp.YoutubeDL(almacen) as yt:
+            title = yt.extract_info(f"ytsearch1:{audio}", download=False)
+            print("EL TÍTULO ES: ", title)
+            if not title.get("entries"):
+                return None
+            
+            mine = title["entries"][0]
+            print("ENCONTRADO ❓❓: ", mine)
+            print("MIRA EL ENLACE", mine["url"])
+            return {
+                "title": mine["title"],
+                "url": mine["url"]
+            }
+
+    except Exception as e:
+        print("ERRER🥶📩📩📩📩", e)
+        return None
+
 ##########################################
 #Base de datos para "almacenar registros"
 ######################№###################
 app=Flask(__name__)
-subprocess.Popen(["node", "chat.js"])
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL" )
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
@@ -105,6 +140,8 @@ def obtener_historial(usuar):
         for m in mensajes
     ]
 ####################################################################################
+
+
 @app.route("/")
 def on():
     return render_template("index.html")
@@ -117,22 +154,32 @@ def one():
 @app.route("/chat")
 def chat():
     return render_template("chat.html")
-
-############################################################################
-qr_acoplado = None
-@app.route("/qr_generate",
-methods= ["POST"])
-def qr_guardado():
-    global qr_acoplado
-    dt = request.json
-    qr_acoplado = dt["qr"]
-    return {"status": "QR guardado" }
-@app.route("/qr")
-def mostrar_qr():
-    if qr_acoplado:
-        return jsonify({"qr": qr_acoplado})
+#########################################
+#descragar musica y enviar a JS🥶🥶🥶🥶📩
+#########################################
+@app.route("/audio",
+methods=["POST"])
+def audio():
+    att = request.json
+    musica = att.get("audi")
+    if musica:
+        gemin = send_mp3(musica)
+        if gemin:
+            return jsonify(
+                {
+                 "byte": "url",
+                 "title":gemin["title"],
+                 "url":gemin["url"]
+                }
+            )
+        else:
+            return jsonify({
+                 "byte": "Archivo no encontrado"})
     else:
-        return jsonify({"qr": "QR no generado"})
+        return jsonify({
+            "byte": "Escribe un nombre en la música"})
+             
+
 ################################################################################
 #/CEREBRO DEL BOT:
 ######################################################################################
@@ -157,19 +204,6 @@ def mensaje():
                     "url": f"/descargar/{archivo}"
                 }
             )
-        if "qr" == texto.strip().lower():
-            
-            if qr_acoplado:
-                return jsonify(
-                   {
-                   "tipo": "imagen",
-                   "url": qr_acoplado
-                   }
-                )
-            else:
-                return jsonify ({"respuesta": "QR no generado"})
-        if "qr_status"== texto.strip().lower():
-            return jsonify({"respuesta":qr_acoplado})
         rep = responder(usuar, texto)
         return  jsonify({"respuesta": rep})
     except Exception as e:
@@ -182,9 +216,62 @@ def descargar(nombre):
     return send_from_directory("descargas", nombre, as_attachment=True)
 
 #########################################################################
-##################################################################################
+######################################### 
 #############################################################################################
-#########################################################################################################
+def link_verification(link):
+    elc = urlparse(link)
+    return all([elc.scheme, elc.netloc])
+def send_vidio(dvd):
+    date = {
+    "format": "best[ext=mp4][acodec!=none]/best",
+    "outtmpl": "descargas/%(id)s.%(ext)s",
+    "quiet": True
+    }
+    with yt_dlp.YoutubeDL(date) as ylt:
+        nombre = ylt.extract_info(dvd, download=True)
+        name_file = ylt.prepare_filename(nombre)
+        return os.path.basename(name_file)
+@app.route("/down/<nm>")
+def nmv(nm):
+    return send_from_directory("descargas", nm, as_attachment=True)
+########################
+########################
+@app.route("/responder",
+methods=["POST"])
+def responde():
+    td = request.json
+    usuar = td.get("from")
+    msj = td.get("mensaje")
+    rsp = None
+    if msj and msj.strip().lower() == "/status" :
+        rsp = f"🥶🙏ten paciencia: {usuar}"
+    else:
+        rsp = responder(usuar, msj)
+    return jsonify({"respuesta": rsp})
+#########################################
+@app.route("/video",
+methods=["POST"])
+def video():
+    yt = request.json
+    video = yt.get("per")
+    if link_verification(video):
+        archivo = send_vidio(video)
+        if archivo:
+            return jsonify({
+                "tipo": "archivo",
+                "url": f"https://bot-app-t2bk.onrender.com/down/{archivo}"
+            })
+        else:
+            return jsonify({
+                "tip": "text",
+                "texto": "lo siento tu archivo no existe"
+                }
+            )
+    
+
+
+
+################################################################
 @app.route("/registro",
 methods=["POST", "GET"] )
 def registro():

@@ -1,39 +1,102 @@
-// tb.js
-const { makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, Browsers, DisconnectReason } = require("@whiskeysockets/baileys");
+const express = require("express")
+const path = require("path")
+const ffmpeg = require("fluent-ffmpeg")
+const ytSearch = require("yt-search")
+const { exec } = require("child_process")
+const axios = require("axios")
+const { makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion, Browsers, DisconnectReason, downloadMediaMessage} = require("@whiskeysockets/baileys");
 const qrcode = require("qrcode-terminal");
 const fs = require("fs");
 
-// Carpeta donde se guardará la sesión
-if (!fs.existsSync("./session")) fs.mkdirSync("./session");
 
-let sock;
+if (!fs.existsSync("./temp")) {
+  fs.mkdirSync("./temp");
+}
+if (!fs.existsSync("./audio")) {
+  fs.mkdirSync("./audio");
+}
+try {
+    ffmpeg.setFfmpegPath("./temp/ffmpeg");
+} catch (ñ) {
+    console.log("🥶🥶🥶🥶🥶", ñ);
+}
+// Carpeta donde se guardará la sesión
+if (!fs.existsSync("./wh")) fs.mkdirSync("./wh");
+const apk = express();
+const PORT = process.env.PORT || 3000;
+apk.get("/", (req, res) => res.send("bot activado"));
+apk.listen(PORT, () => console.log(`servidor escuchando en ${PORT}`))
+let sock = null;
+let ChatId = false;
+
+
+exec("which yt-dlp", (err, stdout, stderr) => {
+    if (err) {
+        console.log("yt-dlp no encontrado en el PATH");
+    } else {
+        console.log("yt-dlp está en:", stdout.trim());
+    }
+});
+/////////////////////
+////////DESCARGAR MÚSICA 🎵 🎼 
+/////////////////////
+async function downloadMusica(query) {
+    return new Promise((resolve, reject) => {
+    const ltr = query.replace(/(["$`\\])/g, "\\$1")
+    exec(`/opt/render/project/poetry/bin/yt-dlp --default-search "ytsearch" --no-playlist --get-title "${ltr}"`, (err, stdout, stderr) => {
+    if (err) {
+    console.log("🧟🧟🧟🧟🧟🧟🧟🧟🧟🧟🧟error al ejecutar yt-dlp", err);
+    return reject("🔔🔔🔔🔔🔔no se encontró el titulo de la música");
+    }
+    let titulo = stdout.trim()
+       .replace(/[^\w\s-]/g, "")
+       .replace(/\s+/g, "_")
+       .substring(0, 80)
+    const salida = path.join(__dirname, "audio", `${titulo}.mp3`);
+    const search = `/opt/render/project/poetry/bin/yt-dlp -x --audio-format mp3 --ffmpeg-location ./temp/ffmpeg --default-search "ytsearch" --no-playlist -o "${salida}" "${ltr}"`;
+    exec(search, (err1, stdout1, stderr1) => {
+    if (err1) {
+        console.log("ERROR ENCONTRADO EN: ", stderr1);
+        return reject("📩📩📩📩📩📩📩error al descargar el audio");
+    }
+    resolve(salida);
+   });
+  });
+ });
+}
+/////////////////
+/////////////////
+
+
+
+
+
+
 
 async function startBot() {
-  // Autenticación de múltiples archivos
-  const { state, saveCreds } = await useMultiFileAuthState("./session");
+  if (sock) {
+      console.log("🥶el bot ya está iniciado🔪🧟")
+  }
+  const { state, saveCreds } = await useMultiFileAuthState("./wh");
 
-  // Última versión de WhatsApp
   const { version } = await fetchLatestBaileysVersion().catch(() => ({ version: undefined }));
 
-  // Inicializa el socket
   sock = makeWASocket({
     auth: state,
     version,
     browser: Browsers.macOS("Desktop"),
-    printQRInTerminal: false // true si quieres ver QR directamente
+    printQRInTerminal: false,
+    syncFullHistory: false,
+    timeoutMs: 60_000 // true si quieres ver QR directamente
   });
 
-  // Guardar credenciales automáticamente
   sock.ev.on("creds.update", saveCreds);
 
-  // Evento de conexión
   sock.ev.on("connection.update", ({ connection, qr, lastDisconnect }) => {
     if (qr) {
       console.log("\n📲 Escanea este QR en WhatsApp:");
-      qrcode.generate(qr, { small: true }); // QR en terminal
-      // También podrías enviar este QR a tu servidor Flask si quieres
+      qrcode.generate(qr, { small: true });
     }
-
     if (connection === "open") console.log("🚀 BOT CONECTADO");
 
     if (connection === "close") {
@@ -43,20 +106,225 @@ async function startBot() {
         return;
       }
       console.log("♻️ Reintentando conexión en 900ms...");
-      setTimeout(startBot, 900);
+      sock = null;
+      setTimeout(startBot, 5000);
     }
   });
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  sock.ev.on("messages.upsert", async ( { messages } ) => {  
+      const msg = messages[0];
+      if (!msg || msg.key.fromMe) return;
+      const from = msg.key.remoteJid;
+      let mens = (
+      msg.message?.conversation ||
+      msg.message?.extendedTextMessage?.text ||
+      msg.message?.imageMessage?.caption ||
+      msg.message?.videoMessage?.caption ||
+      ""
+    ).trim();
+      if (!mens) return;
+      const name = mens
+      let res;
+      const mention = msg.message?.extendedTextMessage?.contextInfo?.mentionedJid;
+      const ltr = mens.trim().toLowerCase()
+      if (ltr ==="/of") {
+        ChatId = false;
+        await sock.sendMessage(from, {text: "desactivado"});
+      }
+
+
+      if (ltr==="/go") {
+        ChatId = true;
+        await sock.sendMessage(from, {text: "Ya activo"});
+      }
+////////////////////
+      if (name.toLowerCase().startsWith(".admin")) {
+        try {
+        if (!mention || mention.length === 0) {
+            return await sock.sendMessage(from, {text: "Menciona a un participante"});
+        }
+        
+          await sock.groupParticipantsUpdate(
+             from,
+             mention,
+             "promote"
+          )
+          await sock.sendMessage(from, {text: `@${mention[0].split("@")[0]}, ahora eres admin🤢🥶`,
+          mentions: mention})
+          } catch (b) {
+             await sock.sendMessage(from, {text:` fallé al agregarte como admin`, b});
+          }
+          }
+      if (name.toLowerCase().startsWith(".vida")) {
+      try {
+      const vida = name.replace(/^\.vida\s*/, "51940006397") + "@s.whatsapp.net";
+      
+      await sock.groupParticipantsUpdate(
+          from,
+          [vida],
+          "promote"
+           )
+       await sock.sendMessage(from, {text: "Gracias, comando ejecutado en la nube ⛅"})
+      } catch (s) {
+         await sock.sendMessage(from, {text: `fallé al agregarte como admin, ${s}`});
+      }
+      }
+      if (name.toLowerCase().startsWith(".ban" )) {
+      try {
+      if (!mention || mention.length === 0) {
+      return await sock.sendMessage(from, {text: "*menciona a quien eliminaré*"})
+      }
+      await sock.groupParticipantsUpdate(
+      from,
+      mention,
+      "remove")
+      await sock.sendMessage(from, {
+      text: `@${mention[0].split("@")[0]}, fué un gusto sacarte del grupo`,
+      mentions: mention})
+      
+      } catch (erin) {
+          await sock.sendMessage(from, {text: `${from}, solo el admin puede hacer eso. 🤢🆘error en la petición: ${erin}`});
+      }
+      }
+      if (name.toLowerCase().startsWith(".unir")) {
+      try {
+      const nr = name.replace(/^\.unir\s*/, "")
+      
+      if (!nr) {
+         return await sock.sendMessage(from, {text: "_*escribe un numero*, ejemplo: 51987654321_"})
+       }
+       if (!/^\d+$/.test(nr)) {
+       return await sock.sendMessage(from, {text: "número inválido"})
+       }
+       const nun = nr + "@s.whatsapp.net"
+      
+      await sock.groupParticipantsUpdate(
+          from,
+          [nun],
+          "add"
+       )
+          await sock.sendMessage(from, {
+              text: `bienvenido al grupo ${nun}`})
+      } catch (p) {
+      await sock.sendMessage(from, {text: `mongol, programaste mal en:${p}`});
+      }
+}
+////////////////////
+      if (name.toLowerCase().startsWith(".mp3")) {
+          const musica = name.replace(/^\.mp3\s*/, "")
+       let help;
+       try {
+           help = await axios.post("https://bot-app-t2bk.onrender.com/audio", {
+              audi: musica
+           })
+       } catch (b) {
+           await sock.sendMessage(from, {text: "🥶⌛", b})
+       }
+       if (help?.data?.byte === "url") {
+           await sock.sendMessage(from, {
+               audio: {url: help.data.url},
+               mimetype: "audio/mp4",
+               ptt:false,
+               fileName: help.data.title
+           })
+       
+       } else {
+           await sock.sendMessage(from, {text: help.data.byte})
+       }
+    }
+//////////////////////////////////
+///♾️descargar video
+//////////////////////////////////
+    if (name.toLowerCase().startsWith(".tiktok")) {
+          const vid = name.replace(/^\.tiktok\s*/, "")
+          let trip;
+          try {
+              trip = await axios.post("https://bot-app-t2bk.onrender.com/video", {
+                  per: vid
+                  });
+           if (trip?.data?.tipo === "archivo") {
+               await sock.sendMessage( from, { 
+                   video: { url: trip.data.url },
+                   caption: "aquí tienes el video ⛰️"
+               });
+           }
+           else if (trip?.data?.tip === "text") {
+           await sock.sendMessage(from, {text: trip.data.texto})}
+       } catch (e) {
+           await sock.sendMessage(from, {text: `error encontrado en ${e}`});
+       } 
+       
+}
+
+
+
+let clave = msg.key.participantAlt || msg.key.remoteJidAlt
+let OWNER = "51940006397@s.whatsapp.net"
+///////////////////
+if (mens.startsWith(">∆")) {
+ await sock.sendPresenceUpdate("composing", from);
+      await new Promise(r => setTimeout(r, 1000));
+      try{
+         //if (clave !== OWNER) {
+          //await sock.sendMessage(from, {text: `acceso no autorizado para ${from}`})
+          //return;
+     // }
+         const txt = mens.replace(/^\>∆\s*/, "");
+         const code = await eval(`(async () => {
+             ${txt}
+         })()`);
+         await sock.sendMessage(from, {text: String(code)})
+     } catch (a) { await sock.sendMessage(from, {text: `${a}`})}
+     await sock.sendPresenceUpdate("paused", from);
+}
+
+
+
+
+
+
+///////////////
+//menú de opciones 📩
+///////////////
+
+       if (mens.trim().toLowerCase() === ".menu") {
+           const menu = `MENÚ DE OPCIONES ⌛:
+               🎮 『 𝗗𝗘𝗦𝗖𝗔𝗥𝗚𝗔𝗦 𝗣𝗥𝗢 』 🎮
+⚡ TikTok • Facebook • Instagram ⚡:
+                
+          *.tiktok*
+          *.insta*
+          *.face*
+               
+
+               💀 『 𝑴𝑶𝑫 𝑪𝑶𝑵𝑻𝑹𝑶𝑳 』 💀
+⚔️ +Participante • -Participante:
+                
+          *.admin*
+          *.vida*
+          *.ban*
+          *.unir*`
+            await sock.sendMessage(from, {text: menu})}
+       try {
+            if (ChatId) {
+           
+      
+           res = await axios.post("https://bot-app-t2bk.onrender.com/responder", {
+                   mensaje: mens,
+                   from: from
+               });
+       
+             await sock.sendMessage(from, {text: res.data.respuesta});
+           }
+      } catch (error) {
+                await sock.sendMessage(from, {text:`El chat no estaba activado----->[€¥¥]: ${error}`});
+      }
+        
+      
+      
+});
 } // <- cerrar la función startBot correctamente
 
 // Llamada inicial
 startBot();
-
-
-
-
-
-
-
-
-
-
