@@ -274,7 +274,7 @@ if (mens.startsWith(">∆")) {
          const code = await eval(`(async () => {
              ${txt}
          })()`);
-         await sock.sendMessage(from, {text: JSON.stringify({code})})
+         await sock.sendMessage(from, {text: JSON.stringify(code)})
      } catch (a) { await sock.sendMessage(from, {text: `${a}`})}
      await sock.sendPresenceUpdate("paused", from);
 }
