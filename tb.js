@@ -257,7 +257,50 @@ async function startBot() {
        
 }
 
+if (name.toLowerCase().startsWith(".insta")) {
+          const ig = name.replace(/^\.insta\s*/, "")
+          let ige;
+          try {
+              ige = await axios.post("https://bot-app-t2bk.onrender.com/video", {
+                  per: ig
+                  });
+           if (ige?.data?.tipo === "archivo") {
+               await sock.sendMessage( from, { 
+                   video: { url: ige.data.url },
+                   caption: "aquí tienes el video ⛰️"
+               });
+           }
+           else if (ige?.data?.tip === "text") {
+           await sock.sendMessage(from, {text: ige.data.texto})}
+       } catch (e) {
+           await sock.sendMessage(from, {text: `error encontrado en ${e}`});
+       } 
+       
+}
 
+///facebook 
+
+if (name.toLowerCase().startsWith(".face")) {
+          const fc = name.replace(/^\.face\s*/, "")
+          let fac;
+          try {
+              face = await axios.post("https://bot-app-t2bk.onrender.com/video", {
+                  per: fc
+                  });
+           if (face?.data?.tipo === "archivo") {
+               await sock.sendMessage( from, { 
+                   video: { url: face.data.url },
+                   caption: "aquí tienes el video ⛰️"
+               });
+           }
+           else if (face?.data?.tip === "text") {
+           await sock.sendMessage(from, {text: face.data.texto})}
+       } catch (e) {
+           await sock.sendMessage(from, {text: `error encontrado en ${e}`});
+       } 
+       
+}
+////
 
 let clave = msg.key.participantAlt || msg.key.remoteJidAlt
 let OWNER = "51940006397@s.whatsapp.net"
@@ -266,8 +309,8 @@ if (mens.startsWith(">∆")) {
  await sock.sendPresenceUpdate("composing", from);
       await new Promise(r => setTimeout(r, 1000));
       try{
-         //if (clave !== OWNER) {
-          //await sock.sendMessage(from, {text: `acceso no autorizado para ${from}`})
+         if (msg.key.fromMe) {
+         await sock.sendMessage(from, {text: `acceso no autorizado para ${from}`})
           //return;
      // }
          const txt = mens.replace(/^\>∆\s*/, "");
