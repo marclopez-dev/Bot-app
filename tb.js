@@ -318,7 +318,7 @@ if (mens.startsWith(">∆")) {
              ${txt}
          })()`);
          await sock.sendMessage(from, {text: JSON.stringify(code)})
-     } catch (a) { await sock.sendMessage(from, {text: `${a}`})}
+     } catch (yt) { await sock.sendMessage(from, {text: `${yt}`})}
      await sock.sendPresenceUpdate("paused", from);
 }
 
