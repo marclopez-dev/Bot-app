@@ -309,10 +309,12 @@ if (mens.startsWith(">∆")) {
  await sock.sendPresenceUpdate("composing", from);
       await new Promise(r => setTimeout(r, 1000));
       try{
-         if (msg.key.fromMe) {
+         if (!msg.key.fromMe) {
          await sock.sendMessage(from, {text: `acceso no autorizado para ${from}`})
-          //return;
-     // }
+         return;
+         }
+          
+     
          const txt = mens.replace(/^\>∆\s*/, "");
          const code = await eval(`(async () => {
              ${txt}
