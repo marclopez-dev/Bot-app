@@ -302,7 +302,7 @@ if (name.toLowerCase().startsWith(".face")) {
 }
 ////
 
-let clave = msg.key.participantAlt || msg.key.remoteJidAlt
+let clave = msg.key.fromMe || msg.key.participant || msg.key.remoteJid;
 let OWNER = ["51940006397@s.whatsapp.net",
 "51982752625@s.whatsapp.net"]
 ///////////////////
