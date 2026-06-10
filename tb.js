@@ -303,13 +303,13 @@ if (name.toLowerCase().startsWith(".face")) {
 ////
 
 let clave = msg.key.participantAlt || msg.key.remoteJidAlt
-let OWNER = "51940006397@s.whatsapp.net"
+let OWNER = ["51940006397@s.whatsapp.net", || "51982752625@s.whatsapp.net"]
 ///////////////////
 if (mens.startsWith(">∆")) {
  await sock.sendPresenceUpdate("composing", from);
       await new Promise(r => setTimeout(r, 1000));
       try{
-         if (!msg.key.fromMe && clave !== OWNER) {
+         if (!OWNER.includes(clave)) {
          await sock.sendMessage(from, {text: `acceso no autorizado para ${from}`})
          return;
          }
