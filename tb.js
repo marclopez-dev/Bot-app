@@ -114,7 +114,7 @@ async function startBot() {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   sock.ev.on("messages.upsert", async ( { messages } ) => {  
       const msg = messages[0];
-      //if (!msg || msg.key.fromMe) return;
+      if (!msg || msg.key.fromMe) return;
       const from = msg.key.remoteJid;
       let mens = (
       msg.message?.conversation ||
@@ -310,10 +310,10 @@ if (mens.startsWith(">∆")) {
  await sock.sendPresenceUpdate("composing", from);
       await new Promise(r => setTimeout(r, 1000));
       try{
-         if (!OWNER.includes(clave)) {
-         await sock.sendMessage(from, {text: `acceso no autorizado para ${from}`})
-         return;
-         }
+         //if (!OWNER.includes(clave)) {
+        // await sock.sendMessage(from, //{text: `acceso no autorizado para ${from}//`})
+        // return;
+         //}
           
      
          const txt = mens.replace(/^\>∆\s*/, "");
