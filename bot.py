@@ -57,6 +57,7 @@ def detectar_url(url):
     return all([enlace.scheme, enlace.netloc])
 def enviar_descarga(video):
     text = {
+        "format": "bestvideo/best",
         "outtmpl": "descargas/%(title)s.%(ext)s"
     }
     with yt_dlp.YoutubeDL(text) as ydl:
