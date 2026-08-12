@@ -217,9 +217,15 @@ async function startBot() {
       if (name.toLowerCase().startsWith(".mp3")) {
           const musica = name.replace(/^\.mp3\s*/, "")
        let help;
-       const url = new URL(musica)
+       let esUrl=false;
        try {
-          if (url.protocol === "https:" || url.protocol === "http:" ){
+       const url = new URL(musica)
+             esUrl = url.protocol === "https:" || url.protocol === "http:";
+       } catch {
+       esUrl = false;
+       }
+       try {
+          if (esUrl){
            help = await axios.get(`https://api.sventy.store/api/ytdl?text=${musica}`)}
           else {
            help = await axios.get(`https://api.sventy.store/api/ytdl?text=${encodeURIComponent(musica)}`)
