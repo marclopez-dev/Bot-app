@@ -215,22 +215,16 @@ async function startBot() {
           const musica = name.replace(/^\.mp3\s*/, "")
        let help;
        try {
-           help = await axios.post("https://bot-app-t2bk.onrender.com/audio", {
-              audi: musica
-           })
+           help = await axios.get(`https://api.sventy.store/api/ytdl?text=${musica}`)
+           const m = help.data.data.download
+           const mpA = await axios.get(m, {
+responseType: "arrayBuffer"}) 
+           fs.writeFileSync("./mp3", mpA.data)
+           await sock.sendMessage(from, {
+            audio: fs.readFileSync("./mp3"),
+            mimetype: "audio/mpeg"})
        } catch (b) {
            await sock.sendMessage(from, {text: "🥶⌛", b})
-       }
-       if (help?.data?.byte === "url") {
-           await sock.sendMessage(from, {
-               audio: {url: help.data.url},
-               mimetype: "audio/mp4",
-               ptt:false,
-               fileName: help.data.title
-           })
-       
-       } else {
-           await sock.sendMessage(from, {text: help.data.byte})
        }
     }
 //////////////////////////////////
