@@ -217,14 +217,19 @@ async function startBot() {
       if (name.toLowerCase().startsWith(".mp3")) {
           const musica = name.replace(/^\.mp3\s*/, "")
        let help;
+       const url = new URL(musica)
        try {
+          if (url.protocol === "https:" || url.protocol === "http:" ){
+           help = await axios.get(`https://api.sventy.store/api/ytdl?text=${musica}`)}
+          else {
            help = await axios.get(`https://api.sventy.store/api/ytdl?text=${encodeURIComponent(musica)}`)
+          }
            const m = help.data.data.download
            const mpA = await axios.get(m, {
 responseType: "arrayBuffer"}) 
            await sock.sendMessage(from, {
             audio: Buffer.from(mpA.data),
-            mimetype: "audio/mpeg"})
+            mimetype: "audio/mp3"})
        } catch (b) {
            await sock.sendMessage(from, {text:JSON.stringify(b)})
        }
@@ -318,7 +323,7 @@ if (mens.startsWith(">∆")) {
          const code = await eval(`(async () => {
              ${txt}
          })()`);
-         await sock.sendMessage(from, {text: JSON.stringify(code)})
+         await sock.sendMessage(from, {text: JSON.stringify({code}, 2, null)})
      } catch (yt) { await sock.sendMessage(from, {text: `${yt}`})}
      await sock.sendPresenceUpdate("paused", from);
 }
