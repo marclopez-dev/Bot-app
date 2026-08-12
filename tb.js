@@ -211,22 +211,27 @@ async function startBot() {
       }
 }
 ////////////////////
+
+
+
       if (name.toLowerCase().startsWith(".mp3")) {
           const musica = name.replace(/^\.mp3\s*/, "")
        let help;
        try {
-           help = await axios.get(`https://api.sventy.store/api/ytdl?text=${musica}`)
+           help = await axios.get(`https://api.sventy.store/api/ytdl?text=${encodeURIComponent(musica)}`)
            const m = help.data.data.download
            const mpA = await axios.get(m, {
 responseType: "arrayBuffer"}) 
-           fs.writeFileSync("./mp3", mpA.data)
            await sock.sendMessage(from, {
-            audio: fs.readFileSync("./mp3"),
+            audio: Buffer.from(mpA.data),
             mimetype: "audio/mpeg"})
        } catch (b) {
-           await sock.sendMessage(from, {text: "🥶⌛", b})
+           await sock.sendMessage(from, {text:JSON.stringify(b)})
        }
     }
+
+
+
 //////////////////////////////////
 ///♾️descargar video
 //////////////////////////////////
