@@ -215,31 +215,61 @@ async function startBot() {
 
 
       if (name.toLowerCase().startsWith(".mp3")) {
-          const musica = name.replace(/^\.mp3\s*/, "")
-       let help;
-       let esUrl=false;
-       try {
-       const url = new URL(musica)
-             esUrl = url.protocol === "https:" || url.protocol === "http:";
-       } catch {
-       esUrl = false;
-       }
-       try {
-          if (esUrl){
-           help = await axios.get(`https://api.sventy.store/api/ytdl?text=${musica}`)}
-          else {
-           help = await axios.get(`https://api.sventy.store/api/ytdl?text=${encodeURIComponent(musica)}`)
-          }
-           const m = help.data.data.download
-           const mpA = await axios.get(m, {
-responseType: "arrayBuffer"}) 
-           await sock.sendMessage(from, {
-            audio: Buffer.from(mpA.data),
-            mimetype: "audio/mp3"})
-       } catch (b) {
-           await sock.sendMessage(from, {text:JSON.stringify(b)})
-       }
+
+    const musica = name.replace(/^\.mp3\s*/i, "").trim();
+
+    if (!musica) {
+        await sock.sendMessage(from, {
+            text: "❌ Escribe el nombre de una canción o una URL."
+        });
+        return;
     }
+
+    try {
+
+        
+
+        const help = await axios.get(
+            "https://api.sventy.store/api/ytdl",
+            {
+                params: {
+                    text: musica
+                },
+                timeout: 30000
+            }
+        );
+
+        
+        const m = help.data?.data?.download;
+
+        if (!m) {
+            await sock.sendMessage(from, {
+                text: "❌ La API no devolvió un enlace de descarga."
+            });
+            return;
+        }
+
+        
+
+        const mpA = await axios.get(m, {
+            responseType: "arraybuffer",
+            timeout: 120000
+        });
+
+        await sock.sendMessage(from, {
+            audio: Buffer.from(mpA.data),
+            mimetype: "audio/mpeg"
+        });
+
+    } catch (b) {
+
+        
+
+        await sock.sendMessage(from, {
+            text: `❌ Error ${b.response?.status || ""}: ${b.response?.data?.message || b.message}`
+        });
+    }
+}
 
 
 
