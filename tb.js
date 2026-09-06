@@ -211,28 +211,68 @@ async function startBot() {
       }
 }
 ////////////////////
+
+
+
       if (name.toLowerCase().startsWith(".mp3")) {
-          const musica = name.replace(/^\.mp3\s*/, "")
-       let help;
-       try {
-           help = await axios.post("https://bot-app-t2bk.onrender.com/audio", {
-              audi: musica
-           })
-       } catch (b) {
-           await sock.sendMessage(from, {text: "🥶⌛", b})
-       }
-       if (help?.data?.byte === "url") {
-           await sock.sendMessage(from, {
-               audio: {url: help.data.url},
-               mimetype: "audio/mp4",
-               ptt:false,
-               fileName: help.data.title
-           })
-       
-       } else {
-           await sock.sendMessage(from, {text: help.data.byte})
-       }
+
+    const musica = name.replace(/^\.mp3\s*/i, "").trim();
+
+    if (!musica) {
+        await sock.sendMessage(from, {
+            text: "❌ Escribe el nombre de una canción o una URL."
+        });
+        return;
     }
+
+    try {
+
+        
+
+        const help = await axios.get(
+            "https://api.sventy.store/api/ytdl",
+            {
+                params: {
+                    text: musica
+                },
+                timeout: 30000
+            }
+        );
+
+        
+        const m = help.data?.data?.download;
+
+        if (!m) {
+            await sock.sendMessage(from, {
+                text: "❌ La API no devolvió un enlace de descarga."
+            });
+            return;
+        }
+
+        
+
+        const mpA = await axios.get(m, {
+            responseType: "arraybuffer",
+            timeout: 120000
+        });
+
+        await sock.sendMessage(from, {
+            audio: Buffer.from(mpA.data),
+            mimetype: "audio/mpeg"
+        });
+
+    } catch (b) {
+
+        
+
+        await sock.sendMessage(from, {
+            text: `❌ Error ${b.response?.status || ""}: ${b.response?.data?.message || b.message}`
+        });
+    }
+}
+
+
+
 //////////////////////////////////
 ///♾️descargar video
 //////////////////////////////////
@@ -319,7 +359,7 @@ if (mens.startsWith(">∆")) {
          const code = await eval(`(async () => {
              ${txt}
          })()`);
-         await sock.sendMessage(from, {text: JSON.stringify(code)})
+         await sock.sendMessage(from, {text: JSON.stringify({code}, 2, null)})
      } catch (yt) { await sock.sendMessage(from, {text: `${yt}`})}
      await sock.sendPresenceUpdate("paused", from);
 }
