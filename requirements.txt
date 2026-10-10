@@ -6,3 +6,4 @@ psycopg2-binary
 duckduckgo_search
 groq
 yt-dlp
+psycopg[binary]
